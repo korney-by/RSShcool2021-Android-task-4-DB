@@ -6,12 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.korneysoft.rsshcool2021_android_task_4_db.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
  */
 class ItemFragment : Fragment() {
-
     private var columnCount = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {

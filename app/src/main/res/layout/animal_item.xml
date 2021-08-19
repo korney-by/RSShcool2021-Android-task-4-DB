@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
+    android:layout_marginStart="8dp"
     android:layout_marginTop="4dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp">
@@ -12,44 +12,104 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/stopwatch_unit"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="7dp">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/text_margin" >
 
         <TextView
             android:id="@+id/name_caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:text="Name: "
-
+            android:lines="1"
+            android:text="@string/caption_name"
+            android:textAlignment="textEnd"
             android:textAppearance="?attr/textAppearanceListItem"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/barier"
+
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/age_caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:lines="1"
+            android:text="@string/caption_age"
+            android:textAlignment="textEnd"
+            android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintEnd_toStartOf="@+id/barier"
+            app:layout_constraintTop_toBottomOf="@+id/name_caption" />
+
+        <TextView
+            android:id="@+id/breed_caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:lines="1"
+            android:text="@string/caption_breed"
+            android:textAlignment="textEnd"
+            android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintEnd_toStartOf="@+id/barier"
+
+            app:layout_constraintTop_toBottomOf="@+id/age_caption" />
+
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="100dp"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="name_caption,age_caption,breed_caption"
+            tools:layout_editor_absoluteX="73dp"
+            tools:layout_editor_absoluteY="8dp"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/text_margin"
             android:textAppearance="?attr/textAppearanceListItem"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/name_caption"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/name_caption"
-            app:layout_constraintTop_toTopOf="parent"
+
+            app:layout_constraintStart_toEndOf="@+id/barier"
+            app:layout_constraintTop_toTopOf="@+id/name_caption"
             app:layout_constraintVertical_bias="0.461"
-            tools:text="Some name: " />
+            tools:text="Some name" />
+
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintBottom_toBottomOf="@+id/age_caption"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/barier"
+            app:layout_constraintTop_toTopOf="@+id/age_caption"
+            app:layout_constraintVertical_bias="0.461"
+            tools:text="Some age" />
+
+        <TextView
+            android:id="@+id/breed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintBottom_toBottomOf="@+id/breed_caption"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/barier"
+            app:layout_constraintTop_toTopOf="@+id/breed_caption"
+            app:layout_constraintVertical_bias="0.461"
+            tools:text="Some breed" />
 
         <androidx.constraintlayout.widget.Barrier
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="395dp"
-            android:layout_marginEnd="24dp"
             app:barrierDirection="start"
-            app:layout_constraintStart_toEndtOf="@+id/name_caption"
-            tools:layout_editor_absoluteY="6dp" />
-
+            app:constraint_referenced_ids="name_caption,age_caption,breed_caption" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

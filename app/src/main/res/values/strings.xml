@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">RSShcool2021-Android-task-4-DB</string>
+
+    <string name="base_name">Animals</string>
+
+    <string name="caption_name">Name:</string>
+    <string name="caption_age">Age:</string>
+    <string name="caption_breed">Breed:</string>
 </resources>

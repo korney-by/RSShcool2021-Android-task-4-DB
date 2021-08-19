@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RSShcool2021-Android-task-4-DB</string>
+    <string name="base_name">Животные</string>
+    <string name="caption_name">Имя:</string>
+    <string name="caption_age">Возраст:</string>
+    <string name="caption_breed">Вид:</string>
+</resources>
