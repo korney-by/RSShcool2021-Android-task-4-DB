@@ -6,14 +6,19 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemsListBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
  */
-class ItemFragment : Fragment() {
+class AnimalsListFragment : Fragment() {
+    private var _binding: FragmentItemsListBinding? = null
+    private val binding get() = _binding!!
+
     private var columnCount = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,19 +33,24 @@ class ItemFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_animal_list, container, false)
+        _binding = FragmentItemsListBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS)
+        with(binding.recyclerView) {
+            layoutManager = when {
+                columnCount <= 1 -> LinearLayoutManager(context)
+                else -> GridLayoutManager(context, columnCount)
             }
+            adapter = MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS)
         }
+
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
@@ -51,10 +61,10 @@ class ItemFragment : Fragment() {
         // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
-            ItemFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
+            AnimalsListFragment().apply {
+                arguments = bundleOf(
+                    ARG_COLUMN_COUNT to columnCount
+                )
             }
     }
 }

@@ -23,35 +23,40 @@ object PlaceholderContent {
 
     private val COUNT = 25
 
-    init {
+ //   init {
         // Add some sample items.
-        for (i in 1..COUNT) {
-            addItem(createPlaceholderItem(i))
-        }
-    }
+//        for (i in 1..COUNT) {
+//            addItem(createPlaceholderItem(i))
+//        }
+//    }
 
-    private fun addItem(item: PlaceholderItem) {
-        ITEMS.add(item)
-        ITEM_MAP.put(item.id, item)
-    }
+//    private fun addItem(item: PlaceholderItem) {
+//        ITEMS.add(item)
+//        ITEM_MAP.put(item.id, item)
+//    }
 
-    private fun createPlaceholderItem(position: Int): PlaceholderItem {
-        return PlaceholderItem(position.toString(), "Item " + position, makeDetails(position))
-    }
-
-    private fun makeDetails(position: Int): String {
-        val builder = StringBuilder()
-        builder.append("Details about Item: ").append(position)
-        for (i in 0..position - 1) {
-            builder.append("\nMore details information here.")
-        }
-        return builder.toString()
-    }
+//    private fun createPlaceholderItem(position: Int): PlaceholderItem {
+//      //  return PlaceholderItem(position.toString(), "Item $position", makeDetails(position))
+//    }
+//
+//    private fun makeDetails(position: Int): String {
+//        val builder = StringBuilder()
+//         builder.append("Details about Item: ").append(position)
+////        for (i in 0..position - 1) {
+////            builder.append("\nMore details information here.")
+////        }
+//        return builder.toString()
+//    }
 
     /**
      * A placeholder item representing a piece of content.
      */
-    data class PlaceholderItem(val id: String, val content: String, val details: String) {
-        override fun toString(): String = content
+    data class PlaceholderItem(
+        val id: String,
+        val name: String,
+        val age: String,
+        val breed: String
+    ) {
+        override fun toString(): String = "$id. $name - $age - $breed"
     }
 }
