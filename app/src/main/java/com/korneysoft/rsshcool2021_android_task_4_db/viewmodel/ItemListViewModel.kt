@@ -2,22 +2,25 @@ package com.korneysoft.rsshcool2021_android_task_4_db.viewmodel
 
 import android.app.Application
 import android.util.Log
+import android.widget.Adapter
 import androidx.lifecycle.ViewModel
 
 import java.util.ArrayList
 import java.util.HashMap
 
-private const val TAG="T4-ListViewModel"
+private const val TAG = "T4-ListViewModel"
 
 class ItemListViewModel() : ViewModel() {
 
     val ITEMS: MutableList<ItemEssence> = ArrayList()
     val ITEM_MAP: MutableMap<String, ItemEssence> = HashMap()
-    private val COUNT = 10
+    private val COUNT = 5
+
+    //val adapter : Adapter
 
     init {
         //TODO - delete in production
-        Log.d(TAG,"ListViewModel instance created")
+        Log.d(TAG, "ListViewModel instance created")
 
 //         Add some sample items.
         for (i in 1..COUNT) {
@@ -31,7 +34,12 @@ class ItemListViewModel() : ViewModel() {
     }
 
     private fun createItemEssence(position: Int): ItemEssence {
-        return ItemEssence(position.toString(), "Item $position", (1..15).random(),"Breed $position")
+        return ItemEssence(
+            position.toString(),
+            "Item $position",
+            (1..15).random(),
+            "Breed $position"
+        )
     }
 
 
@@ -39,6 +47,6 @@ class ItemListViewModel() : ViewModel() {
         super.onCleared()
 
         //TODO - delete in production
-        Log.d(TAG,"ListViewModel instance about to be  destroyed")
+        Log.d(TAG, "ListViewModel instance about to be  destroyed")
     }
 }

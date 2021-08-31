@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ActivityMainBinding
+import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemListViewModel
 
 private const val TAG="T4-MainActivity"
 
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val itemListViewModel= ViewModelProviders.of(this).get(ItemListViewModel::class.java)
 
         loadItemsListFragment()
     }
