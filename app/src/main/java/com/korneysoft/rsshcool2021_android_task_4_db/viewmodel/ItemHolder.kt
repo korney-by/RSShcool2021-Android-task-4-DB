@@ -11,12 +11,10 @@ class ItemHolder(
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
-    val item by lazy { this.itemEssence }
-
-    private lateinit var itemEssence: ItemEssence
+    lateinit var item: ItemEssence
 
     fun bind(itemEssence: ItemEssence) {
-        this.itemEssence = itemEssence
+        this.item = itemEssence
 
         binding.apply {
             name.text = itemEssence.name

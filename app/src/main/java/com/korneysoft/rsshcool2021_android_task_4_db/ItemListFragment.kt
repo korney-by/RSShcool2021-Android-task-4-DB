@@ -1,10 +1,10 @@
 package com.korneysoft.rsshcool2021_android_task_4_db
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -26,7 +26,7 @@ class ItemListFragment() : Fragment() {
     //    private val itemListViewModel: ItemListViewModel by lazy {
 //        ViewModelProviders.of(requireActivity()).get(ItemListViewModel::class.java)
 //    }
-     val itemListAdapter by lazy {ItemAdapter(itemListViewModel.db)}
+    val itemListAdapter by lazy { ItemAdapter(itemListViewModel.db) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +39,7 @@ class ItemListFragment() : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentItemsListBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -48,7 +48,7 @@ class ItemListFragment() : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = itemListAdapter
         }
-            //itemListAdapter.submitList(itemListViewModel.db.getItemList().toList())
+        //itemListAdapter.submitList(itemListViewModel.db.getItemList().toList())
         updateRecycleView()
 
         connectSwipeToReciclerView()
@@ -73,14 +73,8 @@ class ItemListFragment() : Fragment() {
     }
 
     private fun updateRecycleView() {
-
-        Toast.makeText(
-            this@ItemListFragment.requireActivity(),
-            "осталось ${itemListViewModel.db.getItemCount()} ",
-            Toast.LENGTH_SHORT
-        ).show()
-
-         itemListAdapter.submitList(itemListViewModel.db.getItemList().toList())
+        Log.d(TAG, "left ${itemListViewModel.db.getItemCount()}")
+        itemListAdapter.submitList(itemListViewModel.db.getItemList().toList())
     }
 
 
