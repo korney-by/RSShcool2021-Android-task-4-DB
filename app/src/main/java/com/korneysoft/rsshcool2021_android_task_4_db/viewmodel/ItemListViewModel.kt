@@ -2,44 +2,21 @@ package com.korneysoft.rsshcool2021_android_task_4_db.viewmodel
 
 import android.app.Application
 import android.util.Log
-import android.widget.Adapter
-import androidx.lifecycle.ViewModel
-
-import java.util.ArrayList
-import java.util.HashMap
+import androidx.lifecycle.AndroidViewModel
+import com.korneysoft.rsshcool2021_android_task_4_db.db.NoDBData
+import com.korneysoft.rsshcool2021_android_task_4_db.db.SQLiteHelper
 
 private const val TAG = "T4-ListViewModel"
 
-class ItemListViewModel() : ViewModel() {
+class ItemListViewModel(app: Application) : AndroidViewModel(app) {
 
-    val ITEMS: MutableList<ItemEssence> = ArrayList()
-    val ITEM_MAP: MutableMap<String, ItemEssence> = HashMap()
-    private val COUNT = 5
+    val db  = NoDBData(15)
+    //val db  = SQLiteHelper(app)
 
-    //val adapter : Adapter
 
     init {
         //TODO - delete in production
         Log.d(TAG, "ListViewModel instance created")
-
-//         Add some sample items.
-        for (i in 1..COUNT) {
-            addItem(createItemEssence(i))
-        }
-    }
-
-    private fun addItem(item: ItemEssence) {
-        ITEMS.add(item)
-        ITEM_MAP.put(item.id, item)
-    }
-
-    private fun createItemEssence(position: Int): ItemEssence {
-        return ItemEssence(
-            position.toString(),
-            "Item $position",
-            (1..15).random(),
-            "Breed $position"
-        )
     }
 
 

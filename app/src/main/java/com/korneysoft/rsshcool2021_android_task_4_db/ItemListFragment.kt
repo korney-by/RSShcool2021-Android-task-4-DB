@@ -1,22 +1,18 @@
 package com.korneysoft.rsshcool2021_android_task_4_db
 
-import android.content.Context
-import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemsListBinding
-import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
-import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemEssence
+import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemAdapter
+import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemHolder
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemListViewModel
 
 private const val TAG = "T4-ItemListFragment"
@@ -26,10 +22,11 @@ class ItemListFragment() : Fragment() {
     private val binding get() = _binding!!
 
     private val itemListViewModel: ItemListViewModel by activityViewModels()
-//    private val itemListViewModel: ItemListViewModel by lazy {
+
+    //    private val itemListViewModel: ItemListViewModel by lazy {
 //        ViewModelProviders.of(requireActivity()).get(ItemListViewModel::class.java)
 //    }
-
+     val itemListAdapter by lazy {ItemAdapter(itemListViewModel.db)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +46,17 @@ class ItemListFragment() : Fragment() {
         // Set the adapter
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = ItemAdapter(itemListViewModel.ITEMS)
+            adapter = itemListAdapter
         }
+            //itemListAdapter.submitList(itemListViewModel.db.getItemList().toList())
+        updateRecycleView()
 
+        connectSwipeToReciclerView()
+        setupDBListeners()
+
+        binding.addButton.setOnClickListener() {
+            updateRecycleView()
+        }
 
         return view
     }
@@ -61,6 +66,50 @@ class ItemListFragment() : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun setupDBListeners() {
+        itemListViewModel.db.onDelete = { updateRecycleView() }
+        itemListViewModel.db.onAdd = { updateRecycleView() }
+    }
+
+    private fun updateRecycleView() {
+
+        Toast.makeText(
+            this@ItemListFragment.requireActivity(),
+            "осталось ${itemListViewModel.db.getItemCount()} ",
+            Toast.LENGTH_SHORT
+        ).show()
+
+         itemListAdapter.submitList(itemListViewModel.db.getItemList().toList())
+    }
+
+
+    private fun connectSwipeToReciclerView() {
+        val itemTouchHelperCallback =
+            object :
+                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    if (viewHolder is ItemHolder) {
+                        itemListViewModel.db.deleteItem(viewHolder.item)
+                    }
+                }
+
+            }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+    }
+
 
     companion object {
 
@@ -74,46 +123,5 @@ class ItemListFragment() : Fragment() {
 //            }
     }
 
-    private inner class ItemHolder(
-        private val binding: ItemBinding,
-        private val resources: Resources
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        private lateinit var itemEssence: ItemEssence
-
-        fun bind(itemEssence: ItemEssence) {
-            this.itemEssence = itemEssence
-
-            binding.apply {
-                name.text = itemEssence.name
-                age.text = itemEssence.age.toString()
-                breed.text = itemEssence.breed
-            }
-        }
-    }
-
-    private inner class ItemAdapter(var items: List<ItemEssence>) :
-        RecyclerView.Adapter<ItemHolder>() {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-            val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = ItemBinding.inflate(layoutInflater, parent, false)
-
-            return ItemHolder(binding, binding.root.context.resources)
-
-        }
-
-        override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-            val itemEssence = itemListViewModel.ITEMS[position]
-            holder.bind(itemEssence)
-        }
-
-        override fun getItemCount(): Int {
-            return itemListViewModel.ITEMS.size
-
-        }
-
-    }
 
 }

@@ -13,7 +13,7 @@
         android:id="@+id/stopwatch_unit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/text_margin" >
+        android:padding="@dimen/text_margin_2" >
 
         <TextView
             android:id="@+id/name_caption"
@@ -24,15 +24,13 @@
             android:textAlignment="textEnd"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintEnd_toStartOf="@+id/barier"
-
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/age_caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_margin"
-            android:layout_marginBottom="@dimen/text_margin"
+            android:layout_marginTop="@dimen/text_margin_2"
             android:lines="1"
             android:text="@string/caption_age"
             android:textAlignment="textEnd"
@@ -44,15 +42,13 @@
             android:id="@+id/breed_caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginTop="@dimen/text_margin_2"
             android:lines="1"
             android:text="@string/caption_breed"
             android:textAlignment="textEnd"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintEnd_toStartOf="@+id/barier"
-
             app:layout_constraintTop_toBottomOf="@+id/age_caption" />
-
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barier"
@@ -69,7 +65,7 @@
             android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin_4"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintBottom_toBottomOf="@+id/name_caption"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +79,7 @@
             android:id="@+id/age"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin_4"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintBottom_toBottomOf="@+id/age_caption"
             app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +92,7 @@
             android:id="@+id/breed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin_4"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintBottom_toBottomOf="@+id/breed_caption"
             app:layout_constraintEnd_toEndOf="parent"
