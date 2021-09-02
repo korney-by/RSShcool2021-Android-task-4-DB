@@ -1,4 +1,4 @@
-package com.korneysoft.rsshcool2021_android_task_4_db.viewmodel
+package com.korneysoft.rsshcool2021_android_task_4_db.data
 
 data class ItemEssence(
     val id: Int,
@@ -6,7 +6,6 @@ data class ItemEssence(
     val age: Int,
     val breed: String
 ){
-
 
     override fun toString(): String = "$id. $name - $age - $breed"
 }

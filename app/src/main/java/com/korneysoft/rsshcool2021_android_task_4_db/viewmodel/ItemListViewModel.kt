@@ -4,13 +4,14 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase.NoDBData
+import com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite.SQLiteHelper
 
 private const val TAG = "T4-ListViewModel"
 
 class ItemListViewModel(app: Application) : AndroidViewModel(app) {
 
-    val db  = NoDBData(15)
-    //val db  = SQLiteHelper(app)
+    //val db  = NoDBData(15)
+    val db  = SQLiteHelper(app)
 
 
     init {

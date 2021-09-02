@@ -49,6 +49,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'com.androidessence:recyclerviewcursoradapter:1.0.0'
     implementation 'androidx.fragment:fragment-ktx:1.3.6'
 
     testImplementation 'junit:junit:4.+'

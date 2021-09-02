@@ -1,7 +1,6 @@
-package com.korneysoft.rsshcool2021_android_task_4_db
+package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemsListBinding
-import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemHolder
+import com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase.ItemHolder
+import com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite.ItemCursorHolder
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemListViewModel
 
 private const val TAG = "T4-ItemListFragment"
@@ -48,6 +48,8 @@ class ItemListFragment() : Fragment() {
             adapter = recyclerViewAdapter
         }
 
+        binding.toolbar.title="DB-${itemListViewModel.db.name}"
+
         updateRecycleView()
 
         connectSwipeToReciclerView()
@@ -72,8 +74,8 @@ class ItemListFragment() : Fragment() {
     }
 
     private fun updateRecycleView() {
-        Log.d(TAG, "left ${itemListViewModel.db.getItemCount()}")
-        recyclerViewAdapter.submitList(itemListViewModel.db.getItemList().toList())
+        //Log.d(TAG, "left ${itemListViewModel.db.getItemCount()}")
+        recyclerViewAdapter. update()
     }
 
 
@@ -93,7 +95,10 @@ class ItemListFragment() : Fragment() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     if (viewHolder is ItemHolder) {
-                        itemListViewModel.db.deleteItem(viewHolder.item)
+                        itemListViewModel.db.delete(viewHolder.item)
+                    }
+                    if (viewHolder is ItemCursorHolder) {
+                        itemListViewModel.db.delete(viewHolder.item)
                     }
                 }
 

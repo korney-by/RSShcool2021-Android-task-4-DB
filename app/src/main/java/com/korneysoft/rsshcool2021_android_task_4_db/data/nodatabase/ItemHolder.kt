@@ -1,8 +1,9 @@
-package com.korneysoft.rsshcool2021_android_task_4_db.viewmodel
+package com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase
 
 import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
+import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemEssence
 
 
 class ItemHolder(

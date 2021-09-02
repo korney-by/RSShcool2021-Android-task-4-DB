@@ -1,10 +1,10 @@
-package com.korneysoft.rsshcool2021_android_task_4_db
+package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
+import com.korneysoft.rsshcool2021_android_task_4_db.R
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ActivityMainBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemListViewModel
 
@@ -25,10 +25,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadItemsListFragment() {
-        val itemsListFragment: Fragment = ItemListFragment.newInstance()
+        val itemListFragment: Fragment = ItemListFragment.newInstance()
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragmentContainerView, itemsListFragment)
+            .replace(R.id.fragmentContainerView, itemListFragment)
             .commit()
     }
 

@@ -1,11 +1,12 @@
-package com.korneysoft.rsshcool2021_android_task_4_db.data
+package com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite
 
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemEssence
+import com.korneysoft.rsshcool2021_android_task_4_db.data.EditDBInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemEssence
 import java.sql.SQLException
 
 private const val TAG = "T4-SQLiteHelper"
@@ -23,19 +24,29 @@ private const val CREATE_TABLE_SQL =
 private const val INSERT_RECORD_SQL =
     "INSERT INTO $TABLE_NAME ($COLUMN_NAME, $COLUMN_AGE, $COLUMN_BREED) VALUES ('%s', %d, '%s');"
 
-private const val SELECT_RECORD_SQL = "SELECT * FROM $TABLE_NAME;"
+private const val DELETE_RECORD_SQL =
+    "DELETE FROM $TABLE_NAME WHERE $COLUMN_ID=%d"
 
-class SQLiteHelper(context: Context) : SQLiteOpenHelper (
+private const val SELECT_ALL_SQL = "SELECT * FROM $TABLE_NAME;"
+
+class SQLiteHelper(context: Context) : SQLiteOpenHelper(
     context,
     DATABASE_NAME,
     null,
     DATABASE_VERSION
-),ReciclerViewAdapterInterface {
+), SQLiteCursorAdapterInterface, EditDBInterface {
+
+    val name="SQLiteOpenHelper"
+
+    override var onDelete: (() -> Unit)? = null
+    override var onAdd: (() -> Unit)? = null
+
+    val adapter = SQLiteCursorAdapter(this, context, getCursor())
 
     override fun onCreate(db: SQLiteDatabase) {
         try {
             db.execSQL(CREATE_TABLE_SQL)
-            (10..15).forEach {
+            (1..15).forEach {
                 db.execSQL(INSERT_RECORD_SQL.format("name $it", it, "breed $it"))
             }
         } catch (e: SQLException) {
@@ -47,14 +58,18 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper (
         Log.d(TAG, "onUpgrade called")
     }
 
-    fun getCursorWithItem(): Cursor {
-        return readableDatabase.rawQuery(SELECT_RECORD_SQL, null)
+    override fun getCursor(): Cursor {
+        return readableDatabase.rawQuery(SELECT_ALL_SQL, null)
     }
 
     fun insertItem(itemEssence: ItemEssence) {
         itemEssence.apply {
             writableDatabase.execSQL(INSERT_RECORD_SQL.format(name, age, breed))
         }
+    }
+
+    fun deleteItem(item: ItemEssence) {
+        writableDatabase.execSQL(DELETE_RECORD_SQL.format(item.id))
     }
 
 
@@ -68,9 +83,8 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper (
     }
 
     fun getListOfItemEssences(): List<ItemEssence> {
-
         val listOfItems = mutableListOf<ItemEssence>()
-        getCursorWithItem().use { cursor ->
+        getCursor().use { cursor ->
             if (cursor.moveToFirst()) {
                 do {
                     listOfItems.add(getItemFromCursor(cursor))
@@ -80,14 +94,16 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper (
         return listOfItems
     }
 
-    override fun getItemEssence(position: Int): ItemEssence {
-        return getListOfItemEssences()[position]
+    override fun getItem(cursor: Cursor) = getItemFromCursor(cursor)
+
+    override fun add(item: ItemEssence) {
+        //TODO("Not yet implemented")
+        onAdd?.invoke()
     }
 
-    override fun getItemCount(): Int {
-        return getListOfItemEssences().size
+    override fun delete(item: ItemEssence) {
+        deleteItem(item)
+        onDelete?.invoke()
     }
-
-    override fun getItemList(): List<ItemEssence> =  getListOfItemEssences()
 
 }
