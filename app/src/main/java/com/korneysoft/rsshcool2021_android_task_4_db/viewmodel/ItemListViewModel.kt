@@ -3,8 +3,7 @@ package com.korneysoft.rsshcool2021_android_task_4_db.viewmodel
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import com.korneysoft.rsshcool2021_android_task_4_db.db.NoDBData
-import com.korneysoft.rsshcool2021_android_task_4_db.db.SQLiteHelper
+import com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase.NoDBData
 
 private const val TAG = "T4-ListViewModel"
 

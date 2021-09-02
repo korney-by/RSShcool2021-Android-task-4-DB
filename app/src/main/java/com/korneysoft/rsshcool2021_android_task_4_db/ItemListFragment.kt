@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemsListBinding
-import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemAdapter
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemHolder
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemListViewModel
 
@@ -26,7 +25,7 @@ class ItemListFragment() : Fragment() {
     //    private val itemListViewModel: ItemListViewModel by lazy {
 //        ViewModelProviders.of(requireActivity()).get(ItemListViewModel::class.java)
 //    }
-    val itemListAdapter by lazy { ItemAdapter(itemListViewModel.db) }
+    private val recyclerViewAdapter by lazy { itemListViewModel.db.adapter }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +45,9 @@ class ItemListFragment() : Fragment() {
         // Set the adapter
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = itemListAdapter
+            adapter = recyclerViewAdapter
         }
-        //itemListAdapter.submitList(itemListViewModel.db.getItemList().toList())
+
         updateRecycleView()
 
         connectSwipeToReciclerView()
@@ -74,7 +73,7 @@ class ItemListFragment() : Fragment() {
 
     private fun updateRecycleView() {
         Log.d(TAG, "left ${itemListViewModel.db.getItemCount()}")
-        itemListAdapter.submitList(itemListViewModel.db.getItemList().toList())
+        recyclerViewAdapter.submitList(itemListViewModel.db.getItemList().toList())
     }
 
 

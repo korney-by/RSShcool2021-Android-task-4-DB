@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ReciclerViewAdapterInterface
 
-class ItemAdapter(val db: ReciclerViewAdapterInterface) :
+class NoDBAdapter(val db: ReciclerViewAdapterInterface) :
     ListAdapter<ItemEssence,ItemHolder>(itemComparator){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {

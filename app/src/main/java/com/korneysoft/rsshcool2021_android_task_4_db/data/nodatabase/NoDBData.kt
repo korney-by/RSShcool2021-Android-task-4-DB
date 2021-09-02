@@ -1,9 +1,14 @@
-package com.korneysoft.rsshcool2021_android_task_4_db.db
+package com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase
 
+import com.korneysoft.rsshcool2021_android_task_4_db.data.EditDBInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.data.ReciclerViewAdapterInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemEssence
+import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.NoDBAdapter
 import java.util.*
 
-class NoDBData(count: Int) : ReciclerViewAdapterInterface,EditDBInterface {
+class NoDBData(count: Int) : ReciclerViewAdapterInterface, EditDBInterface {
+
+    val adapter= NoDBAdapter(this)
 
     val ITEMS: MutableList<ItemEssence> = ArrayList()
     val ITEM_MAP: MutableMap<Int, ItemEssence> = HashMap()
