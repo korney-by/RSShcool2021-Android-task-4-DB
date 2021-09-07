@@ -13,6 +13,8 @@ private const val TAG="T4-MainActivity"
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -21,7 +23,10 @@ class MainActivity : AppCompatActivity() {
 
         val itemListViewModel= ViewModelProviders.of(this).get(ItemListViewModel::class.java)
 
+        binding.toolbar.title="DB-${itemListViewModel.db.name}"
+
         loadItemsListFragment()
+
     }
 
     private fun loadItemsListFragment() {

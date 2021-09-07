@@ -1,5 +1,9 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
+import android.graphics.Color
+import android.graphics.Color.WHITE
+import android.graphics.ColorFilter
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +17,14 @@ import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemsLi
 import com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase.ItemHolder
 import com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite.ItemCursorHolder
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemListViewModel
+import android.graphics.drawable.GradientDrawable
+import android.graphics.PorterDuffColorFilter
+
+
+
+
+
+
 
 private const val TAG = "T4-ItemListFragment"
 
@@ -48,17 +60,15 @@ class ItemListFragment() : Fragment() {
             adapter = recyclerViewAdapter
         }
 
-        binding.toolbar.title="DB-${itemListViewModel.db.name}"
-
         updateRecycleView()
 
         connectSwipeToReciclerView()
         setupDBListeners()
 
         binding.addButton.setOnClickListener() {
+            AddFragment.newInstance()
             updateRecycleView()
         }
-
         return view
     }
 

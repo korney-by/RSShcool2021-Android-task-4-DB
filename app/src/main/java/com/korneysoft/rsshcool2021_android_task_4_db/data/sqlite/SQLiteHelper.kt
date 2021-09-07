@@ -37,11 +37,10 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(
 ), SQLiteCursorAdapterInterface, EditDBInterface {
 
     val name="SQLiteOpenHelper"
+    val adapter = SQLiteCursorAdapter(this, context, getCursor())
 
     override var onDelete: (() -> Unit)? = null
     override var onAdd: (() -> Unit)? = null
-
-    val adapter = SQLiteCursorAdapter(this, context, getCursor())
 
     override fun onCreate(db: SQLiteDatabase) {
         try {

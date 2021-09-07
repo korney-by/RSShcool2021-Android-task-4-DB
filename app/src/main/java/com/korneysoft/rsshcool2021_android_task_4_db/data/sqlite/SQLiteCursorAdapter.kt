@@ -22,16 +22,13 @@ class SQLiteCursorAdapter(val db: SQLiteCursorAdapterInterface, context: Context
     fun update(){
         Log.d(TAG,"update")
         swapCursor(db.getCursor())
-     //  dummy
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemCursorHolder {
 
 //        val view = mCursorAdapter.newView(parent.getContext(), mCursorAdapter.getCursor(), parent);
 //        return new ViewHolder(view);
-
-//        val layoutInflater = LayoutInflater.from(parent.context)
-//        val binding = ItemBinding.inflate(layoutInflater, parent, false)
 
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemBinding.inflate(layoutInflater, parent, false)

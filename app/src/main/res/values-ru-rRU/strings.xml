@@ -5,4 +5,7 @@
     <string name="caption_name">Имя:</string>
     <string name="caption_age">Возраст:</string>
     <string name="caption_breed">Вид:</string>
+    <string name="add_item_fragment">Добавить новый элемент</string>
+    <string name="item_list_fragment">Список элементов</string>
+    <string name="add_button_text">Добавить</string>
 </resources>

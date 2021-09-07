@@ -6,4 +6,8 @@
     <string name="caption_name">Name:</string>
     <string name="caption_age">Age:</string>
     <string name="caption_breed">Breed:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="add_item_fragment">Add new item</string>
+    <string name="item_list_fragment">Item list</string>
+    <string name="add_button_text">Add</string>
 </resources>
