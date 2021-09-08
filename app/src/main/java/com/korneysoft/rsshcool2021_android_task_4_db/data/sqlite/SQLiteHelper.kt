@@ -36,7 +36,7 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(
     DATABASE_VERSION
 ), SQLiteCursorAdapterInterface, EditDBInterface {
 
-    val name="SQLiteOpenHelper"
+    val name = "SQLiteOpenHelper"
     val adapter = SQLiteCursorAdapter(this, context, getCursor())
 
     override var onDelete: (() -> Unit)? = null
@@ -71,6 +71,9 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(
         writableDatabase.execSQL(DELETE_RECORD_SQL.format(item.id))
     }
 
+    fun addItem(item: ItemEssence) {
+        writableDatabase.execSQL(DELETE_RECORD_SQL.format(item.id))
+    }
 
     private fun getItemFromCursor(cursor: Cursor): ItemEssence {
         return ItemEssence(
@@ -97,6 +100,7 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(
 
     override fun add(item: ItemEssence) {
         //TODO("Not yet implemented")
+        insertItem(item)
         onAdd?.invoke()
     }
 

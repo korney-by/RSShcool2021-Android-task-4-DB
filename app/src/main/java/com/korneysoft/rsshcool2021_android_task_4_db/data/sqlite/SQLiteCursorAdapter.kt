@@ -17,6 +17,7 @@ class SQLiteCursorAdapter(val db: SQLiteCursorAdapterInterface, context: Context
 
     init{
         setupCursorAdapter(cursor,0,android.R.layout.simple_list_item_1,false)
+
     }
 
     fun update(){
@@ -42,5 +43,6 @@ class SQLiteCursorAdapter(val db: SQLiteCursorAdapterInterface, context: Context
         Log.d(TAG,"onBindViewHolder - position: $position")
     }
 
+  // подключение  DiffUtils  https://habr.com/ru/post/469557/
 
 }

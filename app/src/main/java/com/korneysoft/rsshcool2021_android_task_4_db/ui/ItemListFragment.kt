@@ -53,8 +53,13 @@ class ItemListFragment() : Fragment() {
         setupViewModelListeners()
 
         binding.addButton.setOnClickListener() {
-            AddItemFragment.newInstance()
+            val addOpenFragmentInterface=activity
+
+            if (addOpenFragmentInterface is AddOpenFragmentInterface) {
+                addOpenFragmentInterface.openAddItemFragment()
+            }
         }
+
         return view
     }
 
@@ -83,7 +88,7 @@ class ItemListFragment() : Fragment() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    if ((viewHolder is ItemHolderInterface) && (itemListViewModel is ChangeDBInterface))  {
+                    if ((viewHolder is ItemHolderInterface) && (itemListViewModel is ChangeDBInterface)) {
                         itemListViewModel.deleteItem(viewHolder.item)
                     }
                 }

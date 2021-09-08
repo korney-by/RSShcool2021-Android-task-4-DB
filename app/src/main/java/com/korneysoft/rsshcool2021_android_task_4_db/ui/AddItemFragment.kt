@@ -4,14 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemEssence
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentAddItemBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemListViewModel
 
 class AddItemFragment : Fragment() {
     private var _binding: FragmentAddItemBinding? = null
     private val binding get() = _binding!!
+
+    private var nameIsNotNull: Boolean = false
+    private var ageIsNotNull: Boolean = false
+    private var breedIsNotNull: Boolean = false
 
     private val itemListViewModel: ItemListViewModel by activityViewModels()
 
@@ -27,8 +33,41 @@ class AddItemFragment : Fragment() {
         _binding = FragmentAddItemBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        binding.addButton.setOnClickListener() {
+            initialiseAddItem()
+        }
+
+        binding.editTextName.doOnTextChanged { inputText, _, _, _ ->
+            nameIsNotNull = inputText?.isNotEmpty() ?: false
+            onInfoChanged()
+        }
+        binding.editTextAge.doOnTextChanged { inputText, _, _, _ ->
+            ageIsNotNull = inputText?.isNotEmpty() ?: false
+            onInfoChanged()
+        }
+        binding.editTextBreed.doOnTextChanged { inputText, _, _, _ ->
+            breedIsNotNull = inputText?.isNotEmpty() ?: false
+            onInfoChanged()
+        }
+
+
         return view
     }
+
+    private fun initialiseAddItem() {
+        itemListViewModel.addItem(
+            ItemEssence(
+                0,
+                binding.editTextName.text.toString(),
+                binding.editTextAge.text.toString().toIntOrNull() ?: 0,
+                binding.editTextBreed.text.toString()
+            )
+        )
+    }
+
+private fun onInfoChanged(){
+    binding.addButton.isEnabled=(nameIsNotNull && ageIsNotNull && breedIsNotNull)
+}
 
     companion object {
         @JvmStatic
