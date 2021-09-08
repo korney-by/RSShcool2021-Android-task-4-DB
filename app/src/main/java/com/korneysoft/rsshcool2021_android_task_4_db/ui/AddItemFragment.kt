@@ -34,7 +34,8 @@ class AddItemFragment : Fragment() {
         val view = binding.root
 
         binding.addButton.setOnClickListener() {
-            initialiseAddItem()
+            goAddItem()
+            activity?.onBackPressed()
         }
 
         binding.editTextName.doOnTextChanged { inputText, _, _, _ ->
@@ -54,7 +55,7 @@ class AddItemFragment : Fragment() {
         return view
     }
 
-    private fun initialiseAddItem() {
+    private fun goAddItem() {
         itemListViewModel.addItem(
             ItemEssence(
                 0,
