@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         val itemListViewModel= ViewModelProviders.of(this).get(ItemListViewModel::class.java)
 
-        binding.toolbar.title="DB-${itemListViewModel.db.name}"
+        binding.toolbar.title="DB-${itemListViewModel.dbTypeName}"
 
         loadItemsListFragment()
 

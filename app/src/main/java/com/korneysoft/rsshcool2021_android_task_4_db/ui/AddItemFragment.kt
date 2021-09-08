@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentAddItemBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemListViewModel
 
-class AddFragment : Fragment() {
+class AddItemFragment : Fragment() {
     private var _binding: FragmentAddItemBinding? = null
     private val binding get() = _binding!!
 
@@ -27,12 +27,11 @@ class AddFragment : Fragment() {
         _binding = FragmentAddItemBinding.inflate(inflater, container, false)
         val view = binding.root
 
-
         return view
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = AddFragment()
+        fun newInstance() = AddItemFragment()
     }
 }

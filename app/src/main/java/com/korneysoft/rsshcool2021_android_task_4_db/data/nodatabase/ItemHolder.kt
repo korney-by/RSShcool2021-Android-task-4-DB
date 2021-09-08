@@ -4,18 +4,21 @@ import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemEssence
+import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemHolderInterface
 
 
 class ItemHolder(
     private val binding: ItemBinding,
     private val resources: Resources
 ) :
-    RecyclerView.ViewHolder(binding.root) {
+    RecyclerView.ViewHolder(binding.root), ItemHolderInterface {
 
-    lateinit var item: ItemEssence
+    private lateinit var _item: ItemEssence
+    override val item get()=_item
+
 
     fun bind(itemEssence: ItemEssence) {
-        this.item = itemEssence
+        this._item = itemEssence
 
         binding.apply {
             name.text = itemEssence.name
@@ -23,5 +26,7 @@ class ItemHolder(
             breed.text = itemEssence.breed
         }
     }
+
+
 
 }

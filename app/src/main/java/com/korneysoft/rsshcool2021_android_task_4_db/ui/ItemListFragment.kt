@@ -1,9 +1,5 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
-import android.graphics.Color
-import android.graphics.Color.WHITE
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,23 +9,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemsListBinding
-import com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase.ItemHolder
-import com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite.ItemCursorHolder
+import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemHolderInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemListBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemListViewModel
-import android.graphics.drawable.GradientDrawable
-import android.graphics.PorterDuffColorFilter
-
-
-
-
-
-
 
 private const val TAG = "T4-ItemListFragment"
 
 class ItemListFragment() : Fragment() {
-    private var _binding: FragmentItemsListBinding? = null
+    private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
 
     private val itemListViewModel: ItemListViewModel by activityViewModels()
@@ -37,7 +24,7 @@ class ItemListFragment() : Fragment() {
     //    private val itemListViewModel: ItemListViewModel by lazy {
 //        ViewModelProviders.of(requireActivity()).get(ItemListViewModel::class.java)
 //    }
-    private val recyclerViewAdapter by lazy { itemListViewModel.db.adapter }
+    //private val recyclerViewAdapter by lazy { itemListViewModel.db.adapter }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,23 +38,22 @@ class ItemListFragment() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentItemsListBinding.inflate(inflater, container, false)
+        _binding = FragmentItemListBinding.inflate(inflater, container, false)
         val view = binding.root
 
         // Set the adapter
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = recyclerViewAdapter
+            adapter = itemListViewModel.adapter
         }
 
-        updateRecycleView()
+        //updateRecycleView()
 
         connectSwipeToReciclerView()
-        setupDBListeners()
+        setupViewModelListeners()
 
         binding.addButton.setOnClickListener() {
-            AddFragment.newInstance()
-            updateRecycleView()
+            AddItemFragment.newInstance()
         }
         return view
     }
@@ -78,14 +64,8 @@ class ItemListFragment() : Fragment() {
         _binding = null
     }
 
-    private fun setupDBListeners() {
-        itemListViewModel.db.onDelete = { updateRecycleView() }
-        itemListViewModel.db.onAdd = { updateRecycleView() }
-    }
-
-    private fun updateRecycleView() {
-        //Log.d(TAG, "left ${itemListViewModel.db.getItemCount()}")
-        recyclerViewAdapter. update()
+    private fun setupViewModelListeners() {
+        //itemListViewModel.onChangeData = {}
     }
 
 
@@ -99,19 +79,14 @@ class ItemListFragment() : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-
                     return false
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    if (viewHolder is ItemHolder) {
-                        itemListViewModel.db.delete(viewHolder.item)
-                    }
-                    if (viewHolder is ItemCursorHolder) {
-                        itemListViewModel.db.delete(viewHolder.item)
+                    if ((viewHolder is ItemHolderInterface) && (itemListViewModel is ChangeDBInterface))  {
+                        itemListViewModel.deleteItem(viewHolder.item)
                     }
                 }
-
             }
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
