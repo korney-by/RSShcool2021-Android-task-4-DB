@@ -12,4 +12,9 @@
     <color name="deep_orange_100_light">#FFCCBC</color>
     <color name="deep_orange_100_dark">#FF7043</color>
     <color name="deep_orange_500_dark">#CA5A37</color>
+
+    <color name="light_blue_100">#4FC3F7</color>
+    <color name="light_blue_100_light">#B3E5FC</color>
+    <color name="light_blue_100_dark">#039BE5</color>
+    <color name="light_blue_500_dark">#026595</color>
 </resources>

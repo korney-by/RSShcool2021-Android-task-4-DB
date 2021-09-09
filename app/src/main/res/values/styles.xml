@@ -7,4 +7,9 @@
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
+    <style name="ItemList">
+        <item name="android:background">?attr/colorSecondaryVariant</item>
+    </style>
+
+
 </resources>

@@ -13,10 +13,10 @@ private const val TAG = "T4-ListViewModel"
 
 class ItemListViewModel(app: Application) : AndroidViewModel(app), ChangeDBInterface {
 
-    private val db  = NoDBData(15)
-        //private val db = SQLiteHelper(app)
+    //private val db  = NoDBData(7)
+    private val db = SQLiteHelper(app)
 
-    val adapter get()= db.adapter
+    val adapter get() = db.adapter
     val dbTypeName get() = db.name
 
     override var onChangeData: (() -> Unit)? = null
@@ -25,13 +25,13 @@ class ItemListViewModel(app: Application) : AndroidViewModel(app), ChangeDBInter
         //TODO - delete in production
         //Log.d(TAG, "ListViewModel instance created")
 
-        db.onAdd={ onChange() }
-        db.onDelete={ onChange() }
+        db.onAdd = { onChange() }
+        db.onDelete = { onChange() }
 
         onChange()
     }
 
-    private fun onChange(){
+    private fun onChange() {
         db.adapter.update()
         onChangeData?.invoke()
     }

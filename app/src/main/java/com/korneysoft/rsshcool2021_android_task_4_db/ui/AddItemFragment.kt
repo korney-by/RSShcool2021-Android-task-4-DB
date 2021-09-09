@@ -8,6 +8,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemEssence
+import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemListRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentAddItemBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemListViewModel
 
@@ -19,7 +20,8 @@ class AddItemFragment : Fragment() {
     private var ageIsNotNull: Boolean = false
     private var breedIsNotNull: Boolean = false
 
-    private val itemListViewModel: ItemListViewModel by activityViewModels()
+    //private val itemListViewModel: ItemListViewModel by activityViewModels()
+    private val repository=ItemListRepository.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +58,7 @@ class AddItemFragment : Fragment() {
     }
 
     private fun goAddItem() {
-        itemListViewModel.addItem(
+        repository.addItem(
             ItemEssence(
                 0,
                 binding.editTextName.text.toString(),

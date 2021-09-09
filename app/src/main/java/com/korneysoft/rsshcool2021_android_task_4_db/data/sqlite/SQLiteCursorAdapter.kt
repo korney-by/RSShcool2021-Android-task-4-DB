@@ -43,6 +43,8 @@ class SQLiteCursorAdapter(val db: SQLiteCursorAdapterInterface, context: Context
         Log.d(TAG,"onBindViewHolder - position: $position")
     }
 
-  // подключение  DiffUtils  https://habr.com/ru/post/469557/
+  // подключение  DiffUtils
+  // https://habr.com/ru/post/469557/
+  // https://habr.com/ru/post/576946/
 
 }

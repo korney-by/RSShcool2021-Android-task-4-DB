@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemHolderInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemListRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemListBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemListViewModel
 
@@ -19,7 +20,8 @@ class ItemListFragment() : Fragment() {
     private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
 
-    private val itemListViewModel: ItemListViewModel by activityViewModels()
+    //private val itemListViewModel: ItemListViewModel by activityViewModels()
+    private val repository= ItemListRepository.get()
 
     //    private val itemListViewModel: ItemListViewModel by lazy {
 //        ViewModelProviders.of(requireActivity()).get(ItemListViewModel::class.java)
@@ -44,7 +46,7 @@ class ItemListFragment() : Fragment() {
         // Set the adapter
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = itemListViewModel.adapter
+            adapter = repository.adapter
         }
 
         //updateRecycleView()
@@ -88,8 +90,8 @@ class ItemListFragment() : Fragment() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    if ((viewHolder is ItemHolderInterface) && (itemListViewModel is ChangeDBInterface)) {
-                        itemListViewModel.deleteItem(viewHolder.item)
+                    if ((viewHolder is ItemHolderInterface) && (repository is ChangeDBInterface)) {
+                        repository.deleteItem(viewHolder.item)
                     }
                 }
             }
