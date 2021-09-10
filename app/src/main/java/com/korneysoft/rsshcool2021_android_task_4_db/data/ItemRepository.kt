@@ -24,6 +24,7 @@ class ItemRepository private constructor(context: Context) : ChangeDBInterface {
     }
 
     fun getItems() =db.getItems()
+    fun getItem(id:Int) =db.getItem(id)
 
 
     private fun onChange() {

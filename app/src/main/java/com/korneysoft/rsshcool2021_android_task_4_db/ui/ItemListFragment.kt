@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemHolderInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemListBinding
+import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
 
 private const val TAG = "T4-ItemListFragment"
 
@@ -18,8 +20,8 @@ class ItemListFragment() : Fragment() {
     private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
 
-    //private val itemListViewModel: ItemListViewModel by activityViewModels()
-    private val repository= ItemRepository.get()
+    private val itemListViewModel: ItemViewModel by activityViewModels()
+    //private val repository= ItemRepository.get()
 
     //    private val itemListViewModel: ItemListViewModel by lazy {
 //        ViewModelProviders.of(requireActivity()).get(ItemListViewModel::class.java)
@@ -29,9 +31,6 @@ class ItemListFragment() : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        arguments?.let {
-//        //TODO - delete if not needed
-//        }
     }
 
     override fun onCreateView(

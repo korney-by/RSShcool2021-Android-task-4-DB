@@ -1,6 +1,7 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.data.room
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.room.Room
 
 class RoomRepository(context: Context) {
@@ -12,6 +13,6 @@ class RoomRepository(context: Context) {
 
     private val dao: ItemDao = db.ItemDao()
 
-    fun getItems():List<Item> = dao.getItems()
-    fun getItem(id:Int):Item? = dao.getItem(id)
+    fun getItems():LiveData<List<Item>> = dao.getItems()
+    fun getItem(id:Int): LiveData<Item?> = dao.getItem(id)
 }

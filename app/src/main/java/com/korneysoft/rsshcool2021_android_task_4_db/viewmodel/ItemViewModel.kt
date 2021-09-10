@@ -11,8 +11,8 @@ private const val TAG = "T4-ListViewModel"
 class ItemViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repository = ItemRepository.get()
-    //val items: LiveData<List<ItemEssence>>
-    val items= repository.getItems()
+
+    val itemListLiveData= repository.getItems()
 
     init {
     }

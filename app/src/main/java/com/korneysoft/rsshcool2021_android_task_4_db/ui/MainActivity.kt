@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity(),AddOpenFragmentInterface {
 
         val itemListViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
 
-
         binding.toolbar.title = "DB-${repository.dbTypeName}"
 
         loadItemListFragment()
