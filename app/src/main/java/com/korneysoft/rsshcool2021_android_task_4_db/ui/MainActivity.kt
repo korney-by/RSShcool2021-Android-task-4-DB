@@ -5,14 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.korneysoft.rsshcool2021_android_task_4_db.R
+import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ActivityMainBinding
-import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemListViewModel
+import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
 
 private const val TAG = "T4-MainActivity"
 
 class MainActivity : AppCompatActivity(),AddOpenFragmentInterface {
     private lateinit var binding: ActivityMainBinding
-
+    private val repository= ItemRepository.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +21,10 @@ class MainActivity : AppCompatActivity(),AddOpenFragmentInterface {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val itemListViewModel = ViewModelProviders.of(this).get(ItemListViewModel::class.java)
+        val itemListViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
 
 
-        binding.toolbar.title = "DB-${itemListViewModel.dbTypeName}"
+        binding.toolbar.title = "DB-${repository.dbTypeName}"
 
         loadItemListFragment()
 

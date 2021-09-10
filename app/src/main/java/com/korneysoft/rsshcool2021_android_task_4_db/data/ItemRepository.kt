@@ -1,14 +1,15 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.data
 
 import android.content.Context
-import com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite.SQLiteHelper
+import com.korneysoft.rsshcool2021_android_task_4_db.data.room.RoomRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.ChangeDBInterface
 import java.lang.IllegalStateException
 
-class ItemListRepository private constructor(context: Context) : ChangeDBInterface {
+class ItemRepository private constructor(context: Context) : ChangeDBInterface {
 
     //private val db  = NoDBData(7)
-    private val db = SQLiteHelper(context)
+    //private val db = SQLiteHelper(context)
+    private val db = RoomRepository(context)
 
     val adapter get() = db.adapter
     val dbTypeName get() = db.name
@@ -21,6 +22,9 @@ class ItemListRepository private constructor(context: Context) : ChangeDBInterfa
 
         onChange()
     }
+
+    fun getItems() =db.getItems()
+
 
     private fun onChange() {
         db.adapter.update()
@@ -41,15 +45,15 @@ class ItemListRepository private constructor(context: Context) : ChangeDBInterfa
 
 
     companion object {
-        private var INSTANCE: ItemListRepository? = null
+        private var INSTANCE: ItemRepository? = null
 
         fun initialize(context: Context) {
             if (INSTANCE == null) {
-                INSTANCE = ItemListRepository(context)
+                INSTANCE = ItemRepository(context)
             }
         }
 
-        fun get(): ItemListRepository {
+        fun get(): ItemRepository {
             return INSTANCE ?: throw IllegalStateException("ItemListRepository must be initialised")
         }
     }

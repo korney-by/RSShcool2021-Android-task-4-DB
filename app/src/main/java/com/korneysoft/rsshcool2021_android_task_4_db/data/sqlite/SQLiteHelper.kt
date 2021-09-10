@@ -6,18 +6,20 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.korneysoft.rsshcool2021_android_task_4_db.data.EditDBInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.data.DatabaseModel
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemEssence
 import java.sql.SQLException
 
 private const val TAG = "T4-SQLiteHelper"
 
-private const val DATABASE_NAME = "Task4_DB"
-private const val DATABASE_VERSION = 1
-private const val TABLE_NAME = "essence"
-internal const val COLUMN_ID = "_id"
-internal const val COLUMN_NAME = "NAME"
-internal const val COLUMN_AGE = "AGE"
-internal const val COLUMN_BREED = "BEED"
+private const val DATABASE_NAME = DatabaseModel.DATABASE_NAME
+private const val DATABASE_VERSION = DatabaseModel.DATABASE_VERSION
+private const val TABLE_NAME = DatabaseModel.TABLE_NAME
+internal const val COLUMN_ID = DatabaseModel.COLUMN_ID
+internal const val COLUMN_NAME = DatabaseModel.COLUMN_NAME
+internal const val COLUMN_AGE = DatabaseModel.COLUMN_AGE
+internal const val COLUMN_BREED = DatabaseModel.COLUMN_BREED
+
 private const val CREATE_TABLE_SQL =
     "CREATE TABLE IF NOT EXISTS $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "$COLUMN_NAME VARCHAR(30), $COLUMN_AGE INTEGER, $COLUMN_BREED VARCHAR(20));"
