@@ -16,7 +16,7 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
     private val repository = ItemRepository.get()
     //val itemListLiveData = repository.getItems()
 
-    val itemListLiveData: LiveData<List<Item>> = repository.getItems().asLiveData() // . allItems
+    val itemListLiveData: LiveData<List<Item>> = repository.getItems() // . allItems
 
     fun deleteItem(item:Item)=viewModelScope.launch(Dispatchers.IO){
         Log.d(TAG,"до DEL Observer ${itemListLiveData.toString()}")
