@@ -1,6 +1,7 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,6 @@ class ItemListFragment() : Fragment() {
 
     private val itemListViewModel: ItemViewModel by activityViewModels()
     private val itemAdapter: ItemAdapter = ItemAdapter()
-    //private val repository= ItemRepository.get()
 
     //    private val itemListViewModel: ItemListViewModel by lazy {
 //        ViewModelProviders.of(requireActivity()).get(ItemListViewModel::class.java)
@@ -64,6 +64,7 @@ class ItemListFragment() : Fragment() {
             viewLifecycleOwner,
             Observer { items ->
                 items?.let {
+                    Log.d(TAG,"${items.toString()}")
                     updateUI(items)
                 }
             }
@@ -114,6 +115,7 @@ class ItemListFragment() : Fragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     if ((viewHolder is ItemHolder)) {
                         itemListViewModel.deleteItem(viewHolder.item)
+                        registerObservers()
                     }
                 }
             }

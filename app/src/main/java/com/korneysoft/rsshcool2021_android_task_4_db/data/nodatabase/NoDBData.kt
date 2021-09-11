@@ -53,7 +53,7 @@ class NoDBData(count: Int) : NoDBAdapterInterface, EditDBInterface {
 
     override fun getItemList(): List<Item> = ITEMS
 
-    override fun delete(item: Item) {
+    override suspend fun delete(item: Item) {
         deleteItem(item)
     }
 

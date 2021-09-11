@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.korneysoft.rsshcool2021_android_task_4_db.data.EditDBInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
+import kotlinx.coroutines.flow.Flow
 
 private const val TAG="T4-RoomRepository"
 
@@ -19,7 +20,7 @@ class RoomRepository(context: Context): EditDBInterface {
 
     private val dao: RoomItemDao = database.itemDao()
 
-    fun getItems():LiveData<List<Item>> = dao.getItems()
+    fun getItems(): Flow<List<Item>> = dao.getItems()
     fun getItem(id:Int): LiveData<Item?> = dao.getItem(id)
 
     override fun add(item: Item)  {
@@ -30,7 +31,7 @@ class RoomRepository(context: Context): EditDBInterface {
 //        dao.insert(item)
 //    }
 
-    override fun delete(item: Item)  {
+    override suspend fun delete(item: Item)  {
         dao.delete(item)
         //Log.d(TAG,"deleteItem")
     }

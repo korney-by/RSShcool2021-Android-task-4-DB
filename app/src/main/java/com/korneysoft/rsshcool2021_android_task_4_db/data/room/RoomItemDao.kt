@@ -5,8 +5,8 @@ import androidx.room.*
 import com.korneysoft.rsshcool2021_android_task_4_db.data.DatabaseModel
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import androidx.room.Delete
-
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 internal const val DATABASE_NAME = DatabaseModel.DATABASE_NAME
 internal const val DATABASE_VERSION = DatabaseModel.DATABASE_VERSION
@@ -22,7 +22,7 @@ private const val SQL_GET_ONE = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=(:id
 @Dao
 interface RoomItemDao {
     @Query(SQL_GET_ALL)
-    fun getItems(): LiveData<List<Item>>
+    fun getItems(): Flow<List<Item>>
 
     @Query(SQL_GET_ONE)
     fun getItem(id:Int):LiveData<Item?>

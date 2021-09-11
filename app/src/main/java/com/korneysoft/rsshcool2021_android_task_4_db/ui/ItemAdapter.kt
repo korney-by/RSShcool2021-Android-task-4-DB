@@ -29,6 +29,7 @@ class ItemAdapter() : ListAdapter<Item, ItemHolder>(itemComparator) {
 
     override fun getItemCount(): Int {
         return itemsCount
+        //return items.size
     }
 
     fun update(items: List<Item>) {
