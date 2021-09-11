@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "RSShcool2021-Android-task-4-DB"
 include ':app'
+

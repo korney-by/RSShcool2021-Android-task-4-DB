@@ -1,49 +1,55 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.data
 
 import android.content.Context
+import androidx.annotation.WorkerThread
+import androidx.lifecycle.MutableLiveData
 import com.korneysoft.rsshcool2021_android_task_4_db.data.room.RoomRepository
-import com.korneysoft.rsshcool2021_android_task_4_db.ui.ChangeDBInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite.SQLiteRepository
 import java.lang.IllegalStateException
 
-class ItemRepository private constructor(context: Context) : ChangeDBInterface {
+
+class ItemRepository private constructor(context: Context) {
 
     //private val db  = NoDBData(7)
-    //private val db = SQLiteHelper(context)
-    private val db = RoomRepository(context)
+    private val db = SQLiteRepository(context)
+    //private val db = RoomRepository(context)
 
-    val adapter get() = db.adapter
-    val dbTypeName get() = db.name
+    val dbTypeName get() = db.nameType
+    val itemsChangeLiveData = MutableLiveData<Boolean>()
 
-    override var onChangeData: (() -> Unit)? = null
+    @WorkerThread
+    fun getItems() = db.getItems()
 
-    init {
-        db.onAdd = { onChange() }
-        db.onDelete = { onChange() }
+    @WorkerThread
+    fun getItem(id: Int) = db.getItem(id)
 
-        onChange()
+    fun onChangeItems(){
+        //itemsChangeLiveData.value=!itemsChangeLiveData.value
     }
 
-    fun getItems() =db.getItems()
-    fun getItem(id:Int) =db.getItem(id)
-
-
-    private fun onChange() {
-        db.adapter.update()
-        onChangeData?.invoke()
-    }
-
-    override fun addItem(item: ItemEssence) {
+    @WorkerThread
+    fun addItem(item: Item) {
         if (db is EditDBInterface) {
             db.add(item)
+            onChangeItems()
         }
     }
 
-    override fun deleteItem(item: ItemEssence) {
+    @WorkerThread
+    fun deleteItem(item: Item) {
         if (db is EditDBInterface) {
             db.delete(item)
+            onChangeItems()
         }
     }
 
+    @WorkerThread
+    fun updateItem(item: Item) {
+        if (db is EditDBInterface) {
+            db.update(item)
+            onChangeItems()
+        }
+    }
 
     companion object {
         private var INSTANCE: ItemRepository? = null

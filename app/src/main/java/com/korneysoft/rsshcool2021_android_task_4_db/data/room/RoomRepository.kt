@@ -3,16 +3,40 @@ package com.korneysoft.rsshcool2021_android_task_4_db.data.room
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+import com.korneysoft.rsshcool2021_android_task_4_db.data.EditDBInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 
-class RoomRepository(context: Context) {
+private const val TAG="T4-RoomRepository"
 
-    private val db: ItemDatabase = Room.databaseBuilder(
+class RoomRepository(context: Context): EditDBInterface {
+
+    val nameType = "Room"
+
+    private val database: ItemDatabase = Room.databaseBuilder(
         context.applicationContext,
         ItemDatabase::class.java, DATABASE_NAME
     ).build()
 
-    private val dao: ItemDao = db.ItemDao()
+    private val dao: RoomItemDao = database.itemDao()
 
     fun getItems():LiveData<List<Item>> = dao.getItems()
     fun getItem(id:Int): LiveData<Item?> = dao.getItem(id)
+
+    override fun add(item: Item)  {
+        dao.insert(item)
+    }
+
+//     private fun insert(item:Item){
+//        dao.insert(item)
+//    }
+
+    override fun delete(item: Item)  {
+        dao.delete(item)
+        //Log.d(TAG,"deleteItem")
+    }
+
+    override fun update(item: Item)  {
+        dao.update(item)
+        //Log.d(TAG,"deleteItem")
+    }
 }

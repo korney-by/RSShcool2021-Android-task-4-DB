@@ -2,19 +2,31 @@ package com.korneysoft.rsshcool2021_android_task_4_db.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemEssence
+import androidx.lifecycle.viewModelScope
+import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-private const val TAG = "T4-ListViewModel"
+private const val TAG = "T4-ItemListViewModel"
 
 class ItemViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repository = ItemRepository.get()
+    val itemListLiveData = repository.getItems()
 
-    val itemListLiveData= repository.getItems()
 
-    init {
+    fun deleteItem(item:Item)=viewModelScope.launch(Dispatchers.IO){
+        repository.deleteItem(item)
+
+    }
+
+    fun addItem(item:Item) =viewModelScope.launch(Dispatchers.IO){
+        repository.addItem(item)
+    }
+
+    fun updateItem(item:Item)=viewModelScope.launch(Dispatchers.IO){
+        repository.updateItem(item)
     }
 
 

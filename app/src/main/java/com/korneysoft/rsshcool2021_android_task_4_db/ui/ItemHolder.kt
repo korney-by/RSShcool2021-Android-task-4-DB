@@ -1,23 +1,20 @@
-package com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase
+package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
 import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
-import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemEssence
-import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemHolderInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 
 
 class ItemHolder(
     private val binding: ItemBinding,
     private val resources: Resources
-) :
-    RecyclerView.ViewHolder(binding.root), ItemHolderInterface {
+) : RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var _item: ItemEssence
-    override val item get()=_item
+    private lateinit var _item: Item
+    val item get() = _item
 
-
-    fun bind(itemEssence: ItemEssence) {
+    fun bind(itemEssence: Item) {
         this._item = itemEssence
 
         binding.apply {
@@ -26,7 +23,6 @@ class ItemHolder(
             breed.text = itemEssence.breed
         }
     }
-
 
 
 }

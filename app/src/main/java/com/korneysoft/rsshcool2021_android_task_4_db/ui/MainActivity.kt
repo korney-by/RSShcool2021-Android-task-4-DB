@@ -11,7 +11,7 @@ import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
 
 private const val TAG = "T4-MainActivity"
 
-class MainActivity : AppCompatActivity(),AddOpenFragmentInterface {
+class MainActivity : AppCompatActivity(),ShowFragmentAddItemInterface {
     private lateinit var binding: ActivityMainBinding
     private val repository= ItemRepository.get()
 

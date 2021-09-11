@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemHolderInterface
-import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemRepository
+import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemListBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
 
@@ -21,6 +21,7 @@ class ItemListFragment() : Fragment() {
     private val binding get() = _binding!!
 
     private val itemListViewModel: ItemViewModel by activityViewModels()
+    private val itemAdapter: ItemAdapter = ItemAdapter()
     //private val repository= ItemRepository.get()
 
     //    private val itemListViewModel: ItemListViewModel by lazy {
@@ -43,23 +44,47 @@ class ItemListFragment() : Fragment() {
         // Set the adapter
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = repository.adapter
+            adapter = itemAdapter
         }
-
-        //updateRecycleView()
 
         connectSwipeToReciclerView()
         setupViewModelListeners()
+        setupActionListeners()
 
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        registerObservers()
+    }
+
+    private fun registerObservers() {
+        itemListViewModel.itemListLiveData.observe(
+            viewLifecycleOwner,
+            Observer { items ->
+                items?.let {
+                    updateUI(items)
+                }
+            }
+        )
+    }
+
+    private fun updateUI(items:List<Item>){
+        //binding.recyclerView.adapter =ItemAdapter(items)
+        itemAdapter.update(items)
+
+    }
+
+    private fun setupActionListeners() {
         binding.addButton.setOnClickListener() {
-            val addOpenFragmentInterface=activity
+            val showFragmentAddItemInterface = activity
 
-            if (addOpenFragmentInterface is AddOpenFragmentInterface) {
-                addOpenFragmentInterface.openAddItemFragment()
+            if (showFragmentAddItemInterface is ShowFragmentAddItemInterface) {
+                showFragmentAddItemInterface.openAddItemFragment()
             }
         }
 
-        return view
     }
 
 
@@ -87,8 +112,8 @@ class ItemListFragment() : Fragment() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    if ((viewHolder is ItemHolderInterface) && (repository is ChangeDBInterface)) {
-                        repository.deleteItem(viewHolder.item)
+                    if ((viewHolder is ItemHolder)) {
+                        itemListViewModel.deleteItem(viewHolder.item)
                     }
                 }
             }

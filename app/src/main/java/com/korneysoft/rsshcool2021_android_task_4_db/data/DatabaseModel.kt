@@ -11,8 +11,6 @@ class DatabaseModel private constructor() {
         const val COLUMN_NAME = "NAME"
         const val COLUMN_AGE = "AGE"
         const val COLUMN_BREED = "BEED"
-
-        const val SELECT_ALL_SQL = "SELECT * FROM $TABLE_NAME"
     }
 
 }

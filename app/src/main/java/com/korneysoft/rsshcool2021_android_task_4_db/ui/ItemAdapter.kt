@@ -1,38 +1,42 @@
-package com.korneysoft.rsshcool2021_android_task_4_db.viewmodel
+package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
+import com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase.NoDBAdapterInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase.NoDBItemHolder
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
-import com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase.NoDBAdapterInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.NoDBAdapter
 
-class NoDBAdapter(val db: NoDBAdapterInterface) :
-    ListAdapter<Item, NoDBItemHolder>(itemComparator){
+class ItemAdapter() : ListAdapter<Item, ItemHolder>(itemComparator) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoDBItemHolder {
+    private var itemsCount: Int=0
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemBinding.inflate(layoutInflater, parent, false)
 
-        return NoDBItemHolder(binding, binding.root.context.resources)
+        return ItemHolder(binding, binding.root.context.resources)
     }
 
-    override fun onBindViewHolder(holderNoDB: NoDBItemHolder, position: Int) {
-        val itemEssence =getItem(position)
-        holderNoDB.bind(itemEssence)
+
+    override fun onBindViewHolder(holder: ItemHolder, position: Int) {
+        val item = getItem(position)
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int {
-        return db.getItemCount()
+        return itemsCount
     }
 
-    fun update(){
-       submitList(db.getItemList().toList())
-   }
+    fun update(items: List<Item>) {
+        itemsCount=items.size
+        submitList(items)
+    }
 
-    private companion object {
+    companion object {
 
         private val itemComparator = object : DiffUtil.ItemCallback<Item>() {
 
@@ -40,10 +44,8 @@ class NoDBAdapter(val db: NoDBAdapterInterface) :
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return oldItem.equals(newItem)
-
-            }
+            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean =
+                oldItem == newItem
 
 //            override fun getChangePayload(oldItem: ItemEssence, newItem: ItemEssence): Any {
 //               return ullloldItem.getChanges(newItem)
