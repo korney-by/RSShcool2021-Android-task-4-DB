@@ -11,8 +11,8 @@ class SQLiteRepository(context: Context) : EditDBInterface {
 
     private val dao = SQLiteDao(context)
 
-    fun getItems(): Flow<List<Item>> = dao.getItems()
-    fun getItem(id: Int): LiveData<Item?> = dao.getItem(id)
+    fun getItems(): LiveData<List<Item>> = dao.getItems()
+  //  fun getItem(id: Int): LiveData<Item?> = dao.getItem(id)
 
     override fun add(item: Item) = dao.add(item)
     override suspend fun  delete(item: Item) = dao.delete(item)

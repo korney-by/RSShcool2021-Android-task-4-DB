@@ -25,7 +25,7 @@ class ItemRepository private constructor(context: Context) {
     fun getItems() = db.getItems()
 
     @WorkerThread
-    fun getItem(id: Int) = db.getItem(id)
+   // fun getItem(id: Int) = db.getItem(id)
 
      fun  onChangeItems(){
 
