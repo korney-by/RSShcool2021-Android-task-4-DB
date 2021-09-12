@@ -57,7 +57,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         updateChangeDataBaseCounter.map { getItemList() }
 
     override fun onCreate(db: SQLiteDatabase) {
-        try {
+         try {
             db.execSQL(CREATE_TABLE_SQL)
             (1..15).forEach {
                 db.execSQL(INSERT_RECORD_SQL.format("name $it", it, "breed $it"))
@@ -66,6 +66,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
             Log.e(TAG, "Exception while trying to create database", e)
         }
     }
+
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
         Log.d(TAG, "onUpgrade called")

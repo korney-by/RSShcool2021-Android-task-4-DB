@@ -7,14 +7,17 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.korneysoft.rsshcool2021_android_task_4_db.R
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
-import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentAddItemBinding
+import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ToolbarUpdateItnerface
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
 
 class AddItemFragment : Fragment() {
     private var _binding: FragmentAddItemBinding? = null
     private val binding get() = _binding!!
+
+    private val fragmentName by lazy { getString(R.string.add_item_fragment) }
 
     private var nameIsNotNull: Boolean = false
     private var ageIsNotNull: Boolean = false
@@ -27,7 +30,6 @@ class AddItemFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,8 +38,8 @@ class AddItemFragment : Fragment() {
         val view = binding.root
 
         binding.addButton.setOnClickListener() {
-            goAddItem()
-            activity?.onBackPressed()
+            initializeAddItem()
+            closeFragment()
         }
 
         binding.editTextName.doOnTextChanged { inputText, _, _, _ ->
@@ -52,25 +54,46 @@ class AddItemFragment : Fragment() {
             breedIsNotNull = inputText?.isNotEmpty() ?: false
             onInfoChanged()
         }
-
-
         return view
     }
 
-    private fun goAddItem() {
-        itemListViewModel.addItem(
-            Item(
-                0,
-                binding.editTextName.text.toString(),
-                binding.editTextAge.text.toString().toIntOrNull() ?: 0,
-                binding.editTextBreed.text.toString()
-            )
+    override fun onResume() {
+        super.onResume()
+        val parentActivity = activity
+        if (parentActivity is ToolbarUpdateItnerface) {
+            parentActivity.setToolBarSettings(
+                fragmentName,
+                R.menu.toolbar_menu_done,
+                R.drawable.ic_baseline_done_24,
+                R.drawable.ic_baseline_arrow_back_24,
+                { closeFragment() })
+        }
+    }
+
+    private fun initializeAddItem() {
+        itemListViewModel.addItem(CreateNewItem())
+    }
+
+    private fun closeFragment() {
+        activity?.onBackPressed()
+    }
+
+    private fun CreateNewItem(): Item {
+        return Item(
+            0,
+            binding.editTextName.text.toString(),
+            binding.editTextAge.text.toString().toIntOrNull() ?: 0,
+            binding.editTextBreed.text.toString()
         )
     }
 
-private fun onInfoChanged(){
-    binding.addButton.isEnabled=(nameIsNotNull && ageIsNotNull && breedIsNotNull)
-}
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun onInfoChanged() {
+        binding.addButton.isEnabled = (nameIsNotNull && ageIsNotNull && breedIsNotNull)
+    }
 
     companion object {
         @JvmStatic

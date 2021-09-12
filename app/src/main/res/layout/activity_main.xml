@@ -10,15 +10,16 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/Toolbar"
+        app:navigationIcon="@drawable/ic_baseline_menu_24"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_margin="0dp"
         android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/toolbar_menu"
-        app:title="DB"
+        app:menu="@menu/toolbar_menu_sort"
+        app:title=""
         />
 
     <androidx.fragment.app.FragmentContainerView

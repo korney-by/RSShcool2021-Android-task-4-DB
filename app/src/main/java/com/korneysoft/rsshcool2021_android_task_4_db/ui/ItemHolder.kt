@@ -1,6 +1,7 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
 import android.content.res.Resources
+import android.graphics.Color
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item

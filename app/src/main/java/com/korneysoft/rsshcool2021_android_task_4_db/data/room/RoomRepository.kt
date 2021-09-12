@@ -6,11 +6,13 @@ import androidx.room.Room
 import com.korneysoft.rsshcool2021_android_task_4_db.data.EditDBInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.GetDataDBInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
 private const val TAG = "T4-RoomRepository"
 
-class RoomRepository(context: Context) : EditDBInterface, GetDataDBInterface {
+class RoomRepository(context: Context, scope: CoroutineScope) : EditDBInterface,
+    GetDataDBInterface {
 
     val nameType = "Room"
 

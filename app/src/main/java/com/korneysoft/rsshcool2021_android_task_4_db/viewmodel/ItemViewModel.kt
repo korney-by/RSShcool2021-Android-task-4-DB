@@ -14,20 +14,15 @@ private const val TAG = "T4-ItemListViewModel"
 class ItemViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repository = ItemRepository.get()
-    //val itemListLiveData = repository.getItems()
 
-    val itemListLiveData: LiveData<List<Item>> = repository.getItems().asLiveData() // . allItems
+    val itemListLiveData: LiveData<List<Item>> = repository.getItems().asLiveData(context = Dispatchers.IO) // . allItems
 
     fun deleteItem(item:Item)=viewModelScope.launch(Dispatchers.IO){
-        Log.d(TAG,"до DEL Observer ${itemListLiveData.toString()}")
         repository.deleteItem(item)
-        Log.d(TAG,"после DEL Observer ${itemListLiveData.toString()}")
     }
 
     fun addItem(item:Item) =viewModelScope.launch(Dispatchers.IO){
-        Log.d(TAG,"до ADD Observer ${itemListLiveData.toString()}")
         repository.addItem(item)
-        Log.d(TAG,"после ADD Observer ${itemListLiveData.toString()}")
     }
 
     fun updateItem(item:Item)=viewModelScope.launch(Dispatchers.IO){

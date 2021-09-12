@@ -8,6 +8,7 @@ import androidx.lifecycle.asLiveData
 import com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase.NoDBRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.data.room.RoomRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite.SQLiteRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import java.lang.IllegalStateException
 
@@ -16,7 +17,7 @@ class ItemRepository private constructor(context: Context) {
 
     //private val db  = NoDBRepository(10)
     private val db = SQLiteRepository(context)
-    //private val db = RoomRepository(context)
+    //private val db = RoomRepository(context,scope)
 
     val dbTypeName get() = db.nameType
     //var allItems: Flow<List<Item>> = db.getItems()
@@ -28,9 +29,9 @@ class ItemRepository private constructor(context: Context) {
     @WorkerThread
     fun getItem(id: Int) = db.getItem(id)
 
-     fun  onChangeItems(){
+    fun onChangeItems() {
 
-       //  allItems = db.getItems()
+        //  allItems = db.getItems()
 
         //allItems.value=allItems.value
     }

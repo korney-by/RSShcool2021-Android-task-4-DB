@@ -11,8 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.korneysoft.rsshcool2021_android_task_4_db.R
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemListBinding
+import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.KeyboardInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ShowFragmentAddItemInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ToolbarUpdateItnerface
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
 
 private const val TAG = "T4-ItemListFragment"
@@ -20,6 +24,8 @@ private const val TAG = "T4-ItemListFragment"
 class ItemListFragment() : Fragment() {
     private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
+
+    private val fragmentName by lazy { getString(R.string.base_name) }
 
     private val itemListViewModel: ItemViewModel by activityViewModels()
     private val itemAdapter: ItemAdapter = ItemAdapter()
@@ -31,7 +37,6 @@ class ItemListFragment() : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -41,7 +46,7 @@ class ItemListFragment() : Fragment() {
         _binding = FragmentItemListBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // Set the adapter
+
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = itemAdapter
@@ -59,22 +64,31 @@ class ItemListFragment() : Fragment() {
         registerObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        val parentActivity = activity
+        if (parentActivity is KeyboardInterface) {
+            parentActivity.hideKeyboard()
+        }
+        if (parentActivity is ToolbarUpdateItnerface) {
+            parentActivity.setToolBarSettings(fragmentName,R.menu.toolbar_menu_sort,R.drawable.ic_baseline_filter_alt_24, R.drawable.ic_baseline_menu_24, {})
+        }
+    }
+
     private fun registerObservers() {
         itemListViewModel.itemListLiveData.observe(
             viewLifecycleOwner,
             Observer { items ->
                 items?.let {
-                    Log.d(TAG,"${items.toString()}")
+                    Log.d(TAG, "${items.toString()}")
                     updateUI(items)
                 }
             }
         )
     }
 
-    private fun updateUI(items:List<Item>){
-        //binding.recyclerView.adapter =ItemAdapter(items)
+    private fun updateUI(items: List<Item>) {
         itemAdapter.update(items)
-
     }
 
     private fun setupActionListeners() {
