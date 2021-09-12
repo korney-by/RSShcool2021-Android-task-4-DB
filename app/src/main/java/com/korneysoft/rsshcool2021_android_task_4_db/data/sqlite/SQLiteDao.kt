@@ -7,8 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.map
 import com.korneysoft.rsshcool2021_android_task_4_db.data.EditDBInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.DatabaseModel
+import com.korneysoft.rsshcool2021_android_task_4_db.data.GetDataDBInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import kotlinx.coroutines.flow.*
 import java.sql.SQLException
@@ -41,7 +44,17 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
     DATABASE_NAME,
     null,
     DATABASE_VERSION
-), EditDBInterface {
+), EditDBInterface, GetDataDBInterface {
+
+    private var counterChangeDataBase = 0
+    private val updateChangeDataBaseCounter = MutableLiveData<Int>()
+
+    init {
+        updateChangeDataBaseCounter.value = 0
+    }
+
+    private val listCatsFromDB: LiveData<List<Item>> =
+        updateChangeDataBaseCounter.map { getItemList() }
 
     override fun onCreate(db: SQLiteDatabase) {
         try {
@@ -67,13 +80,13 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
     }
 
 
-    fun insertItem(item: Item) {
+    private fun insertItem(item: Item) {
         item.apply {
             writableDatabase.execSQL(INSERT_RECORD_SQL.format(name, age, breed))
         }
     }
 
-    fun deleteItem(item: Item) {
+    private fun deleteItem(item: Item) {
         writableDatabase.execSQL(DELETE_RECORD_SQL.format(item.id))
     }
 
@@ -86,7 +99,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         )
     }
 
-    fun getItem(id: Int): LiveData<Item?> {
+    override fun getItem(id: Int): LiveData<Item?> {
         var item: Item? = null
         val itemLiveData = MutableLiveData<Item?>()
 
@@ -95,53 +108,43 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
                 item = getItemFromCursor(cursor)
             }
         }
-        itemLiveData.value = item
-
+        itemLiveData.postValue(item)
         return itemLiveData
     }
 
-    private fun getItemList(): List<Item>  {
+    private fun getItemList(): List<Item> {
         val listOfItems = mutableListOf<Item>()
         getCursorForAll().use { cursor ->
             if (cursor.moveToFirst()) {
                 do {
                     listOfItems.add(getItemFromCursor(cursor))
-                    //emit(getItemFromCursor(cursor)
                 } while (cursor.moveToNext())
             }
         }
         return listOfItems
     }
 
-    fun getItems(): Flow<List<Item>>  {
-        val items=getItemList()
-        Log.d(TAG,"- getItems ${items.size}")
-        //synchronized(
-        return flowOf(items)
+    override fun getItems(): Flow<List<Item>> {
+        return listCatsFromDB.asFlow()
     }
 
-//    fun getItems(): LiveData<List<Item>>  {
-//        val listOfItemsLiveData = MutableLiveData<List<Item>>()
-//        listOfItemsLiveData.postValue(getItemList())
-//        //liveData.postValue(dbData)
-//        return listOfItemsLiveData
-//    }
-
-    private suspend fun onChange(){
-        getItems().collect()
+    private suspend fun onChangeData() {
+        updateChangeDataBaseCounter.postValue(++counterChangeDataBase)
     }
 
-    override fun add(item: Item) {
+    override suspend fun add(item: Item) {
         insertItem(item)
+        onChangeData()
     }
 
     override suspend fun delete(item: Item) {
         deleteItem(item)
-        onChange()
+        onChangeData()
     }
 
-    override fun update(item: Item) {
+    override suspend fun update(item: Item) {
         //updateItem(item)
+        //    onChange()
     }
 
 }

@@ -5,10 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
-import com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase.NoDBAdapterInterface
-import com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase.NoDBItemHolder
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
-import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.NoDBAdapter
 
 class ItemAdapter() : ListAdapter<Item, ItemHolder>(itemComparator) {
 

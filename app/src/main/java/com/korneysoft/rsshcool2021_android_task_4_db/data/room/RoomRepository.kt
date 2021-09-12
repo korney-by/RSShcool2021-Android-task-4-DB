@@ -4,12 +4,13 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.korneysoft.rsshcool2021_android_task_4_db.data.EditDBInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.data.GetDataDBInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import kotlinx.coroutines.flow.Flow
 
-private const val TAG="T4-RoomRepository"
+private const val TAG = "T4-RoomRepository"
 
-class RoomRepository(context: Context): EditDBInterface {
+class RoomRepository(context: Context) : EditDBInterface, GetDataDBInterface {
 
     val nameType = "Room"
 
@@ -17,26 +18,18 @@ class RoomRepository(context: Context): EditDBInterface {
         context.applicationContext,
         ItemDatabase::class.java, DATABASE_NAME
     ).build()
-
     private val dao: RoomItemDao = database.itemDao()
 
-    fun getItems(): Flow<List<Item>> = dao.getItems()
-    fun getItem(id:Int): LiveData<Item?> = dao.getItem(id)
+    override fun getItems(): Flow<List<Item>> = dao.getItems()
+    override fun getItem(id: Int): LiveData<Item?> = dao.getItem(id)
 
-    override fun add(item: Item)  {
-        dao.insert(item)
-    }
-
-//     private fun insert(item:Item){
-//        dao.insert(item)
-//    }
-
-    override suspend fun delete(item: Item)  {
+    override suspend fun add(item: Item) = dao.insert(item)
+    override suspend fun delete(item: Item) {
         dao.delete(item)
         //Log.d(TAG,"deleteItem")
     }
 
-    override fun update(item: Item)  {
+    override suspend fun update(item: Item) {
         dao.update(item)
         //Log.d(TAG,"deleteItem")
     }
