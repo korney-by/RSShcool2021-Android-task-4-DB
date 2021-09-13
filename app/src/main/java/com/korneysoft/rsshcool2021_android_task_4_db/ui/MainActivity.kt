@@ -5,14 +5,16 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import com.korneysoft.rsshcool2021_android_task_4_db.R
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ActivityMainBinding
-import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.KeyboardInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.KeyboardControlInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.SetPreferencesInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ShowFragmentAddItemInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ToolbarUpdateInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
@@ -20,13 +22,14 @@ import kotlin.math.min
 
 private const val TAG = "T4-MainActivity"
 
-class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, KeyboardInterface,
-    ToolbarUpdateInterface {
+class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, KeyboardControlInterface,
+    ToolbarUpdateInterface, SetPreferencesInterface {
     private lateinit var binding: ActivityMainBinding
     //private val repository = ItemRepository.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ItemRepository.initialize(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -119,6 +122,14 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
                 }
             }
         }
+    }
+
+    override fun setPreferences() {
+        var prefs= PreferenceManager.getDefaultSharedPreferences(this)
+
+        Toast.makeText(this,prefs.getString("dao_key","")
+            , Toast.LENGTH_SHORT).show()
+
     }
 
 }

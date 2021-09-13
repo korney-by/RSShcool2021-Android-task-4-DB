@@ -1,12 +1,11 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.data.nodatabase
 
 import androidx.lifecycle.LiveData
-import com.korneysoft.rsshcool2021_android_task_4_db.data.EditDBInterface
-import com.korneysoft.rsshcool2021_android_task_4_db.data.GetDataDBInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.data.RepositoryInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 
-class NoDBRepository(count:Int) : EditDBInterface, GetDataDBInterface {
-    val nameType = "ArrayList"
+class NoDBRepository(count:Int) : RepositoryInterface{
+    override val nameType = "ArrayList"
     private val dao = NoDBDao(count)
 
     override fun getItems()=dao.getItems()

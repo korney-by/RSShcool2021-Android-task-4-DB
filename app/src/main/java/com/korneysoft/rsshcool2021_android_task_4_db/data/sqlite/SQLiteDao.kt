@@ -9,9 +9,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
-import com.korneysoft.rsshcool2021_android_task_4_db.data.EditDBInterface
+import com.korneysoft.rsshcool2021_android_task_4_db.data.RepositoryInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.DatabaseModel
-import com.korneysoft.rsshcool2021_android_task_4_db.data.GetDataDBInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import kotlinx.coroutines.flow.*
 import java.sql.SQLException
@@ -44,7 +43,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
     DATABASE_NAME,
     null,
     DATABASE_VERSION
-), EditDBInterface, GetDataDBInterface {
+) {
 
     private var counterChangeDataBase = 0
     private val updateChangeDataBaseCounter = MutableLiveData<Int>()
@@ -100,7 +99,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         )
     }
 
-    override fun getItem(id: Int): LiveData<Item?> {
+    fun getItem(id: Int): LiveData<Item?> {
         var item: Item? = null
         val itemLiveData = MutableLiveData<Item?>()
 
@@ -125,7 +124,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         return listOfItems
     }
 
-    override fun getItems(): Flow<List<Item>> {
+    fun getItems(): Flow<List<Item>> {
         return listCatsFromDB.asFlow()
     }
 
@@ -133,17 +132,17 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         updateChangeDataBaseCounter.postValue(++counterChangeDataBase)
     }
 
-    override suspend fun add(item: Item) {
+    suspend fun add(item: Item) {
         insertItem(item)
         onChangeData()
     }
 
-    override suspend fun delete(item: Item) {
+    suspend fun delete(item: Item) {
         deleteItem(item)
         onChangeData()
     }
 
-    override suspend fun update(item: Item) {
+    suspend fun update(item: Item) {
         //updateItem(item)
         //    onChange()
     }

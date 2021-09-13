@@ -4,13 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
-import com.korneysoft.rsshcool2021_android_task_4_db.data.EditDBInterface
-import com.korneysoft.rsshcool2021_android_task_4_db.data.GetDataDBInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
+import com.korneysoft.rsshcool2021_android_task_4_db.data.RepositoryInterface
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
-class NoDBDao(count: Int) : EditDBInterface, GetDataDBInterface {
+class NoDBDao(count: Int)  {
     private val ITEMS: MutableList<Item> = ArrayList()
     private val ITEM_MAP: MutableMap<Int, Item> = HashMap()
 
@@ -57,11 +56,12 @@ class NoDBDao(count: Int) : EditDBInterface, GetDataDBInterface {
         )
     }
 
-    override fun getItems(): Flow<List<Item>> {
+
+    fun getItems(): Flow<List<Item>> {
         return listCatsFromDB.asFlow()
     }
 
-    override fun getItem(id: Int): LiveData<Item?> {
+    fun getItem(id: Int): LiveData<Item?> {
         val item: Item? = ITEM_MAP.get(id)
         val itemLiveData = MutableLiveData<Item?>()
 
@@ -73,17 +73,17 @@ class NoDBDao(count: Int) : EditDBInterface, GetDataDBInterface {
         updateChangeDataBaseCounter.postValue(++counterChangeDataBase)
     }
 
-    override suspend fun delete(item: Item) {
+    suspend fun delete(item: Item) {
         deleteItem(item)
         onChangeData()
     }
 
-    override suspend fun add(item: Item) {
+    suspend fun add(item: Item) {
         addItem(item)
         onChangeData()
     }
 
-    override suspend fun update(item: Item) {
+    suspend fun update(item: Item) {
         //updateItem(item)
         //onChangeData()
     }

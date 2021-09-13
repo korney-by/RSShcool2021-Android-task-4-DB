@@ -18,6 +18,7 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
 
     val itemListLiveData: LiveData<List<Item>> =
         repository.getItems().asLiveData(context = Dispatchers.IO) // . allItems
+
     val daoTypeName: String
         get() = repository.dbTypeName
 

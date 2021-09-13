@@ -5,17 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.R
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemListBinding
+import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.SetPreferencesInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ShowFragmentAddItemInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ToolbarUpdateInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
@@ -62,7 +61,7 @@ class ItemListFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setPreferences()
+        applyPreferences()
         registerObservers()
         setToolbar()
     }
@@ -71,9 +70,9 @@ class ItemListFragment() : Fragment() {
         activity?.let {
             if (it is ToolbarUpdateInterface) {
                 it.apply {
-                    setToolbarTitle(fragmentName,itemListViewModel.daoTypeName)
+                    setToolbarTitle(fragmentName, itemListViewModel.daoTypeName)
                     setToolbarHamburgerButton(0, {})
-                    setToolBarMenu(R.menu.toolbar_menu_sort,arrayOf({},{
+                    setToolBarMenu(R.menu.toolbar_menu_sort, arrayOf({}, {
                         openSettingsFragment()
                     }))
                 }
@@ -81,11 +80,12 @@ class ItemListFragment() : Fragment() {
         }
     }
 
-    private fun setPreferences(){
-        var prefs=PreferenceManager.getDefaultSharedPreferences(activity)
-
-        Toast.makeText(activity,prefs.getString("dao_key","")
-            , Toast.LENGTH_SHORT).show()
+    private fun applyPreferences() {
+        activity?.let {
+            if (it is SetPreferencesInterface) {
+                it.setPreferences()
+            }
+        }
     }
 
     private fun registerObservers() {
@@ -106,7 +106,7 @@ class ItemListFragment() : Fragment() {
 
     private fun setupActionListeners() {
         binding.addFloatingButton.setOnClickListener() {
-            activity?.let{
+            activity?.let {
                 if (it is ShowFragmentAddItemInterface) {
                     it.openAddItemFragment()
                 }
@@ -114,8 +114,8 @@ class ItemListFragment() : Fragment() {
         }
     }
 
-    private fun openSettingsFragment(){
-        activity?.let{
+    private fun openSettingsFragment() {
+        activity?.let {
             if (it is ShowFragmentAddItemInterface) {
                 it.openSettingsFragment()
             }
