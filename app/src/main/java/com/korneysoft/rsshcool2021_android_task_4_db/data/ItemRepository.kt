@@ -15,12 +15,10 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
     //private var _db = RoomRepository(context)
 
     private var currentDaoKey = ""
-    //private var _db = setRepository(daoKey)
     private var db = setRepository(daoKey)
 
 
     val dbTypeName get() = db.nameType ?: ""
-    //var allItems: Flow<List<Item>> = db.getItems()
 
     fun setActualRepository() {
         val newDaoKey=getDaoKeyFromPreference(context)
