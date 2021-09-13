@@ -1,29 +1,29 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
 import android.app.Activity
-import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.korneysoft.rsshcool2021_android_task_4_db.R
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ActivityMainBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.KeyboardInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ShowFragmentAddItemInterface
-import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ToolbarUpdateItnerface
+import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ToolbarUpdateInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
+import kotlin.math.min
 
 private const val TAG = "T4-MainActivity"
 
 class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, KeyboardInterface,
-    ToolbarUpdateItnerface {
+    ToolbarUpdateInterface {
     private lateinit var binding: ActivityMainBinding
-    private val repository = ItemRepository.get()
+    //private val repository = ItemRepository.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
         setContentView(binding.root)
 
         val itemListViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
-
-        binding.toolbar.subtitle = "${repository.dbTypeName}"
 
         loadItemListFragment()
     }
@@ -56,8 +54,21 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
             .commit()
     }
 
+    private fun loadSettingsFragment() {
+        val fragment: Fragment = SettingsFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.fragmentContainerView, fragment)
+            .commit()
+    }
+
     override fun openAddItemFragment() {
         loadAddItemFragment()
+    }
+
+    override fun openSettingsFragment() {
+        loadSettingsFragment()
     }
 
     override fun hideKeyboard() {
@@ -74,25 +85,40 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-
-    override fun setToolBarSettings(
-        fragmentName: String,
-        menuResource: Int,
-        menuIconResource: Int,
-        iconResource: Int,
-        action: () -> Unit
-    ) {
+    override fun setToolbarHamburgerButton(iconResource: Int, action: () -> Unit) {
         binding.toolbar.apply {
-            title = fragmentName
-            if (menuResource == 0) {
-                menu.clear()
+            if (iconResource == 0) {
+                navigationIcon = null
             } else {
-                //menu.add(getItem(menuResource)
-                menu.getItem(0).icon = getDrawable(menuIconResource)
+                navigationIcon = getDrawable(iconResource)
+                setNavigationOnClickListener { action() }
             }
-            //menu.getItem(0).icon = null//getDrawable(menuResource);
-            navigationIcon = getDrawable(iconResource)
-            setNavigationOnClickListener { action() }
         }
     }
+
+    override fun setToolbarTitle(title: String,subtitle: String ) {
+        binding.toolbar.title = title
+        binding.toolbar.subtitle = if (!subtitle.isBlank()) {
+            "DAO: $subtitle"
+        } else{
+            ""
+        }
+    }
+
+    override fun setToolBarMenu(menuResource: Int, actions: Array<() -> Unit>) {
+        //var action: MenuItem.OnMenuItemClickListener
+        binding.toolbar.apply {
+            menu.clear()
+            if (menuResource != 0) {
+                menuInflater.inflate(menuResource,menu)
+                for (i in 0 until min(menu.size(), actions.size)) {
+                    menu.getItem(i).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
+                        actions[i]()
+                        true
+                    })
+                }
+            }
+        }
+    }
+
 }

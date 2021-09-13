@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.korneysoft.rsshcool2021_android_task_4_db.R
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentAddItemBinding
-import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ToolbarUpdateItnerface
+import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ToolbarUpdateInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
 
 class AddItemFragment : Fragment() {
@@ -37,7 +37,7 @@ class AddItemFragment : Fragment() {
         _binding = FragmentAddItemBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        binding.addButton.setOnClickListener() {
+        binding.addFloatingButton.setOnClickListener() {
             initializeAddItem()
             closeFragment()
         }
@@ -57,18 +57,23 @@ class AddItemFragment : Fragment() {
         return view
     }
 
-    override fun onResume() {
-        super.onResume()
-        val parentActivity = activity
-        if (parentActivity is ToolbarUpdateItnerface) {
-            parentActivity.setToolBarSettings(
-                fragmentName,
-                R.menu.toolbar_menu_done,
-                R.drawable.ic_baseline_done_24,
-                R.drawable.ic_baseline_arrow_back_24,
-                { closeFragment() })
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setToolbar()
+    }
+
+    private fun setToolbar() {
+        activity.let {
+            if (it is ToolbarUpdateInterface) {
+                it.apply {
+                    setToolbarTitle(fragmentName)
+                    setToolbarHamburgerButton(R.drawable.ic_baseline_arrow_back_24, { closeFragment() })
+                    setToolBarMenu(0, emptyArray())
+                }
+            }
         }
     }
+
 
     private fun initializeAddItem() {
         itemListViewModel.addItem(CreateNewItem())
@@ -87,12 +92,10 @@ class AddItemFragment : Fragment() {
         )
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
+
 
     private fun onInfoChanged() {
-        binding.addButton.isEnabled = (nameIsNotNull && ageIsNotNull && breedIsNotNull)
+        binding.addFloatingButton.isEnabled = (nameIsNotNull && ageIsNotNull && breedIsNotNull)
     }
 
     companion object {

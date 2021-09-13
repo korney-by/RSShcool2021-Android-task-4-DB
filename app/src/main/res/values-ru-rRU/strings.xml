@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">RSShcool2021-Android-task-4-DB</string>
-    <string name="base_name">Животные</string>
+    <string name="base_name">Домашние питомцы</string>
     <string name="caption_name">Имя:</string>
     <string name="caption_age">Возраст:</string>
     <string name="caption_breed">Вид:</string>
     <string name="add_item_fragment">Добавить новый элемент</string>
     <string name="item_list_fragment">Список элементов</string>
     <string name="add_button_text">Добавить</string>
+
+    <string name="preference_dao">Способ доступа к базе данных</string>
+    <string name="preference_sort">Сортировка</string>
+    <string name="dao_title">Используемый DAO</string>
+    <string name="sort_field">Критерий сортировки</string>
+    <string name="sort_summary">Включите для сортировки</string>
+    <string name="sort_field_name">Сортировать по Имени</string>
+    <string name="sort_field_age">Сортировать по Возрасту</string>
+    <string name="sort_field_breed">Сортировать по Породе</string>
+    <string name="sort_title">Сортировать элементы на экране</string>
+    <string name="preference_title">Настройки</string>
+
 </resources>

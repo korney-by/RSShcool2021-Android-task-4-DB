@@ -5,18 +5,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.R
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemListBinding
-import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.KeyboardInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ShowFragmentAddItemInterface
-import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ToolbarUpdateItnerface
+import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ToolbarUpdateInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
 
 private const val TAG = "T4-ItemListFragment"
@@ -61,18 +62,30 @@ class ItemListFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setPreferences()
         registerObservers()
+        setToolbar()
     }
 
-    override fun onResume() {
-        super.onResume()
-        val parentActivity = activity
-        if (parentActivity is KeyboardInterface) {
-            parentActivity.hideKeyboard()
+    fun setToolbar() {
+        activity?.let {
+            if (it is ToolbarUpdateInterface) {
+                it.apply {
+                    setToolbarTitle(fragmentName,itemListViewModel.daoTypeName)
+                    setToolbarHamburgerButton(0, {})
+                    setToolBarMenu(R.menu.toolbar_menu_sort,arrayOf({},{
+                        openSettingsFragment()
+                    }))
+                }
+            }
         }
-        if (parentActivity is ToolbarUpdateItnerface) {
-            parentActivity.setToolBarSettings(fragmentName,R.menu.toolbar_menu_sort,R.drawable.ic_baseline_filter_alt_24, R.drawable.ic_baseline_menu_24, {})
-        }
+    }
+
+    private fun setPreferences(){
+        var prefs=PreferenceManager.getDefaultSharedPreferences(activity)
+
+        Toast.makeText(activity,prefs.getString("dao_key","")
+            , Toast.LENGTH_SHORT).show()
     }
 
     private fun registerObservers() {
@@ -92,16 +105,22 @@ class ItemListFragment() : Fragment() {
     }
 
     private fun setupActionListeners() {
-        binding.addButton.setOnClickListener() {
-            val showFragmentAddItemInterface = activity
-
-            if (showFragmentAddItemInterface is ShowFragmentAddItemInterface) {
-                showFragmentAddItemInterface.openAddItemFragment()
+        binding.addFloatingButton.setOnClickListener() {
+            activity?.let{
+                if (it is ShowFragmentAddItemInterface) {
+                    it.openAddItemFragment()
+                }
             }
         }
-
     }
 
+    private fun openSettingsFragment(){
+        activity?.let{
+            if (it is ShowFragmentAddItemInterface) {
+                it.openSettingsFragment()
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
