@@ -4,11 +4,11 @@
         app:icon="@drawable/ic_baseline_swap_horiz_24">
 
         <ListPreference
-            app:defaultValue="cursor"
+            app:defaultValue="@string/key_dao_room"
             app:entries="@array/dao_entries"
             app:entryValues="@array/dao_values"
             app:iconSpaceReserved="false"
-            app:key="dao_key"
+            app:key="@string/dao_key"
             app:title="@string/dao_title"
             app:useSimpleSummaryProvider="true" />
 
@@ -19,7 +19,7 @@
 
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
-            app:key="sort_key"
+            app:key="@string/sort_key"
             app:summary="@string/sort_summary"
             app:title="@string/sort_title"
             app:useSimpleSummaryProvider="true" />
@@ -30,7 +30,7 @@
             app:entries="@array/sort_entries"
             app:entryValues="@array/sort_values"
             app:iconSpaceReserved="false"
-            app:key="sort_field_key"
+            app:key="@string/sort_field_key"
             app:title="@string/sort_field"
             app:useSimpleSummaryProvider="true" />
 

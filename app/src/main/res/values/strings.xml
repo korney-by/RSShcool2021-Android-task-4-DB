@@ -26,6 +26,9 @@
     <string name="sort_field">Sorting criterion</string>
     <string name="sort_title">Sort items on screen</string>
     <string name="preference_title">Preferences</string>
-    <string name="id_dao_cursor">cursor</string>
-    <string name="id_dao_room">room</string>
+    <string name="key_dao_cursor">cursor</string>
+    <string name="key_dao_room">room</string>
+    <string name="dao_key">dao_key</string>
+    <string name="sort_key">sort_key</string>
+    <string name="sort_field_key">sort_field_key</string>
 </resources>

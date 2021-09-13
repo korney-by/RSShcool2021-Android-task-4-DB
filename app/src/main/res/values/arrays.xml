@@ -6,8 +6,8 @@
     </string-array>
 
     <string-array name="dao_values">
-        <item>@string/id_dao_cursor</item>
-        <item>@string/id_dao_room</item>
+        <item>@string/key_dao_cursor</item>
+        <item>@string/key_dao_room</item>
     </string-array>
 
     <!-- Sort Preference -->

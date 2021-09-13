@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -98,6 +99,10 @@ class ItemListFragment() : Fragment() {
                 }
             }
         )
+        Toast.makeText(
+            activity, "registerObservers", Toast.LENGTH_SHORT
+        ).show()
+
     }
 
     private fun updateUI(items: List<Item>) {
@@ -148,7 +153,6 @@ class ItemListFragment() : Fragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     if ((viewHolder is ItemHolder)) {
                         itemListViewModel.deleteItem(viewHolder.item)
-                        registerObservers()
                     }
                 }
             }

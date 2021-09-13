@@ -4,19 +4,19 @@
     package="com.korneysoft.rsshcool2021_android_task_4_db">
 
     <application
+        android:name=".application.DBApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RSShcool2021Androidtask4DB.Blue"
-        android:name=".application.DBApplication">
+        android:theme="@style/Theme.RSShcool2021Androidtask4DB.Blue">
 
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            tools:ignore="Instantiatable"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="Instantiatable">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,5 +25,6 @@
             </intent-filter>
         </activity>
     </application>
+
 
 </manifest>

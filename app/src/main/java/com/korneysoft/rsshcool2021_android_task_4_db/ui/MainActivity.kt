@@ -25,11 +25,9 @@ private const val TAG = "T4-MainActivity"
 class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, KeyboardControlInterface,
     ToolbarUpdateInterface, SetPreferencesInterface {
     private lateinit var binding: ActivityMainBinding
-    //private val repository = ItemRepository.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ItemRepository.initialize(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -99,11 +97,11 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
         }
     }
 
-    override fun setToolbarTitle(title: String,subtitle: String ) {
+    override fun setToolbarTitle(title: String, subtitle: String) {
         binding.toolbar.title = title
         binding.toolbar.subtitle = if (!subtitle.isBlank()) {
             "DAO: $subtitle"
-        } else{
+        } else {
             ""
         }
     }
@@ -113,7 +111,7 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
         binding.toolbar.apply {
             menu.clear()
             if (menuResource != 0) {
-                menuInflater.inflate(menuResource,menu)
+                menuInflater.inflate(menuResource, menu)
                 for (i in 0 until min(menu.size(), actions.size)) {
                     menu.getItem(i).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
                         actions[i]()
@@ -125,10 +123,9 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
     }
 
     override fun setPreferences() {
-        var prefs= PreferenceManager.getDefaultSharedPreferences(this)
-
-        Toast.makeText(this,prefs.getString("dao_key","")
-            , Toast.LENGTH_SHORT).show()
+        var prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val itemListViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
+        itemListViewModel.SetActualRepository()
 
     }
 

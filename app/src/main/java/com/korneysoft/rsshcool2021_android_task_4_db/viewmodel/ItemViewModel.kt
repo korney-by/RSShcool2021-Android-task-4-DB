@@ -14,7 +14,7 @@ private const val TAG = "T4-ItemListViewModel"
 
 class ItemViewModel(app: Application) : AndroidViewModel(app) {
 
-    private val repository = ItemRepository.get()
+    private var repository = ItemRepository.get()
 
     val itemListLiveData: LiveData<List<Item>> =
         repository.getItems().asLiveData(context = Dispatchers.IO) // . allItems
@@ -22,6 +22,9 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
     val daoTypeName: String
         get() = repository.dbTypeName
 
+    fun SetActualRepository(){
+        repository.setActualRepository()
+    }
 
     fun deleteItem(item: Item) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteItem(item)
@@ -34,6 +37,7 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
     fun updateItem(item: Item) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateItem(item)
     }
+
 
 
     override fun onCleared() {

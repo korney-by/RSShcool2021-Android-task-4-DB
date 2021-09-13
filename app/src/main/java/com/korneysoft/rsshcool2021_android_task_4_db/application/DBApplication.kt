@@ -10,7 +10,7 @@ import java.util.*
 class DBApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        //ItemRepository.initialize(this)
+        ItemRepository.initialize(this)
     }
 
 }
