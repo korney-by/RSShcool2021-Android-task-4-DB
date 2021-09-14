@@ -57,8 +57,8 @@ class NoDBDao(count: Int)  {
     }
 
 
-    fun getItems(): Flow<List<Item>> {
-        return listCatsFromDB.asFlow()
+    fun getItems(): LiveData<List<Item>> {
+        return listCatsFromDB//.asFlow()
     }
 
     fun getItem(id: Int): LiveData<Item?> {

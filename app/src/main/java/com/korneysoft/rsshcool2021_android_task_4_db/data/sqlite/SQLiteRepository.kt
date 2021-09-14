@@ -2,8 +2,8 @@ package com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import com.korneysoft.rsshcool2021_android_task_4_db.data.RepositoryInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
+import com.korneysoft.rsshcool2021_android_task_4_db.data.RepositoryInterface
 
 class SQLiteRepository(context: Context) : RepositoryInterface {
     override val nameType = "SQLiteOpenHelper"
@@ -23,4 +23,7 @@ class SQLiteRepository(context: Context) : RepositoryInterface {
     override suspend fun delete(item: Item) = dao.delete(item)
     override suspend fun update(item: Item) = dao.update(item)
 
+    override fun close() {
+        dao.close()
+    }
 }

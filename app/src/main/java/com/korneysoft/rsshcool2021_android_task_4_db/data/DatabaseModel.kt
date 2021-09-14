@@ -9,7 +9,7 @@ class DatabaseModel private constructor() {
         const val COLUMN_ID = "_id"
         const val COLUMN_NAME = "NAME"
         const val COLUMN_AGE = "AGE"
-        const val COLUMN_BREED = "BEED"
+        const val COLUMN_BREED = "BREED"
     }
 
 }

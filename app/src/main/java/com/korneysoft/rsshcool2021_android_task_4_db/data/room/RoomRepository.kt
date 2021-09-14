@@ -18,9 +18,11 @@ class RoomRepository(context: Context) : RepositoryInterface{
         context.applicationContext,
         ItemDatabase::class.java, DATABASE_NAME
     ).build()
+
     private val dao: RoomItemDao = database.itemDao()
 
-    override fun getItems(): Flow<List<Item>> = dao.getItems()
+    //override fun getItems(): Flow<List<Item>> = dao.getItems()
+    override fun getItems(): LiveData<List<Item>> = dao.getItems()
     override fun getItem(id: Int): LiveData<Item?> = dao.getItem(id)
 
     override suspend fun add(item: Item) = dao.insert(item)
@@ -32,5 +34,9 @@ class RoomRepository(context: Context) : RepositoryInterface{
     override suspend fun update(item: Item) {
         dao.update(item)
         //Log.d(TAG,"deleteItem")
+    }
+
+    override fun close() {
+        database.close()
     }
 }

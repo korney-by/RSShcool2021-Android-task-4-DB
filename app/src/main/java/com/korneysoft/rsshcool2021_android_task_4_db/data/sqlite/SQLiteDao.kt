@@ -26,8 +26,8 @@ private const val COLUMN_AGE = DatabaseModel.COLUMN_AGE
 private const val COLUMN_BREED = DatabaseModel.COLUMN_BREED
 
 private const val CREATE_TABLE_SQL =
-    "CREATE TABLE IF NOT EXISTS $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "$COLUMN_NAME VARCHAR, $COLUMN_AGE INTEGER, $COLUMN_BREED VARCHAR)"
+    "CREATE TABLE IF NOT EXISTS $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+            "$COLUMN_NAME TEXT NOT NULL, $COLUMN_AGE INTEGER NOT NULL, $COLUMN_BREED TEXT NOT NULL)"
 private const val INSERT_RECORD_SQL =
     "INSERT INTO $TABLE_NAME ($COLUMN_NAME, $COLUMN_AGE, $COLUMN_BREED) VALUES ('%s', %d, '%s')"
 
@@ -124,8 +124,8 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         return listOfItems
     }
 
-    fun getItems(): Flow<List<Item>> {
-        return listCatsFromDB.asFlow()
+    fun getItems(): LiveData<List<Item>> {
+        return listCatsFromDB //.asFlow()
     }
 
     private suspend fun onChangeData() {
@@ -138,6 +138,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
     }
 
     suspend fun delete(item: Item) {
+
         deleteItem(item)
         onChangeData()
     }

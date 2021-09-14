@@ -4,7 +4,7 @@
         app:icon="@drawable/ic_baseline_swap_horiz_24">
 
         <ListPreference
-            app:defaultValue="@string/key_dao_room"
+            app:defaultValue="@string/key_dao_cursor"
             app:entries="@array/dao_entries"
             app:entryValues="@array/dao_values"
             app:iconSpaceReserved="false"

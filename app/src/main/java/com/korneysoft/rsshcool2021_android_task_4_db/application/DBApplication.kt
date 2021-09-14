@@ -13,4 +13,9 @@ class DBApplication : Application() {
         ItemRepository.initialize(this)
     }
 
+    override fun onTerminate() {
+        super.onTerminate()
+        //ItemRepository.
+    }
+
 }

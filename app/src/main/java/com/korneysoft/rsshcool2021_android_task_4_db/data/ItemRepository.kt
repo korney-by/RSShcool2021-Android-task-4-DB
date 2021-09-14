@@ -6,6 +6,7 @@ import androidx.preference.PreferenceManager
 import com.korneysoft.rsshcool2021_android_task_4_db.R
 import com.korneysoft.rsshcool2021_android_task_4_db.data.room.RoomRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite.SQLiteRepository
+import java.lang.Thread.sleep
 
 
 class ItemRepository private constructor(val context: Context, daoKey: String) {
@@ -15,19 +16,20 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
     //private var _db = RoomRepository(context)
 
     private var currentDaoKey = ""
-    private var db = setRepository(daoKey)
+    private var db = getRepository(daoKey)
 
 
     val dbTypeName get() = db.nameType ?: ""
 
     fun setActualRepository() {
-        val newDaoKey=getDaoKeyFromPreference(context)
-        if  (newDaoKey!=currentDaoKey) {
-            db = setRepository(getDaoKeyFromPreference(context))
+        val newDaoKey = getDaoKeyFromPreference(context)
+        if (newDaoKey != currentDaoKey) {
+            db.close()
+            db = getRepository(newDaoKey)
         }
     }
 
-    private fun setRepository(newDaoKey: String): RepositoryInterface {
+    private fun getRepository(newDaoKey: String): RepositoryInterface {
         val idDaoCursor = context.resources.getString(R.string.key_dao_cursor)
         val idDaoRoom = context.resources.getString(R.string.key_dao_room)
         if (newDaoKey != currentDaoKey) {
@@ -79,6 +81,7 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
 
         private fun getDaoKeyFromPreference(context: Context): String {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            //val defaultValue=context.findPreference(context,context.resources.getString(R.string.dao_key),)
             val allPossibleDao = context.resources.getStringArray(R.array.dao_values)
             return prefs.getString(
                 context.resources.getString(R.string.dao_key),
@@ -86,6 +89,5 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
             )
                 .toString()
         }
-
     }
 }

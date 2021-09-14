@@ -22,7 +22,7 @@ private const val SQL_GET_ONE = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=(:id
 @Dao
 interface RoomItemDao {
     @Query(SQL_GET_ALL)
-    fun getItems(): Flow<List<Item>>
+    fun getItems(): LiveData<List<Item>>
 
     @Query(SQL_GET_ONE)
     fun getItem(id:Int):LiveData<Item?>
@@ -35,4 +35,5 @@ interface RoomItemDao {
 
     @Update
     fun update(item:Item)
+
 }

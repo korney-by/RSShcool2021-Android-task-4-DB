@@ -18,7 +18,6 @@ class ItemAdapter() : ListAdapter<Item, ItemHolder>(itemComparator) {
         return ItemHolder(binding, binding.root.context.resources)
     }
 
-
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)

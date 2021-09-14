@@ -16,8 +16,7 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
 
     private var repository = ItemRepository.get()
 
-    val itemListLiveData: LiveData<List<Item>> =
-        repository.getItems().asLiveData(context = Dispatchers.IO) // context = Dispatchers.IO
+    val itemListLiveData: LiveData<List<Item>> = repository.getItems() //.asLiveData(context = Dispatchers.IO) // context = Dispatchers.IO
 
     val daoTypeName: String
         get() = repository.dbTypeName
@@ -37,7 +36,6 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
     fun updateItem(item: Item) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateItem(item)
     }
-
 
 
     override fun onCleared() {
