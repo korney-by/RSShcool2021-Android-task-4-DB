@@ -19,6 +19,10 @@ class SQLiteRepository(context: Context) : RepositoryInterface {
 
     override fun getItem(id: Int): LiveData<Item?> = dao.getItem(id)
 
+    override fun setSort(isSorted: Boolean, sortField: String) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun add(item: Item) = dao.add(item)
     override suspend fun delete(item: Item) = dao.delete(item)
     override suspend fun update(item: Item) = dao.update(item)

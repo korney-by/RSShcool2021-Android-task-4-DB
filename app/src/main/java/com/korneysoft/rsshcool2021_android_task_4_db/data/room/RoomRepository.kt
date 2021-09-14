@@ -39,4 +39,8 @@ class RoomRepository(context: Context) : RepositoryInterface{
     override fun close() {
         database.close()
     }
+
+    override fun setSort(isSorted: Boolean, sortField: String) {
+        TODO("Not yet implemented")
+    }
 }

@@ -127,6 +127,11 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
         val itemListViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
         itemListViewModel.SetActualRepository()
 
+        is = prefs.getBoolean(this.resources.getString(R.string.sort_key),false)
+        if (itemListViewModel.isSorted)
+            itemListViewModel.sortedField=prefs.getBoolean(this.resources.getString(R.string.sort_field_key),false)
+        }
+
     }
 
 }

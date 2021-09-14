@@ -16,4 +16,7 @@ class NoDBRepository(count:Int) : RepositoryInterface{
     override suspend fun update(item: Item) = dao.update(item)
 
     override fun close() {}
+
+    override fun setSort(isSorted: Boolean, sortField: String) {
+    }
 }

@@ -3,7 +3,6 @@ package com.korneysoft.rsshcool2021_android_task_4_db.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemRepository
@@ -16,12 +15,34 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
 
     private var repository = ItemRepository.get()
 
-    val itemListLiveData: LiveData<List<Item>> = repository.getItems() //.asLiveData(context = Dispatchers.IO) // context = Dispatchers.IO
+    val itemListLiveData: LiveData<List<Item>> =
+        repository.getItems() //.asLiveData(context = Dispatchers.IO) // context = Dispatchers.IO
+
+    var isSorted: Boolean = false
+        set(value) {
+            field = value
+            setSortToRepository()
+        }
+
+    var sortField: String = ""
+        set(value) {
+            field = value
+            setSortToRepository()
+        }
+
+    fun setSortToRepository() {
+        if (isSorted and sortField.length > 0) {
+            repository.setSort(true, sortField)
+        } else {
+            repository.setSort(false, "")
+        }
+
+    }
 
     val daoTypeName: String
         get() = repository.dbTypeName
 
-    fun SetActualRepository(){
+    fun SetActualRepository() {
         repository.setActualRepository()
     }
 

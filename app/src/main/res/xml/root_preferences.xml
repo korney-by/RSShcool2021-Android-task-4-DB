@@ -1,24 +1,22 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/preference_dao"
-        app:icon="@drawable/ic_baseline_swap_horiz_24">
+    <PreferenceCategory app:title="@string/preference_dao">
 
         <ListPreference
             app:defaultValue="@string/key_dao_cursor"
             app:entries="@array/dao_entries"
             app:entryValues="@array/dao_values"
-            app:iconSpaceReserved="false"
+            app:icon="@drawable/ic_baseline_swap_horiz_24"
             app:key="@string/dao_key"
             app:title="@string/dao_title"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/preference_sort"
-        app:icon="@drawable/ic_baseline_sort_24">
+    <PreferenceCategory app:title="@string/preference_sort">
 
         <SwitchPreferenceCompat
-            app:iconSpaceReserved="false"
+            app:icon="@drawable/ic_baseline_sort_24"
             app:key="@string/sort_key"
             app:summary="@string/sort_summary"
             app:title="@string/sort_title"
@@ -29,7 +27,7 @@
             app:dependency="sort_key"
             app:entries="@array/sort_entries"
             app:entryValues="@array/sort_values"
-            app:iconSpaceReserved="false"
+            app:iconSpaceReserved="true"
             app:key="@string/sort_field_key"
             app:title="@string/sort_field"
             app:useSimpleSummaryProvider="true" />
