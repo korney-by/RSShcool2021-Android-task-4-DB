@@ -16,7 +16,7 @@
     <string name="sort_summary">Включите для сортировки</string>
     <string name="sort_field_name">Сортировать по Имени</string>
     <string name="sort_field_age">Сортировать по Возрасту</string>
-    <string name="sort_field_breed">Сортировать по Породе</string>
+    <string name="sort_field_breed">Сортировать по Виду</string>
     <string name="sort_title">Сортировать элементы на экране</string>
     <string name="preference_title">Настройки</string>
 

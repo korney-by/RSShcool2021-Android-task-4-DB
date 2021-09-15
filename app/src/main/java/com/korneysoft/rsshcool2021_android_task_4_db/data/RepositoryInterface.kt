@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 interface RepositoryInterface {
    val nameType:String
 
-   fun getItems(): LiveData<List<Item>>
+   fun getItems(): Flow<List<Item>>
    fun getItem(id:Int): LiveData<Item?>
 
-   fun setSort(isSorted:Boolean, sortField:String)
+   suspend fun setSort(isSorted:Boolean, sortField:String)
 
    suspend fun add(item: Item)
    suspend fun delete(item: Item)

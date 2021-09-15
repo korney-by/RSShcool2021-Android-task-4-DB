@@ -6,6 +6,7 @@ import androidx.preference.PreferenceManager
 import com.korneysoft.rsshcool2021_android_task_4_db.R
 import com.korneysoft.rsshcool2021_android_task_4_db.data.room.RoomRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite.SQLiteRepository
+import kotlinx.coroutines.flow.Flow
 import java.lang.Thread.sleep
 
 
@@ -64,6 +65,10 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
     @WorkerThread
     suspend fun updateItem(item: Item) = db.update(item)
 
+    @WorkerThread
+    suspend fun setSort(isSorted:Boolean, sortField:String){
+        db.setSort(isSorted,sortField)
+    }
 
     companion object {
 

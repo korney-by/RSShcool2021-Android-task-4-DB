@@ -9,10 +9,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
-import com.korneysoft.rsshcool2021_android_task_4_db.data.RepositoryInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.data.DatabaseModel
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
 import java.sql.SQLException
 
 private const val TAG = "T4-SQLiteDao"
@@ -37,6 +36,8 @@ private const val DELETE_RECORD_SQL =
 private const val SELECT_ONE_SQL = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=%d"
 private const val SELECT_ALL_SQL = "SELECT * FROM $TABLE_NAME"
 
+private const val SORT_SQL = " ORDER BY %s"
+
 
 class SQLiteDao(context: Context) : SQLiteOpenHelper(
     context,
@@ -48,6 +49,10 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
     private var counterChangeDataBase = 0
     private val updateChangeDataBaseCounter = MutableLiveData<Int>()
 
+    private var sortField: String = ""
+    private var isSorted: Boolean = false
+
+
     init {
         updateChangeDataBaseCounter.value = 0
     }
@@ -56,7 +61,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         updateChangeDataBaseCounter.map { getItemList() }
 
     override fun onCreate(db: SQLiteDatabase) {
-         try {
+        try {
             db.execSQL(CREATE_TABLE_SQL)
             (1..15).forEach {
                 db.execSQL(INSERT_RECORD_SQL.format("name $it", it, "breed $it"))
@@ -72,11 +77,17 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
     }
 
     private fun getCursorForAll(): Cursor {
-        return readableDatabase.rawQuery(SELECT_ALL_SQL, null)
+        return readableDatabase.rawQuery(SELECT_ALL_SQL + getSortSqlAddition(), null)
     }
 
     private fun getCursorForOne(id: Int): Cursor {
         return readableDatabase.rawQuery(SELECT_ONE_SQL.format(id), null)
+    }
+
+    private fun getSortSqlAddition(): String {
+        return if (isSorted) {
+            SORT_SQL.format(sortField)
+        } else ""
     }
 
 
@@ -85,6 +96,17 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
             writableDatabase.execSQL(INSERT_RECORD_SQL.format(name, age, breed))
         }
     }
+
+    suspend fun setSort(isSorted: Boolean, sortField: String) {
+        if (((this.isSorted == isSorted) && (this.sortField != sortField)) ||
+            (this.isSorted != isSorted)
+        ) {
+            this.isSorted = isSorted
+            this.sortField = sortField
+            onChangeData()
+        }
+    }
+
 
     private fun deleteItem(item: Item) {
         writableDatabase.execSQL(DELETE_RECORD_SQL.format(item.id))
@@ -124,8 +146,8 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         return listOfItems
     }
 
-    fun getItems(): LiveData<List<Item>> {
-        return listCatsFromDB //.asFlow()
+    fun getItems(): Flow<List<Item>> {
+        return listCatsFromDB.asFlow()
     }
 
     private suspend fun onChangeData() {

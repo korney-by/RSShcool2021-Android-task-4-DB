@@ -5,7 +5,7 @@
 
     <string name="caption_name">Name:</string>
     <string name="caption_age">Age:</string>
-    <string name="caption_breed">Breed:</string>
+    <string name="caption_breed">Type:</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="add_item_fragment">Add new item</string>
     <string name="item_list_fragment">Item list</string>
@@ -21,7 +21,7 @@
 
     <!-- Sync Preferences -->
     <string name="sort_field_age">Sort by Age</string>
-    <string name="sort_field_breed">Sort by Breed</string>
+    <string name="sort_field_breed">Sort by Type</string>
     <string name="sort_summary">Turn on for sort</string>
     <string name="sort_field">Sorting criterion</string>
     <string name="sort_title">Sort items on screen</string>

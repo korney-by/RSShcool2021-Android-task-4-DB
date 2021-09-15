@@ -110,6 +110,10 @@ class ItemListFragment() : Fragment() {
     }
 
     private fun setupActionListeners() {
+        setupAddButtonListener()
+    }
+
+    private fun setupAddButtonListener() {
         binding.addFloatingButton.setOnClickListener() {
             activity?.let {
                 if (it is ShowFragmentAddItemInterface) {
@@ -118,6 +122,8 @@ class ItemListFragment() : Fragment() {
             }
         }
     }
+
+
 
     private fun openSettingsFragment() {
         activity?.let {

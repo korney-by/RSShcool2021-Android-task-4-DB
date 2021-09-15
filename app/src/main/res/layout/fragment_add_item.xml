@@ -6,12 +6,6 @@
     android:layout_height="wrap_content"
     tools:context="ui.AddItemFragment">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:cardCornerRadius="5dp"/>
-
 
     <EditText
         android:id="@+id/edit_text_name"
@@ -19,10 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="8sp"
         android:hint="@string/caption_name"
+        android:imeOptions="flagNoExtractUi"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/edit_text_age"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
@@ -34,11 +27,13 @@
         android:layout_margin="8sp"
         android:ems="5"
         android:hint="@string/caption_age"
+        android:imeOptions="flagNoExtractUi"
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/edit_text_breed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_name" />
+
 
     <EditText
         android:id="@+id/edit_text_breed"
@@ -46,12 +41,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="8sp"
         android:hint="@string/caption_breed"
+        android:imeOptions="flagNoExtractUi"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/add_floating_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_age" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_name" />
+
 
     <Button
         android:id="@+id/add_floating_button"
@@ -62,9 +58,7 @@
         android:text="@string/add_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_breed"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_breed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

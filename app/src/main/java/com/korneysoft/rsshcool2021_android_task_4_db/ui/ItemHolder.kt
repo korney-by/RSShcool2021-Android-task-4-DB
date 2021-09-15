@@ -1,7 +1,7 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
-import android.content.res.Resources
-import android.graphics.Color
+import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
@@ -9,11 +9,16 @@ import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 
 class ItemHolder(
     private val binding: ItemBinding,
-    private val resources: Resources
+    private val parent: View
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private lateinit var _item: Item
     val item get() = _item
+
+    init{
+        parent.setOnFocusChangeListener({view, hasFocus->onFocusChangeListener(view, hasFocus)})
+    }
+
 
     fun bind(itemEssence: Item) {
         this._item = itemEssence
@@ -25,5 +30,9 @@ class ItemHolder(
         }
     }
 
+    fun onFocusChangeListener(view:View, hasFocus:Boolean){
+        Log.d("T4","holder select")
+
+    }
 
 }

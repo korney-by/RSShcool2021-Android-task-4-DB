@@ -5,13 +5,11 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import com.korneysoft.rsshcool2021_android_task_4_db.R
-import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ActivityMainBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.KeyboardControlInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.SetPreferencesInterface
@@ -127,11 +125,13 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
         val itemListViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
         itemListViewModel.SetActualRepository()
 
-        is = prefs.getBoolean(this.resources.getString(R.string.sort_key),false)
-        if (itemListViewModel.isSorted)
-            itemListViewModel.sortedField=prefs.getBoolean(this.resources.getString(R.string.sort_field_key),false)
+        prefs.getString(this.resources.getString(R.string.sort_field_key), "")?.let { sortField ->
+            itemListViewModel.setSort(
+                prefs.getBoolean(this.resources.getString(R.string.sort_key), false),
+                sortField
+            )
+
         }
 
     }
-
 }

@@ -15,7 +15,7 @@ class ItemAdapter() : ListAdapter<Item, ItemHolder>(itemComparator) {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemBinding.inflate(layoutInflater, parent, false)
 
-        return ItemHolder(binding, binding.root.context.resources)
+        return ItemHolder(binding, binding.root)
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {

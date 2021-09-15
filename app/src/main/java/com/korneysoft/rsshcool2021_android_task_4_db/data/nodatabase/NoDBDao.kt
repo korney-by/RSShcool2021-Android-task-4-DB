@@ -14,7 +14,7 @@ class NoDBDao(count: Int)  {
 
     private var counterChangeDataBase = 0
     private val updateChangeDataBaseCounter = MutableLiveData<Int>()
-    private val listCatsFromDB: LiveData<List<Item>> =
+    private val listFromDB: LiveData<List<Item>> =
         updateChangeDataBaseCounter.map { getItemList() }
 
     init {
@@ -56,8 +56,8 @@ class NoDBDao(count: Int)  {
     }
 
 
-    fun getItems(): LiveData<List<Item>> {
-        return listCatsFromDB//.asFlow()
+    fun getItems(): Flow<List<Item>> {
+        return listFromDB.asFlow()
     }
 
     fun getItem(id: Int): LiveData<Item?> {
