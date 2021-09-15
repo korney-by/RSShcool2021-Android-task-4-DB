@@ -7,6 +7,13 @@
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
+    <style name="ToolbarItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <!-- <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item> -->
+        <item name="android:background">?attr/colorPrimaryDark</item>
+    </style>
+
     <style name="ItemList">
         <item name="android:background">?attr/colorSecondaryVariant</item>
     </style>

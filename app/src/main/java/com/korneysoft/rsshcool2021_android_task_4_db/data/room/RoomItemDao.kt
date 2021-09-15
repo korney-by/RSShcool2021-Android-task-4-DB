@@ -23,21 +23,40 @@ private const val SQL_GET_ONE = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=:id"
 //        "WHEN :columnName='$COLUMN_BREED' THEN $COLUMN_BREED "+
 //        "END COLLATE NOCASE"
 
-internal const val SQL_GET_ALL_SORTED =
-    """SELECT * FROM $TABLE_NAME ORDER BY 
-        CASE :columnName 
-        WHEN $COLUMN_NAME THEN $COLUMN_NAME 
-        WHEN $COLUMN_AGE THEN $COLUMN_AGE 
-        WHEN $COLUMN_BREED THEN $COLUMN_BREED 
-        END COLLATE NOCASE"""
+//internal const val SQL_GET_ALL_SORTED_RAW =
+//    """SELECT * FROM $TABLE_NAME ORDER BY
+//        CASE %s
+//        WHEN $COLUMN_NAME THEN $COLUMN_NAME
+//        WHEN $COLUMN_AGE THEN $COLUMN_AGE
+//        WHEN $COLUMN_BREED THEN $COLUMN_BREED
+//        END COLLATE NOCASE"""
+//
+//internal const val SQL_GET_ALL_SORTED =
+//    """SELECT * FROM $TABLE_NAME ORDER BY
+//        CASE :fieldName
+//        WHEN $COLUMN_NAME THEN $COLUMN_NAME
+//        WHEN $COLUMN_AGE THEN $COLUMN_AGE
+//        WHEN $COLUMN_BREED THEN $COLUMN_BREED
+//        END COLLATE NOCASE"""
 
+internal const val SQL_GET_ALL_SORTED1 = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_NAME!=:fieldName"
+
+
+//@Dao
+//interface RoomRawDao {
+//    @RawQuery
+//    fun getItemsSortedRaw(query: String):Flow<List<Item>>
+//}
 @Dao
 interface RoomItemDao {
     @Query(SQL_GET_ALL)
     fun getItems(): Flow<List<Item>>
 
-    @Query(SQL_GET_ALL_SORTED)
-    fun getItemsSorted(columnName: String): Flow<List<Item>>
+//
+//    @Query(SQL_GET_ALL_SORTED)
+//    fun getItemsSorted(fieldName: String): List<Item>
+
+
 
     @Query(SQL_GET_ONE)
     fun getItem(id: Int): LiveData<Item?>

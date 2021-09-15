@@ -27,9 +27,12 @@ class ItemListFragment() : Fragment() {
     private val binding get() = _binding!!
 
     private val fragmentName by lazy { getString(R.string.base_name) }
+    private var selectItem: Item? = null
 
     private val itemListViewModel: ItemViewModel by activityViewModels()
-    private val itemAdapter: ItemAdapter = ItemAdapter()
+    private val itemAdapter: ItemAdapter = ItemAdapter(this) {
+        onItemLongClick(it)
+    }
 
     //    private val itemListViewModel: ItemListViewModel by lazy {
 //        ViewModelProviders.of(requireActivity()).get(ItemListViewModel::class.java)
@@ -40,12 +43,29 @@ class ItemListFragment() : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentItemListBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        binding.itemToolbar.let { toolbar ->
+            toolbar.setNavigationOnClickListener { toolbarClose() }
+            toolbar.menu.findItem(R.id.item_delete).setOnMenuItemClickListener() {
+                selectItem?.let { item -> itemListViewModel.deleteItem(item) }
+                toolbarClose()
+                true
+            }
+            toolbar.menu.findItem(R.id.item_edit).setOnMenuItemClickListener() {
+                selectItem?.let {  }
+                toolbarClose()
+                true
+
+            }
+            //toolbar.on
+        }
 
 
         binding.recyclerView.apply {
@@ -58,6 +78,13 @@ class ItemListFragment() : Fragment() {
         setupActionListeners()
 
         return view
+    }
+
+    fun toolbarClose(){
+        binding.itemToolbar.visibility = View.INVISIBLE
+    }
+    fun toolbarShow(){
+        binding.itemToolbar.visibility = View.VISIBLE
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -79,6 +106,17 @@ class ItemListFragment() : Fragment() {
                 }
             }
         }
+    }
+
+
+    private fun onItemLongClick(item: Item) {
+        Log.d("T4", "LongClick holder select from Fragment: $item")
+        selectItem = item
+        binding.itemToolbar.apply {
+            title = "${item.name}"
+            toolbarShow()
+        }
+
     }
 
     private fun applyPreferences() {
@@ -109,8 +147,10 @@ class ItemListFragment() : Fragment() {
         itemAdapter.update(items)
     }
 
+
     private fun setupActionListeners() {
         setupAddButtonListener()
+
     }
 
     private fun setupAddButtonListener() {
@@ -122,7 +162,6 @@ class ItemListFragment() : Fragment() {
             }
         }
     }
-
 
 
     private fun openSettingsFragment() {

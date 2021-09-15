@@ -2,14 +2,27 @@ package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
 
-class ItemAdapter() : ListAdapter<Item, ItemHolder>(itemComparator) {
 
-    private var itemsCount: Int=0
+class ItemAdapter(fragment: Fragment, private val listener: (Item) -> Unit) :
+    ListAdapter<Item, ItemHolder>(itemComparator) {
+
+//    public interface OnItemLongClickListener {
+//        fun onItemLongClicked(position: Int): Boolean
+//    }
+
+    private var itemsCount: Int = 0
+    private var mFragment: Fragment? = null
+
+    init {
+        mFragment = fragment
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -21,7 +34,13 @@ class ItemAdapter() : ListAdapter<Item, ItemHolder>(itemComparator) {
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
+
+        holder.v?.setOnLongClickListener(){
+            listener(item)
+            true
+        }
     }
+
 
     override fun getItemCount(): Int {
         return itemsCount
@@ -29,9 +48,10 @@ class ItemAdapter() : ListAdapter<Item, ItemHolder>(itemComparator) {
     }
 
     fun update(items: List<Item>) {
-        itemsCount=items.size
+        itemsCount = items.size
         submitList(items)
     }
+
 
     companion object {
 

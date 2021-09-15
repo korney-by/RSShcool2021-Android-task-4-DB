@@ -12,13 +12,14 @@ class ItemHolder(
     private val parent: View
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var _item: Item
-    val item get() = _item
+    var v: View? = null
 
     init{
-        parent.setOnFocusChangeListener({view, hasFocus->onFocusChangeListener(view, hasFocus)})
+        this.v = parent
     }
 
+    private lateinit var _item: Item
+    val item get() = _item
 
     fun bind(itemEssence: Item) {
         this._item = itemEssence
@@ -28,11 +29,7 @@ class ItemHolder(
             age.text = itemEssence.age.toString()
             breed.text = itemEssence.breed
         }
-    }
 
-    fun onFocusChangeListener(view:View, hasFocus:Boolean){
-        Log.d("T4","holder select")
 
     }
-
 }
