@@ -7,7 +7,7 @@
     <string name="caption_age">Age:</string>
     <string name="caption_breed">Type:</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="add_item_fragment">Add new item</string>
+    <string name="add_item_fragment">Add new pet</string>
     <string name="item_list_fragment">Item list</string>
     <string name="add_button_text">Add</string>
 
@@ -31,4 +31,6 @@
     <string name="dao_key">dao_key</string>
     <string name="sort_key">sort_key</string>
     <string name="sort_field_key">sort_field_key</string>
+    <string name="edit_item_fragment">Edit pet information</string>
+    <string name="apply_button_text">Аpply</string>
 </resources>

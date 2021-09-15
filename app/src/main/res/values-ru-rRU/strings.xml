@@ -5,7 +5,7 @@
     <string name="caption_name">Имя:</string>
     <string name="caption_age">Возраст:</string>
     <string name="caption_breed">Вид:</string>
-    <string name="add_item_fragment">Добавить новый элемент</string>
+    <string name="add_item_fragment">Добавить нового питомца</string>
     <string name="item_list_fragment">Список элементов</string>
     <string name="add_button_text">Добавить</string>
 
@@ -19,5 +19,7 @@
     <string name="sort_field_breed">Сортировать по Виду</string>
     <string name="sort_title">Сортировать элементы на экране</string>
     <string name="preference_title">Настройки</string>
+    <string name="edit_item_fragment">Редактировать</string>
+    <string name="apply_button_text">Применить</string>
 
 </resources>

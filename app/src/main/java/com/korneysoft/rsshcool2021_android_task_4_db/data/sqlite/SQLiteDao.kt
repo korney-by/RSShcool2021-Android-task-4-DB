@@ -30,6 +30,14 @@ private const val CREATE_TABLE_SQL =
 private const val INSERT_RECORD_SQL =
     "INSERT INTO $TABLE_NAME ($COLUMN_NAME, $COLUMN_AGE, $COLUMN_BREED) VALUES ('%s', %d, '%s')"
 
+private const val UPDATE_RECORD_SQL =
+    """UPDATE $TABLE_NAME SET
+        $COLUMN_NAME='%s',
+        $COLUMN_AGE=%d,
+        $COLUMN_BREED='%s'
+        WHERE $COLUMN_ID=%d ;"""
+
+
 private const val DELETE_RECORD_SQL =
     "DELETE FROM $TABLE_NAME WHERE $COLUMN_ID=%d"
 
@@ -97,7 +105,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         }
     }
 
-    suspend fun setSort(isSorted: Boolean, sortField: String) {
+    fun setSort(isSorted: Boolean, sortField: String) {
         if (((this.isSorted == isSorted) && (this.sortField != sortField)) ||
             (this.isSorted != isSorted)
         ) {
@@ -110,6 +118,16 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
 
     private fun deleteItem(item: Item) {
         writableDatabase.execSQL(DELETE_RECORD_SQL.format(item.id))
+    }
+
+    private fun updateItem(item: Item) {
+        item.apply {
+            val s = UPDATE_RECORD_SQL.format(name, age, breed, id)
+            Log.d(TAG,s)
+            writableDatabase.execSQL(s)
+        }
+
+        item.apply {}
     }
 
     private fun getItemFromCursor(cursor: Cursor): Item {
@@ -150,24 +168,24 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         return listCatsFromDB.asFlow()
     }
 
-    private suspend fun onChangeData() {
+    private fun onChangeData() {
         updateChangeDataBaseCounter.postValue(++counterChangeDataBase)
     }
 
-    suspend fun add(item: Item) {
+    fun add(item: Item) {
         insertItem(item)
         onChangeData()
     }
 
-    suspend fun delete(item: Item) {
+    fun delete(item: Item) {
 
         deleteItem(item)
         onChangeData()
     }
 
-    suspend fun update(item: Item) {
-        //updateItem(item)
-        //    onChange()
+    fun update(item: Item) {
+        updateItem(item)
+        onChangeData()
     }
 
 }

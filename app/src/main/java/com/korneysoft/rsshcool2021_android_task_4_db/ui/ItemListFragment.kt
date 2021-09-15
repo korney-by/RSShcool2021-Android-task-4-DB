@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.R
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.FragmentItemListBinding
+import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.KeyboardControlInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.SetPreferencesInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ShowFragmentAddItemInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ToolbarUpdateInterface
@@ -51,23 +52,6 @@ class ItemListFragment() : Fragment() {
         _binding = FragmentItemListBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        binding.itemToolbar.let { toolbar ->
-            toolbar.setNavigationOnClickListener { toolbarClose() }
-            toolbar.menu.findItem(R.id.item_delete).setOnMenuItemClickListener() {
-                selectItem?.let { item -> itemListViewModel.deleteItem(item) }
-                toolbarClose()
-                true
-            }
-            toolbar.menu.findItem(R.id.item_edit).setOnMenuItemClickListener() {
-                selectItem?.let {  }
-                toolbarClose()
-                true
-
-            }
-            //toolbar.on
-        }
-
-
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = itemAdapter
@@ -80,11 +64,16 @@ class ItemListFragment() : Fragment() {
         return view
     }
 
-    fun toolbarClose(){
-        binding.itemToolbar.visibility = View.INVISIBLE
+    fun toolbarClose() {
+        selectItem = null
+        binding.actionToolbar.visibility = View.INVISIBLE
     }
-    fun toolbarShow(){
-        binding.itemToolbar.visibility = View.VISIBLE
+
+    fun toolbarShow(item: Item) {
+        binding.actionToolbar.apply {
+            title = item.name
+            visibility = View.VISIBLE
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -108,14 +97,20 @@ class ItemListFragment() : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity?.let {
+            if (it is KeyboardControlInterface) {
+                it.hideKeyboard()
+            }
+        }
+    }
 
     private fun onItemLongClick(item: Item) {
         Log.d("T4", "LongClick holder select from Fragment: $item")
         selectItem = item
-        binding.itemToolbar.apply {
-            title = "${item.name}"
-            toolbarShow()
-        }
+        toolbarShow(item)
+
 
     }
 
@@ -132,7 +127,7 @@ class ItemListFragment() : Fragment() {
             viewLifecycleOwner,
             Observer { items ->
                 items?.let {
-                    Log.d(TAG, "${items.toString()}")
+                    Log.d(TAG, items.toString())
                     updateUI(items)
                 }
             }
@@ -150,19 +145,45 @@ class ItemListFragment() : Fragment() {
 
     private fun setupActionListeners() {
         setupAddButtonListener()
+        setupActionToolbarListeners()
+    }
+
+    private fun setupActionToolbarListeners() {
+        binding.actionToolbar.let { toolbar ->
+
+            toolbar.setNavigationOnClickListener { toolbarClose() }
+            toolbar.menu.findItem(R.id.item_delete).setOnMenuItemClickListener() {
+                selectItem?.let { item -> itemListViewModel.deleteItem(item) }
+                toolbarClose()
+                true
+            }
+
+            toolbar.menu.findItem(R.id.item_edit).setOnMenuItemClickListener() {
+                selectItem?.let {
+                    ShowItemDetails(it)
+                }
+                toolbarClose()
+                true
+
+            }
+
+        }
 
     }
 
-    private fun setupAddButtonListener() {
-        binding.addFloatingButton.setOnClickListener() {
-            activity?.let {
-                if (it is ShowFragmentAddItemInterface) {
-                    it.openAddItemFragment()
-                }
+    private fun ShowItemDetails(item: Item?) {
+        activity?.let {
+            if (it is ShowFragmentAddItemInterface) {
+                it.openItemDetailsFragment(item)
             }
         }
     }
 
+    private fun setupAddButtonListener() {
+        binding.addFloatingButton.setOnClickListener() {
+            ShowItemDetails(selectItem)
+        }
+    }
 
     private fun openSettingsFragment() {
         activity?.let {
@@ -185,7 +206,10 @@ class ItemListFragment() : Fragment() {
     private fun connectSwipeToReciclerView() {
         val itemTouchHelperCallback =
             object :
-                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                ItemTouchHelper.SimpleCallback(
+                    0,
+                    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+                ) {
 
                 override fun onMove(
                     recyclerView: RecyclerView,

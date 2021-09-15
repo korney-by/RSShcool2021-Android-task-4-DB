@@ -6,10 +6,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import com.korneysoft.rsshcool2021_android_task_4_db.R
+import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ActivityMainBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.KeyboardControlInterface
 import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.SetPreferencesInterface
@@ -44,8 +46,8 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
             .commit()
     }
 
-    private fun loadAddItemFragment() {
-        val fragment: Fragment = AddItemFragment.newInstance()
+    private fun loadItemDetalsFragment(item:Item?) {
+        val fragment: Fragment = ItemDetailsFragment.newInstance(item)
         supportFragmentManager
             .beginTransaction()
             .addToBackStack(null)
@@ -62,8 +64,8 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
             .commit()
     }
 
-    override fun openAddItemFragment() {
-        loadAddItemFragment()
+    override fun openItemDetailsFragment(item: Item?) {
+        loadItemDetalsFragment(item)
     }
 
     override fun openSettingsFragment() {
@@ -89,7 +91,7 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
             if (iconResource == 0) {
                 navigationIcon = null
             } else {
-                navigationIcon = getDrawable(iconResource)
+                navigationIcon = AppCompatResources.getDrawable(context,iconResource)
                 setNavigationOnClickListener { action() }
             }
         }
@@ -111,17 +113,18 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
             if (menuResource != 0) {
                 menuInflater.inflate(menuResource, menu)
                 for (i in 0 until min(menu.size(), actions.size)) {
-                    menu.getItem(i).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
+                    //menu.getItem(i).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
+                    menu.getItem(i).setOnMenuItemClickListener {
                         actions[i]()
                         true
-                    })
+                    }
                 }
             }
         }
     }
 
     override fun setPreferences() {
-        var prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val itemListViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
         itemListViewModel.SetActualRepository()
 
