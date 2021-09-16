@@ -65,7 +65,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         updateChangeDataBaseCounter.value = 0
     }
 
-    private val listCatsFromDB: LiveData<List<Item>> =
+    private val itemListFromDB: LiveData<List<Item>> =
         updateChangeDataBaseCounter.map { getItemList() }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -165,7 +165,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
     }
 
     fun getItems(): Flow<List<Item>> {
-        return listCatsFromDB.asFlow()
+        return itemListFromDB.asFlow()
     }
 
     private fun onChangeData() {

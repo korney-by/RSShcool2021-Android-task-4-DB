@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.korneysoft.rsshcool2021_android_task_4_db.data.DatabaseModel
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
-import kotlinx.coroutines.flow.Flow
 
 internal const val DATABASE_NAME = DatabaseModel.DATABASE_NAME
 internal const val DATABASE_VERSION = DatabaseModel.DATABASE_VERSION
@@ -15,29 +14,15 @@ private const val COLUMN_AGE = DatabaseModel.COLUMN_AGE
 private const val COLUMN_BREED = DatabaseModel.COLUMN_BREED
 
 private const val SQL_GET_ALL = "SELECT * FROM $TABLE_NAME"
-private const val SQL_GET_ONE = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=:id"
+private const val SQL_GET_ONE = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=(:id)"
 
-//internal const val SQL_GET_ALL_SORTED = "SELECT * FROM $TABLE_NAME ORDER BY "+
-//        "CASE WHEN :columnName='$COLUMN_NAME' THEN $COLUMN_NAME "+
-//        "WHEN :columnName='$COLUMN_AGE' THEN $COLUMN_AGE "+
-//        "WHEN :columnName='$COLUMN_BREED' THEN $COLUMN_BREED "+
-//        "END COLLATE NOCASE"
-
-//internal const val SQL_GET_ALL_SORTED_RAW =
-//    """SELECT * FROM $TABLE_NAME ORDER BY
-//        CASE %s
-//        WHEN $COLUMN_NAME THEN $COLUMN_NAME
-//        WHEN $COLUMN_AGE THEN $COLUMN_AGE
-//        WHEN $COLUMN_BREED THEN $COLUMN_BREED
-//        END COLLATE NOCASE"""
-//
-//internal const val SQL_GET_ALL_SORTED =
-//    """SELECT * FROM $TABLE_NAME ORDER BY
-//        CASE :fieldName
-//        WHEN $COLUMN_NAME THEN $COLUMN_NAME
-//        WHEN $COLUMN_AGE THEN $COLUMN_AGE
-//        WHEN $COLUMN_BREED THEN $COLUMN_BREED
-//        END COLLATE NOCASE"""
+internal const val SQL_GET_ALL_SORTED =
+    "SELECT * FROM $TABLE_NAME ORDER BY " +
+            "CASE (:field) " +
+            "WHEN 1 THEN $COLUMN_NAME " +
+            "WHEN 2 THEN $COLUMN_AGE " +
+            "WHEN 3 THEN $COLUMN_BREED " +
+            "END COLLATE NOCASE"
 
 internal const val SQL_GET_ALL_SORTED1 = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_NAME!=:fieldName"
 
@@ -50,12 +35,11 @@ internal const val SQL_GET_ALL_SORTED1 = "SELECT * FROM $TABLE_NAME WHERE $COLUM
 @Dao
 interface RoomItemDao {
     @Query(SQL_GET_ALL)
-    fun getItems(): Flow<List<Item>>
+    suspend fun getItems(): List<Item>
 
-//
-//    @Query(SQL_GET_ALL_SORTED)
-//    fun getItemsSorted(fieldName: String): List<Item>
-
+    //
+    @Query(SQL_GET_ALL_SORTED)
+    suspend fun getItemsSorted(field: Int): List<Item>
 
 
     @Query(SQL_GET_ONE)

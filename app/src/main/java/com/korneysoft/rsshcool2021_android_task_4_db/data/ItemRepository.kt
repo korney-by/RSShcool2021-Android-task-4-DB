@@ -17,8 +17,8 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
     //private var _db = RoomRepository(context)
 
     private var currentDaoKey = ""
-    private var db = getRepository(daoKey)
 
+    private var db = getRepository(daoKey)
 
     val dbTypeName get() = db.nameType ?: ""
 
@@ -27,6 +27,7 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
         if (newDaoKey != currentDaoKey) {
             db.close()
             db = getRepository(newDaoKey)
+
         }
     }
 
