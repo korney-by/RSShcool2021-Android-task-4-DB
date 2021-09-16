@@ -15,6 +15,7 @@ interface RepositoryInterface {
    suspend fun delete(item: Item)
    suspend fun update(item: Item)
 
-   fun close()
+   //fun open()
+   //fun close()
 
 }

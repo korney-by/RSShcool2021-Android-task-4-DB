@@ -1,14 +1,15 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite
 
 import android.content.Context
+import android.database.sqlite.SQLiteOpenHelper
 import androidx.lifecycle.LiveData
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.data.RepositoryInterface
 
-class SQLiteRepository(context: Context) : RepositoryInterface {
+class SQLiteRepository(val context: Context) : RepositoryInterface {
     override val nameType = "SQLiteOpenHelper"
 
-    private val dao = SQLiteDao(context)
+    private var dao: SQLiteDao = getDao()
 
     override fun getItems() = dao.getItems()
 //    val getItems: Flow<List<Item>>
@@ -16,6 +17,20 @@ class SQLiteRepository(context: Context) : RepositoryInterface {
 //       // .combine() - сортировка
 //        .flowOn(Dispatchers.Default)
 //        .conflate()
+
+//    override fun open() {
+//        if (!dao.readableDatabase.isOpen()){
+//            dao=getDao()
+//        }
+//    }
+
+//    override fun close() {
+//        dao.close()
+//    }
+
+    private fun getDao(): SQLiteDao {
+        return SQLiteDao(context)
+    }
 
     override fun getItem(id: Int): LiveData<Item?> = dao.getItem(id)
 
@@ -27,7 +42,5 @@ class SQLiteRepository(context: Context) : RepositoryInterface {
     override suspend fun delete(item: Item) = dao.delete(item)
     override suspend fun update(item: Item) = dao.update(item)
 
-    override fun close() {
-        dao.close()
-    }
+
 }

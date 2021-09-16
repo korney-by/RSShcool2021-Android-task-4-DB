@@ -35,10 +35,6 @@ class ItemListFragment() : Fragment() {
         onItemLongClick(it)
     }
 
-    //    private val itemListViewModel: ItemListViewModel by lazy {
-//        ViewModelProviders.of(requireActivity()).get(ItemListViewModel::class.java)
-//    }
-    //private val recyclerViewAdapter by lazy { itemListViewModel.db.adapter }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +103,7 @@ class ItemListFragment() : Fragment() {
     }
 
     private fun onItemLongClick(item: Item) {
-        Log.d("T4", "LongClick holder select from Fragment: $item")
+        //Log.d("T4", "LongClick holder select from Fragment: $item")
         selectItem = item
         toolbarShow(item)
 
@@ -166,9 +162,7 @@ class ItemListFragment() : Fragment() {
                 true
 
             }
-
         }
-
     }
 
     private fun ShowItemDetails(item: Item?) {

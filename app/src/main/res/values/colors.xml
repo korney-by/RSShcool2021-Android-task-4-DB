@@ -17,4 +17,7 @@
     <color name="light_blue_100_light">#B3E5FC</color>
     <color name="light_blue_100_dark">#039BE5</color>
     <color name="light_blue_500_dark">#026595</color>
+
+    <color name="CardColor">#FAFDFF</color>
+
 </resources>

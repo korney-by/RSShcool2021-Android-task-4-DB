@@ -26,12 +26,6 @@ internal const val SQL_GET_ALL_SORTED =
 
 internal const val SQL_GET_ALL_SORTED1 = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_NAME!=:fieldName"
 
-
-//@Dao
-//interface RoomRawDao {
-//    @RawQuery
-//    fun getItemsSortedRaw(query: String):Flow<List<Item>>
-//}
 @Dao
 interface RoomItemDao {
     @Query(SQL_GET_ALL)

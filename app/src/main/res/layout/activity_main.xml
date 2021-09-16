@@ -9,7 +9,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        style="@style/Toolbar"
+        android:theme="@style/Toolbar"
         app:navigationIcon="@drawable/ic_baseline_menu_24"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -19,7 +19,7 @@
         <item name="colorPrimaryDark">@color/light_blue_100_dark</item>
         <item name="colorPrimaryVariant">@color/light_blue_100_dark</item>
         <item name="colorSecondary">@color/light_blue_100</item>
-        <item name="colorSecondaryVariant">#E1F5FE</item>
+        <item name="colorSecondaryVariant">#E6F7FD</item>
         <item name="colorOnSecondary">@color/light_blue_500_dark</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/light_blue_100_dark</item>

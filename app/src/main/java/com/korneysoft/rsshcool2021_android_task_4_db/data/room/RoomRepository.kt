@@ -15,7 +15,7 @@ import kotlinx.coroutines.runBlocking
 
 private const val TAG = "T4-RoomRepository"
 
-class RoomRepository(context: Context) : RepositoryInterface {
+class RoomRepository(val context: Context) : RepositoryInterface {
     override val nameType = "Room"
 
     private var sortField: Int = 0
@@ -24,22 +24,38 @@ class RoomRepository(context: Context) : RepositoryInterface {
     private var counterChangeDataBase = 0
     private val updateChangeDataBaseCounter = MutableLiveData<Int>()
 
+    private var database: ItemDatabase = getDao()
+
     init {
-        updateChangeDataBaseCounter.value = 0
+        updateChangeDataBaseCounter.value
     }
 
     private fun onChangeData() {
         updateChangeDataBaseCounter.postValue(++counterChangeDataBase)
     }
 
-    private val database: ItemDatabase = Room.databaseBuilder(
-        context.applicationContext,
-        ItemDatabase::class.java, DATABASE_NAME
-    ).build()
+//    override fun open() {
+//        if (!database.isOpen) {
+//            database = getDao()
+//        }
+//    }
+
+//    override fun close() {
+//        database.close()
+//    }
+
+    private fun getDao(): ItemDatabase {
+        return Room.databaseBuilder(
+            context.applicationContext,
+            ItemDatabase::class.java, DATABASE_NAME
+        ).build()
+    }
+
 
     private val itemListFromDB: LiveData<List<Item>> = updateChangeDataBaseCounter.map {
         Log.d(TAG, "Get Items ")
 
+        // run getting List<Item> in the couroutine
         runBlocking {
             val deferredItems = this.async {
                 if (isSorted) {
@@ -59,10 +75,6 @@ class RoomRepository(context: Context) : RepositoryInterface {
         return itemListFromDB.asFlow()
     }
 
-//    override fun getItems(): Flow<List<Item>> {
-//        Log.d(TAG, "Get Items ")
-//        return dao.getItems()
-//    }
 
     override fun getItem(id: Int): LiveData<Item?> = dao.getItem(id)
 
@@ -80,12 +92,9 @@ class RoomRepository(context: Context) : RepositoryInterface {
     override suspend fun update(item: Item) {
         dao.update(item)
         onChangeData()
-        //Log.d(TAG,"updateItem")
     }
 
-    override fun close() {
-        database.close()
-    }
+
 
     fun getNumOfSort(sortField: String): Int {
         return when (sortField.uppercase()) {

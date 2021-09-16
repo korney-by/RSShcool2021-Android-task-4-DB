@@ -3,68 +3,94 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    style="@style/ItemList"
     tools:context="ui.ItemDetailsFragment">
 
-
-    <EditText
-        android:id="@+id/edit_text_name"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_text_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8sp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:layout_margin="8dp"
         android:hint="@string/caption_name"
-        android:imeOptions="flagNoExtractUi"
-        android:inputType="textPersonName"
-        android:maxLength="30"
+        app:endIconMode="clear_text"
+        app:hintTextColor="?attr/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:ignore="MissingConstraints">
 
-    <EditText
-        android:id="@+id/edit_text_age"
-        android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_name"
+            style="@style/TextEditStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="textPersonName"
+            android:maxLength="30" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_text_age"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8sp"
-        android:focusable="true"
+        android:layout_margin="8dp"
+        app:endIconMode="clear_text"
         android:hint="@string/caption_age"
-        android:imeOptions="flagNoExtractUi"
-        android:inputType="number"
-        android:maxLength="3"
-        app:layout_constraintBottom_toTopOf="@+id/edit_text_breed"
+        app:hintTextColor="?attr/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_name" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_text_name">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_age"
+            style="@style/TextEditStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="number"
+            android:maxLength="3" />
 
-    <EditText
-        android:id="@+id/edit_text_breed"
-        android:layout_width="0dp"
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_text_breed"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8sp"
-        android:focusable="true"
+        app:endIconMode="clear_text"
+        android:layout_margin="8dp"
         android:hint="@string/caption_breed"
-        android:imeOptions="flagNoExtractUi"
-        android:inputType="textPersonName"
-        android:maxLength="30"
-        app:layout_constraintBottom_toTopOf="@+id/apply_button"
+        app:hintTextColor="?attr/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_name" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_text_age">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_breed"
+            style="@style/TextEditStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="textPersonName"
+            android:maxLength="30" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <Button
         android:id="@+id/apply_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="16dp"
         android:enabled="false"
         android:text="@string/add_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_breed" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_text_breed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

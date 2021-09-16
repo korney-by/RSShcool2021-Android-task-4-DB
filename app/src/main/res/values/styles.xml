@@ -12,10 +12,17 @@
         <item name="android:layout_height">?attr/actionBarSize</item>
         <!-- <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item> -->
         <item name="android:background">?attr/colorPrimaryDark</item>
+
+        <item name="android:textColorPrimary">?attr/colorSecondaryVariant</item>
+        <item name="colorControlNormal">@color/white</item>
     </style>
 
     <style name="ItemList">
         <item name="android:background">?attr/colorSecondaryVariant</item>
+    </style>
+
+    <style name="TextEditStyle">
+        <item name="android:background">@color/white</item>
     </style>
 
 
