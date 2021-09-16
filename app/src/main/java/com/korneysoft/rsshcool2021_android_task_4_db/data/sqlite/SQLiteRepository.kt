@@ -12,27 +12,15 @@ class SQLiteRepository(val context: Context) : RepositoryInterface {
     private var dao: SQLiteDao = getDao()
 
     override fun getItems() = dao.getItems()
-//    val getItems: Flow<List<Item>>
-//    get()= dao.getItems()
-//       // .combine() - сортировка
-//        .flowOn(Dispatchers.Default)
-//        .conflate()
 
-//    override fun open() {
-//        if (!dao.readableDatabase.isOpen()){
-//            dao=getDao()
-//        }
-//    }
-
-//    override fun close() {
-//        dao.close()
-//    }
+    override fun close() {
+        dao.close()
+    }
 
     private fun getDao(): SQLiteDao {
         return SQLiteDao(context)
     }
 
-    override fun getItem(id: Int): LiveData<Item?> = dao.getItem(id)
 
     override suspend fun setSort(isSorted: Boolean, sortField: String) {
         dao.setSort(isSorted, sortField)

@@ -24,7 +24,6 @@ internal const val SQL_GET_ALL_SORTED =
             "WHEN 3 THEN $COLUMN_BREED " +
             "END COLLATE NOCASE"
 
-internal const val SQL_GET_ALL_SORTED1 = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_NAME!=:fieldName"
 
 @Dao
 interface RoomItemDao {

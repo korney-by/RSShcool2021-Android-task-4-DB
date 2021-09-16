@@ -164,8 +164,8 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         return listOfItems
     }
 
-    fun getItems(): Flow<List<Item>> {
-        return itemListFromDB.asFlow()
+    fun getItems(): LiveData<List<Item>> {
+        return itemListFromDB//.asFlow()
     }
 
     private fun onChangeData() {

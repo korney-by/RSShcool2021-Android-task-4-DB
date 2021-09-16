@@ -2,7 +2,6 @@ package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
@@ -126,7 +125,7 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
     override fun setPreferences() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val itemListViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
-        itemListViewModel.SetActualRepository()
+        itemListViewModel.setActualRepository()
 
         prefs.getString(this.resources.getString(R.string.sort_field_key), "")?.let { sortField ->
             itemListViewModel.setSort(

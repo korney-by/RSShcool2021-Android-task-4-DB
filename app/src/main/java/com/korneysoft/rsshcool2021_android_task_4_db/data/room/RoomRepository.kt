@@ -34,15 +34,9 @@ class RoomRepository(val context: Context) : RepositoryInterface {
         updateChangeDataBaseCounter.postValue(++counterChangeDataBase)
     }
 
-//    override fun open() {
-//        if (!database.isOpen) {
-//            database = getDao()
-//        }
-//    }
-
-//    override fun close() {
-//        database.close()
-//    }
+    override fun close() {
+        database.close()
+    }
 
     private fun getDao(): ItemDatabase {
         return Room.databaseBuilder(
@@ -50,7 +44,6 @@ class RoomRepository(val context: Context) : RepositoryInterface {
             ItemDatabase::class.java, DATABASE_NAME
         ).build()
     }
-
 
     private val itemListFromDB: LiveData<List<Item>> = updateChangeDataBaseCounter.map {
         Log.d(TAG, "Get Items ")
@@ -70,13 +63,7 @@ class RoomRepository(val context: Context) : RepositoryInterface {
 
     private val dao: RoomItemDao = database.itemDao()
 
-
-    override fun getItems(): Flow<List<Item>> {
-        return itemListFromDB.asFlow()
-    }
-
-
-    override fun getItem(id: Int): LiveData<Item?> = dao.getItem(id)
+    override fun getItems() = itemListFromDB//.asFlow()
 
     override suspend fun add(item: Item) {
         dao.insert(item)
@@ -94,8 +81,6 @@ class RoomRepository(val context: Context) : RepositoryInterface {
         onChangeData()
     }
 
-
-
     fun getNumOfSort(sortField: String): Int {
         return when (sortField.uppercase()) {
             "NAME" -> 1
@@ -106,17 +91,14 @@ class RoomRepository(val context: Context) : RepositoryInterface {
     }
 
     override suspend fun setSort(isSorted: Boolean, sortField: String) {
-        this.isSorted = isSorted
-        this.sortField = getNumOfSort(sortField)
-        onChangeData()
 
-//        if (((this.isSorted == isSorted) && (this.sortField != sortField)) ||
-//            (this.isSorted != isSorted)
-//        ) {
-//            this.isSorted = isSorted
-//            this.sortField = sortField
-//            dao.re
-//        }
+        if (((this.isSorted == isSorted) && (this.sortField != getNumOfSort(sortField))) ||
+            (this.isSorted != isSorted)
+        ) {
+            this.isSorted = isSorted
+            this.sortField = getNumOfSort(sortField)
+            onChangeData()
+        }
     }
 }
 

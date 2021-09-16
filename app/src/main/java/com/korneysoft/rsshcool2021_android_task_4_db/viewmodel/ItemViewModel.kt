@@ -19,18 +19,23 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
 
     private var repository = ItemRepository.get()
 
-    val itemListLiveData: LiveData<List<Item>> =repository.getItems().asLiveData(context = Dispatchers.IO) // context = Dispatchers.IO
+    var itemListLiveData: LiveData<List<Item>> = getConnectToRepository()
 
-    fun setSort(isSorted: Boolean, sortField: String) =viewModelScope.launch(Dispatchers.IO){
+    fun setSort(isSorted: Boolean, sortField: String) = viewModelScope.launch(Dispatchers.IO) {
         repository.setSort(isSorted, sortField)
     }
 
     val daoTypeName: String
         get() = repository.dbTypeName
 
-    fun SetActualRepository() {
+    fun setActualRepository() {
         repository.setActualRepository()
+        itemListLiveData = getConnectToRepository()
     }
+
+    private fun getConnectToRepository() = repository.getItems()
+    //.asLiveData(context = Dispatchers.IO)
+
 
     fun deleteItem(item: Item) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteItem(item)
@@ -43,14 +48,6 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
 
     fun updateItem(item: Item) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateItem(item)
-    }
-
-
-    override fun onCleared() {
-        super.onCleared()
-
-        //TODO - delete in production
-        //Log.d(TAG, "ListViewModel instance about to be  destroyed")
     }
 
 

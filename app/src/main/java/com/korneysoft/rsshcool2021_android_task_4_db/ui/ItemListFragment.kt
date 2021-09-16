@@ -123,14 +123,14 @@ class ItemListFragment() : Fragment() {
             viewLifecycleOwner,
             Observer { items ->
                 items?.let {
-                    Log.d(TAG, items.toString())
+                    Log.d(TAG, "registerObservers")
                     updateUI(items)
                 }
             }
         )
-        Toast.makeText(
-            activity, "registerObservers", Toast.LENGTH_SHORT
-        ).show()
+//        Toast.makeText(
+//            activity, "registerObservers", Toast.LENGTH_SHORT
+//        ).show()
 
     }
 

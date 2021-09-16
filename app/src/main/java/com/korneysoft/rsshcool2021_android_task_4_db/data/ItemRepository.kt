@@ -25,9 +25,8 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
     fun setActualRepository() {
         val newDaoKey = getDaoKeyFromPreference(context)
         if (newDaoKey != currentDaoKey) {
-            //db.close()
+            db.close()
             db = getRepository(newDaoKey)
-            //db.open()
         }
     }
 
@@ -54,9 +53,6 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
 
     @WorkerThread
     fun getItems() = db.getItems()
-
-    @WorkerThread
-    fun getItem(id: Int) = db.getItem(id)
 
     @WorkerThread
     suspend fun addItem(item: Item) = db.add(item)
