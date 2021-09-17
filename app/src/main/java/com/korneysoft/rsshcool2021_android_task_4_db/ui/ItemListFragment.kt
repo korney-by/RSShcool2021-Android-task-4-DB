@@ -80,14 +80,14 @@ class ItemListFragment() : Fragment() {
     }
 
     fun setToolbar() {
-        val iconSort: Int
+        var iconSort: Int=0
         var actionButtonChangeSortOrder: () -> Unit = {}
+
         if (viewModel.isSorted) {
             actionButtonChangeSortOrder = { onClickButtonChangeSortOrder() }
             if (viewModel.sortIsDesc) iconSort = R.drawable.ic_baseline_sort_desc_24
             else iconSort = R.drawable.ic_baseline_sort_asc_24
-
-        } else iconSort = 0
+        }
 
         activity?.let { activity ->
             if (activity is ToolbarUpdateInterface) {
