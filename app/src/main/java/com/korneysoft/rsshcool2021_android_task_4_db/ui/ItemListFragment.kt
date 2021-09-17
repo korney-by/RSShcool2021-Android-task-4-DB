@@ -89,9 +89,9 @@ class ItemListFragment() : Fragment() {
 
         } else iconSort = 0
 
-        activity?.let {
-            if (it is ToolbarUpdateInterface) {
-                it.apply {
+        activity?.let { activity ->
+            if (activity is ToolbarUpdateInterface) {
+                activity.apply {
                     setToolbarTitle(fragmentName, viewModel.daoTypeName)
                     setToolbarHamburgerButton(0, {})
                     setToolBarMenu(R.menu.toolbar_menu_sort,
