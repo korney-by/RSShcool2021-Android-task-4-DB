@@ -62,7 +62,7 @@ class ItemListFragment() : Fragment() {
 
     fun toolbarClose() {
         selectItem = null
-        binding.actionToolbar.visibility = View.INVISIBLE
+        binding.actionToolbar.visibility = View.GONE
     }
 
     fun toolbarShow(item: Item) {
