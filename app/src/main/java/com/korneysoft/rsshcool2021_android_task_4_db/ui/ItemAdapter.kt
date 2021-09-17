@@ -35,7 +35,10 @@ class ItemAdapter(fragment: Fragment, private val listener: (Item) -> Unit) :
         val item = getItem(position)
         holder.bind(item)
 
+
+
         holder.v?.setOnLongClickListener(){
+            //selectHolder(holder)
             listener(item)
             true
         }

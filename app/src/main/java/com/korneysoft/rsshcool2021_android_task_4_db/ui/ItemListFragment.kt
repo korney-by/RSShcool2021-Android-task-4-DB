@@ -62,14 +62,18 @@ class ItemListFragment() : Fragment() {
 
     fun toolbarClose() {
         selectItem = null
-        binding.actionToolbar.visibility = View.GONE
+        //binding.actionToolbar.visibility = View.GONE
+
+        binding.motionActionToolbar.transitionToStart()
     }
 
     fun toolbarShow(item: Item) {
         binding.actionToolbar.apply {
             title = item.name
-            visibility = View.VISIBLE
+            //visibility = View.VISIBLE
+
         }
+        binding.motionActionToolbar.transitionToEnd()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
