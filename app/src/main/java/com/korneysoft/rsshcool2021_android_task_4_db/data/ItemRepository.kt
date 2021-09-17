@@ -65,8 +65,8 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
     suspend fun updateItem(item: Item) = db.update(item)
 
     @WorkerThread
-    suspend fun setSort(isSorted:Boolean, sortField:String){
-        db.setSort(isSorted,sortField)
+    suspend fun setSort(isSorted:Boolean, sortField:String, isDesc: Boolean){
+        db.setSort(isSorted,sortField,isDesc)
     }
 
     companion object {

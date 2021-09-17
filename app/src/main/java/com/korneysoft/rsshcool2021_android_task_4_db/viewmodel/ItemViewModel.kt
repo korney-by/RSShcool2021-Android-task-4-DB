@@ -3,14 +3,12 @@ package com.korneysoft.rsshcool2021_android_task_4_db.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 
 
 import androidx.lifecycle.viewModelScope
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 private const val TAG = "T4-ItemListViewModel"
@@ -18,15 +16,32 @@ private const val TAG = "T4-ItemListViewModel"
 class ItemViewModel(app: Application) : AndroidViewModel(app) {
 
     private var repository = ItemRepository.get()
-
     var itemListLiveData: LiveData<List<Item>> = getConnectToRepository()
 
-    fun setSort(isSorted: Boolean, sortField: String) = viewModelScope.launch(Dispatchers.IO) {
-        repository.setSort(isSorted, sortField)
+    val daoTypeName: String get() = repository.dbTypeName
+
+    private var _isSorted: Boolean = false
+    private var _sortField: String = ""
+    private var _sortIsDesc: Boolean = false
+
+    val isSorted: Boolean get() = _isSorted
+    val sortIsDesc: Boolean get() = _sortIsDesc
+
+
+    fun changeSortOrder() {
+        setSort(_isSorted, _sortField, !_sortIsDesc)
     }
 
-    val daoTypeName: String
-        get() = repository.dbTypeName
+    fun setSort(isSorted: Boolean, sortField: String, isDesc: Boolean) {
+        this._isSorted = isSorted
+        this._sortField = sortField
+        this._sortIsDesc = isDesc
+
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.setSort(isSorted, sortField, isDesc)
+        }
+    }
+
 
     fun setActualRepository() {
         repository.setActualRepository()

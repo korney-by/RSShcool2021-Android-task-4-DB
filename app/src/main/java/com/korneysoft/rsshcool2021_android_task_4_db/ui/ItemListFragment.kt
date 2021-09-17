@@ -30,7 +30,7 @@ class ItemListFragment() : Fragment() {
     private val fragmentName by lazy { getString(R.string.base_name) }
     private var selectItem: Item? = null
 
-    private val itemListViewModel: ItemViewModel by activityViewModels()
+    private val viewModel: ItemViewModel by activityViewModels()
     private val itemAdapter: ItemAdapter = ItemAdapter(this) {
         onItemLongClick(it)
     }
@@ -80,18 +80,35 @@ class ItemListFragment() : Fragment() {
     }
 
     fun setToolbar() {
+        val iconSort: Int
+        var actionButtonChangeSortOrder: () -> Unit = {}
+        if (viewModel.isSorted) {
+            actionButtonChangeSortOrder = { onClickButtonChangeSortOrder() }
+            if (viewModel.sortIsDesc) iconSort = R.drawable.ic_baseline_sort_desc_24
+            else iconSort = R.drawable.ic_baseline_sort_asc_24
+
+        } else iconSort = 0
+
         activity?.let {
             if (it is ToolbarUpdateInterface) {
                 it.apply {
-                    setToolbarTitle(fragmentName, itemListViewModel.daoTypeName)
+                    setToolbarTitle(fragmentName, viewModel.daoTypeName)
                     setToolbarHamburgerButton(0, {})
-                    setToolBarMenu(R.menu.toolbar_menu_sort, arrayOf({}, {
-                        openSettingsFragment()
-                    }))
+                    setToolBarMenu(R.menu.toolbar_menu_sort,
+                        iconSort,
+                        arrayOf({ actionButtonChangeSortOrder() },
+                            { openSettingsFragment() }
+                        ))
                 }
             }
         }
     }
+
+    private fun onClickButtonChangeSortOrder() {
+        viewModel.changeSortOrder()
+        setToolbar()
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -119,7 +136,7 @@ class ItemListFragment() : Fragment() {
     }
 
     private fun registerObservers() {
-        itemListViewModel.itemListLiveData.observe(
+        viewModel.itemListLiveData.observe(
             viewLifecycleOwner,
             Observer { items ->
                 items?.let {
@@ -149,7 +166,7 @@ class ItemListFragment() : Fragment() {
 
             toolbar.setNavigationOnClickListener { toolbarClose() }
             toolbar.menu.findItem(R.id.item_delete).setOnMenuItemClickListener() {
-                selectItem?.let { item -> itemListViewModel.deleteItem(item) }
+                selectItem?.let { item -> viewModel.deleteItem(item) }
                 toolbarClose()
                 true
             }
@@ -215,7 +232,7 @@ class ItemListFragment() : Fragment() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     if ((viewHolder is ItemHolder)) {
-                        itemListViewModel.deleteItem(viewHolder.item)
+                        viewModel.deleteItem(viewHolder.item)
                     }
                 }
             }

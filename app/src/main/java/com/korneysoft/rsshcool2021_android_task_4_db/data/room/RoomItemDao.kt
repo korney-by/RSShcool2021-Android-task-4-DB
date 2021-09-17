@@ -24,19 +24,28 @@ internal const val SQL_GET_ALL_SORTED =
             "WHEN 3 THEN $COLUMN_BREED " +
             "END COLLATE NOCASE"
 
+internal const val SQL_GET_ALL_SORTED_DESC =
+    "SELECT * FROM $TABLE_NAME ORDER BY " +
+            "CASE (:field) " +
+            "WHEN 4 THEN $COLUMN_NAME " +
+            "WHEN 5 THEN $COLUMN_AGE "+
+            "WHEN 6 THEN $COLUMN_BREED " +
+            "END COLLATE NOCASE DESC"
+
 
 @Dao
 interface RoomItemDao {
     @Query(SQL_GET_ALL)
     suspend fun getItems(): List<Item>
 
-    //
     @Query(SQL_GET_ALL_SORTED)
     suspend fun getItemsSorted(field: Int): List<Item>
 
+    @Query(SQL_GET_ALL_SORTED_DESC)
+    suspend fun getItemsSortedDesc(field: Int): List<Item>
 
-    @Query(SQL_GET_ONE)
-    fun getItem(id: Int): LiveData<Item?>
+//    @Query(SQL_GET_ONE)
+//    fun getItem(id: Int): LiveData<Item?>
 
     @Delete()
     fun delete(item: Item)

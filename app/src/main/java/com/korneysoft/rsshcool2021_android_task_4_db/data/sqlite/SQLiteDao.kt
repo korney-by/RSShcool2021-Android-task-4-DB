@@ -7,11 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
 import com.korneysoft.rsshcool2021_android_task_4_db.data.DatabaseModel
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
-import kotlinx.coroutines.flow.Flow
 import java.sql.SQLException
 
 private const val TAG = "T4-SQLiteDao"
@@ -57,9 +55,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
     private var counterChangeDataBase = 0
     private val updateChangeDataBaseCounter = MutableLiveData<Int>()
 
-    private var sortField: String = ""
-    private var isSorted: Boolean = false
-
+    private var sortString: String = ""
 
     init {
         updateChangeDataBaseCounter.value = 0
@@ -85,16 +81,17 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
     }
 
     private fun getCursorForAll(): Cursor {
-        return readableDatabase.rawQuery(SELECT_ALL_SQL + getSortSqlAddition(), null)
+        return readableDatabase.rawQuery(SELECT_ALL_SQL + sortString, null)
     }
 
     private fun getCursorForOne(id: Int): Cursor {
         return readableDatabase.rawQuery(SELECT_ONE_SQL.format(id), null)
     }
 
-    private fun getSortSqlAddition(): String {
-        return if (isSorted) {
-            SORT_SQL.format(sortField)
+    private fun getSortString(isSorted: Boolean, sortField: String, isDesc: Boolean): String {
+        if (!isSorted) return ""
+        return if (sortField.length > 0) {
+            SORT_SQL.format(sortField) + if (isDesc) " DESC" else ""
         } else ""
     }
 
@@ -105,12 +102,10 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         }
     }
 
-    fun setSort(isSorted: Boolean, sortField: String) {
-        if (((this.isSorted == isSorted) && (this.sortField != sortField)) ||
-            (this.isSorted != isSorted)
-        ) {
-            this.isSorted = isSorted
-            this.sortField = sortField
+    fun setSort(isSorted: Boolean, sortField: String, isDesc: Boolean) {
+        val newSortString = getSortString(isSorted, sortField, isDesc)
+        if (sortString != newSortString) {
+            sortString = newSortString
             onChangeData()
         }
     }
@@ -123,7 +118,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
     private fun updateItem(item: Item) {
         item.apply {
             val s = UPDATE_RECORD_SQL.format(name, age, breed, id)
-            Log.d(TAG,s)
+            Log.d(TAG, s)
             writableDatabase.execSQL(s)
         }
 

@@ -18,8 +18,7 @@ private const val TAG = "T4-RoomRepository"
 class RoomRepository(val context: Context) : RepositoryInterface {
     override val nameType = "Room"
 
-    private var sortField: Int = 0
-    private var isSorted: Boolean = false
+    private var numOfSort: Int = 0
 
     private var counterChangeDataBase = 0
     private val updateChangeDataBaseCounter = MutableLiveData<Int>()
@@ -51,10 +50,12 @@ class RoomRepository(val context: Context) : RepositoryInterface {
         // run getting List<Item> in the couroutine
         runBlocking {
             val deferredItems = this.async {
-                if (isSorted) {
-                    dao.getItemsSorted(sortField)
-                } else {
+                if (numOfSort == 0) {
                     dao.getItems()
+                } else if (numOfSort < 4) {         //numOfSort in 1..3
+                    dao.getItemsSorted(numOfSort)
+                } else {                            // numOfSort in 4..6
+                    dao.getItemsSortedDesc(numOfSort)
                 }
             }
             deferredItems.await()
@@ -81,22 +82,22 @@ class RoomRepository(val context: Context) : RepositoryInterface {
         onChangeData()
     }
 
-    fun getNumOfSort(sortField: String): Int {
-        return when (sortField.uppercase()) {
+    fun getNumOfSort(isSorted: Boolean, sortField: String, isDesc: Boolean): Int {
+        if (!isSorted) return 0
+        var result = when (sortField.uppercase()) {
             "NAME" -> 1
             "AGE" -> 2
             "BREED" -> 3
             else -> 0
         }
+        if (result > 0 && isDesc) result += 3
+        return result
     }
 
-    override suspend fun setSort(isSorted: Boolean, sortField: String) {
-
-        if (((this.isSorted == isSorted) && (this.sortField != getNumOfSort(sortField))) ||
-            (this.isSorted != isSorted)
-        ) {
-            this.isSorted = isSorted
-            this.sortField = getNumOfSort(sortField)
+    override suspend fun setSort(isSorted: Boolean, sortField: String, isDesc: Boolean) {
+        val newSort = getNumOfSort(isSorted, sortField, isDesc)
+        if (numOfSort != newSort) {
+            numOfSort = newSort
             onChangeData()
         }
     }

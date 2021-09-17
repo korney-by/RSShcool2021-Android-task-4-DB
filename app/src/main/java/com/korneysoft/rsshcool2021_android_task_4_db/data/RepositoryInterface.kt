@@ -8,7 +8,7 @@ interface RepositoryInterface {
 
    fun getItems(): LiveData<List<Item>>
 
-   suspend fun setSort(isSorted:Boolean, sortField:String)
+   suspend fun setSort(isSorted:Boolean, sortField:String, isDesc: Boolean)
 
    suspend fun add(item: Item)
    suspend fun delete(item: Item)

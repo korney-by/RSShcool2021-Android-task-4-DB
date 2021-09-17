@@ -16,7 +16,7 @@
     <PreferenceCategory app:title="@string/preference_sort">
 
         <SwitchPreferenceCompat
-            app:icon="@drawable/ic_baseline_sort_24"
+            app:icon="@drawable/ic_baseline_sort_asc_24"
             app:key="@string/sort_key"
             app:summary="@string/sort_summary"
             app:title="@string/sort_title"

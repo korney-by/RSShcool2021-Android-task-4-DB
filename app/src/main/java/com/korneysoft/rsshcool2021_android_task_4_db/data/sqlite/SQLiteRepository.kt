@@ -22,8 +22,8 @@ class SQLiteRepository(val context: Context) : RepositoryInterface {
     }
 
 
-    override suspend fun setSort(isSorted: Boolean, sortField: String) {
-        dao.setSort(isSorted, sortField)
+    override suspend fun setSort(isSorted: Boolean, sortField: String, isDesc: Boolean) {
+        dao.setSort(isSorted, sortField, isDesc)
     }
 
     override suspend fun add(item: Item) = dao.add(item)

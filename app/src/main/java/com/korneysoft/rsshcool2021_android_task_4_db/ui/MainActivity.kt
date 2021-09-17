@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
             .commit()
     }
 
-    private fun loadItemDetalsFragment(item:Item?) {
+    private fun loadItemDetalsFragment(item: Item?) {
         val fragment: Fragment = ItemDetailsFragment.newInstance(item)
         supportFragmentManager
             .beginTransaction()
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
             if (iconResource == 0) {
                 navigationIcon = null
             } else {
-                navigationIcon = AppCompatResources.getDrawable(context,iconResource)
+                navigationIcon = AppCompatResources.getDrawable(context, iconResource)
                 setNavigationOnClickListener { action() }
             }
         }
@@ -105,12 +105,27 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
         }
     }
 
-    override fun setToolBarMenu(menuResource: Int, actions: Array<() -> Unit>) {
+    override fun setToolBarMenu(
+        menuResource: Int,
+        resourceIconSort: Int,
+        actions: Array<() -> Unit>
+    ) {
         //var action: MenuItem.OnMenuItemClickListener
         binding.toolbar.apply {
             menu.clear()
             if (menuResource != 0) {
                 menuInflater.inflate(menuResource, menu)
+
+                // set icons to menu items
+                if (menu.size() > 0) {
+                    menu.getItem(0).isVisible = (resourceIconSort > 0)
+                    if (resourceIconSort > 0) {
+                        menu.getItem(0).icon =
+                            AppCompatResources.getDrawable(context, resourceIconSort)
+                    }
+                }
+
+                // set actions to menu items
                 for (i in 0 until min(menu.size(), actions.size)) {
                     //menu.getItem(i).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
                     menu.getItem(i).setOnMenuItemClickListener {
@@ -124,16 +139,18 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
 
     override fun setPreferences() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val itemListViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
-        itemListViewModel.setActualRepository()
+        val viewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
+        viewModel.setActualRepository()
 
-        prefs.getString(this.resources.getString(R.string.sort_field_key), "")?.let { sortField ->
-            itemListViewModel.setSort(
-                prefs.getBoolean(this.resources.getString(R.string.sort_key), false),
-                sortField
-            )
+        prefs.getString(this.resources.getString(R.string.sort_field_key), "")
+            ?.let { sortField ->
+                viewModel.setSort(
+                    prefs.getBoolean(this.resources.getString(R.string.sort_key), false),
+                    sortField,
+                    viewModel.sortIsDesc
+                )
 
-        }
+            }
 
     }
 }
