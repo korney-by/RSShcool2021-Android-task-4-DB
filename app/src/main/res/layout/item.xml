@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    app:cardCornerRadius="5dp">
+    app:cardCornerRadius="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/stopwatch_unit"
@@ -65,11 +65,11 @@
             android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:lines="1"
             android:layout_marginStart="@dimen/text_margin_4"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintBottom_toBottomOf="@+id/name_caption"
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintStart_toEndOf="@+id/barier"
             app:layout_constraintTop_toTopOf="@+id/name_caption"
             app:layout_constraintVertical_bias="0.461"
@@ -79,6 +79,7 @@
             android:id="@+id/age"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:lines="1"
             android:layout_marginStart="@dimen/text_margin_4"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintBottom_toBottomOf="@+id/age_caption"
@@ -92,6 +93,7 @@
             android:id="@+id/breed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:lines="1"
             android:layout_marginStart="@dimen/text_margin_4"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintBottom_toBottomOf="@+id/breed_caption"
@@ -105,6 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="start"
+            android:layout_marginStart="4dp"
             app:constraint_referenced_ids="name_caption,age_caption,breed_caption" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
