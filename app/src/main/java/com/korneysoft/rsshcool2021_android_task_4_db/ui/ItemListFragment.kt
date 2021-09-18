@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -27,19 +26,28 @@ class ItemListFragment() : Fragment() {
     private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
 
+    var onDeselectItem: (() -> Unit)? = null
+    var onSelectItem: (() -> Unit)? = null
+
     private val fragmentName by lazy { getString(R.string.base_name) }
-    private var selectItem: Item? = null
+    private var _selectedItem: Item? = null
+        set(value) {
+            if (field == value) return
+            if (field != null) onDeselectItem?.invoke()
+            field = value
+            if (field != null) onSelectItem?.invoke()
+        }
+    val selectedItem: Item? get() = _selectedItem
 
     private val viewModel: ItemViewModel by activityViewModels()
     private val itemAdapter: ItemAdapter = ItemAdapter(this) {
-        onItemLongClick(it)
+        onLongClickItem(it)
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,19 +68,16 @@ class ItemListFragment() : Fragment() {
         return view
     }
 
-    fun toolbarClose() {
-        selectItem = null
-        //binding.actionToolbar.visibility = View.GONE
 
+
+    fun toolbarClose() {
+        _selectedItem = null
         binding.motionActionToolbar.transitionToStart()
+
     }
 
-    fun toolbarShow(item: Item) {
-        binding.actionToolbar.apply {
-            title = item.name
-            //visibility = View.VISIBLE
-
-        }
+    fun toolbarShow() {
+        binding.actionToolbar.title = _selectedItem?.name
         binding.motionActionToolbar.transitionToEnd()
     }
 
@@ -81,10 +86,11 @@ class ItemListFragment() : Fragment() {
         applyPreferences()
         registerObservers()
         setToolbar()
+        _selectedItem=null
     }
 
     fun setToolbar() {
-        var iconSort: Int=0
+        var iconSort: Int = 0
         var actionButtonChangeSortOrder: () -> Unit = {}
 
         if (viewModel.isSorted) {
@@ -123,12 +129,12 @@ class ItemListFragment() : Fragment() {
         }
     }
 
-    private fun onItemLongClick(item: Item) {
+    private fun onLongClickItem(item: Item) {
         //Log.d("T4", "LongClick holder select from Fragment: $item")
-        selectItem = item
-        toolbarShow(item)
-
-
+        if (_selectedItem == null) {
+            _selectedItem = item
+            toolbarShow()
+        }
     }
 
     private fun applyPreferences() {
@@ -170,13 +176,13 @@ class ItemListFragment() : Fragment() {
 
             toolbar.setNavigationOnClickListener { toolbarClose() }
             toolbar.menu.findItem(R.id.item_delete).setOnMenuItemClickListener() {
-                selectItem?.let { item -> viewModel.deleteItem(item) }
+                _selectedItem?.let { item -> viewModel.deleteItem(item) }
                 toolbarClose()
                 true
             }
 
             toolbar.menu.findItem(R.id.item_edit).setOnMenuItemClickListener() {
-                selectItem?.let {
+                _selectedItem?.let {
                     ShowItemDetails(it)
                 }
                 toolbarClose()
@@ -196,7 +202,8 @@ class ItemListFragment() : Fragment() {
 
     private fun setupAddButtonListener() {
         binding.addFloatingButton.setOnClickListener() {
-            ShowItemDetails(selectItem)
+            //toolbarClose()
+            ShowItemDetails(null)
         }
     }
 
