@@ -27,8 +27,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 it.apply {
                     setToolbarTitle(fragmentName)
                     setToolbarHamburgerButton(
-                        R.drawable.ic_baseline_arrow_back_24,
-                        { closeFragment() })
+                        R.drawable.ic_baseline_arrow_back_24
+                    ) { closeFragment() }
                     setToolBarMenu(0,0, emptyArray())
                 }
             }

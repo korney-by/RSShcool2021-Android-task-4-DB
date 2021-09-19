@@ -1,8 +1,6 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite
 
 import android.content.Context
-import android.database.sqlite.SQLiteOpenHelper
-import androidx.lifecycle.LiveData
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.data.RepositoryInterface
 

@@ -13,7 +13,7 @@
         app:navigationIcon="@drawable/ic_baseline_menu_24"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="2dp"
+        android:paddingBottom="4dp"
         android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

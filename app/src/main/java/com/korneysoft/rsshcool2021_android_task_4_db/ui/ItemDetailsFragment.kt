@@ -48,7 +48,7 @@ class ItemDetailsFragment : Fragment() {
         _binding = FragmentItemDetailsBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        binding.applyButton.setOnClickListener() {
+        binding.applyButton.setOnClickListener {
             if (editItem == null) {
                 initializeAddItem()
             } else {
@@ -87,13 +87,13 @@ class ItemDetailsFragment : Fragment() {
     }
 
     private fun getItemFromBundle(arguments: Bundle?): Item? {
-        if (arguments != null) {
+        return if (arguments != null) {
             val id = arguments.getInt(ARG_ID)
             val name = arguments.getString(ARG_NAME) ?: ""
             val age = arguments.getInt(ARG_AGE)
             val breed = arguments.getString(ARG_BREED) ?: ""
-            return Item(id, name, age, breed)
-        } else return null
+            Item(id, name, age, breed)
+        } else null
     }
 
     private fun setToolbar() {
@@ -112,7 +112,7 @@ class ItemDetailsFragment : Fragment() {
 
 
     private fun initializeAddItem() {
-        itemListViewModel.addItem(CreateNewItem())
+        itemListViewModel.addItem(createNewItem())
     }
 
     private fun initializeUpdateItem() {
@@ -130,7 +130,7 @@ class ItemDetailsFragment : Fragment() {
         activity?.onBackPressed()
     }
 
-    private fun CreateNewItem(): Item {
+    private fun createNewItem(): Item {
         return Item(
             0,
             binding.editTextName.text.toString(),
@@ -152,8 +152,8 @@ class ItemDetailsFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(item: Item?): ItemDetailsFragment {
-            if (item != null) {
-                return ItemDetailsFragment().apply {
+            return if (item != null) {
+                ItemDetailsFragment().apply {
                     this.arguments =
                         bundleOf(
                             ARG_ID to item.id,
@@ -162,7 +162,7 @@ class ItemDetailsFragment : Fragment() {
                             ARG_BREED to item.breed
                         )
                 }
-            } else return ItemDetailsFragment()
+            } else ItemDetailsFragment()
         }
     }
 }

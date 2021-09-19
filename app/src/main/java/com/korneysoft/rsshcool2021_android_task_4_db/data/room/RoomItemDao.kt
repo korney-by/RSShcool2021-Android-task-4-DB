@@ -1,6 +1,5 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.data.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.korneysoft.rsshcool2021_android_task_4_db.data.DatabaseModel
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
@@ -14,7 +13,7 @@ private const val COLUMN_AGE = DatabaseModel.COLUMN_AGE
 private const val COLUMN_BREED = DatabaseModel.COLUMN_BREED
 
 private const val SQL_GET_ALL = "SELECT * FROM $TABLE_NAME"
-private const val SQL_GET_ONE = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=(:id)"
+//private const val SQL_GET_ONE = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=(:id)"
 
 internal const val SQL_GET_ALL_SORTED =
     "SELECT * FROM $TABLE_NAME ORDER BY " +
@@ -44,13 +43,10 @@ interface RoomItemDao {
     @Query(SQL_GET_ALL_SORTED_DESC)
     suspend fun getItemsSortedDesc(field: Int): List<Item>
 
-//    @Query(SQL_GET_ONE)
-//    fun getItem(id: Int): LiveData<Item?>
-
     @Delete()
     fun delete(item: Item)
 
-    @Insert() //onConflict = OnConflictStrategy.IGNORE
+    @Insert()
     fun insert(item: Item)
 
     @Update

@@ -11,7 +11,7 @@ import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
 
 
 class ItemAdapter(
-    val fragment: Fragment,
+    fragment: Fragment,
     private val listenerSelectItem: (Item) -> Unit
 ) :
     ListAdapter<Item, ItemHolder>(itemComparator) {
@@ -61,10 +61,6 @@ class ItemAdapter(
         //return items.size
     }
 
-    fun redrawSelectedItem() {
-        val position = getCurrentList().indexOf(selectedItem)
-        notifyItemChanged(position)
-    }
 
     fun update(items: List<Item>) {
         itemsCount = items.size
@@ -83,9 +79,6 @@ class ItemAdapter(
             override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean =
                 oldItem == newItem
 
-//            override fun getChangePayload(oldItem: ItemEssence, newItem: ItemEssence): Any {
-//               return ullloldItem.getChanges(newItem)
-//            }
         }
     }
 

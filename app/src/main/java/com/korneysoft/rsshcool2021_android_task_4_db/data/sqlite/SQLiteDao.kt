@@ -39,7 +39,7 @@ private const val UPDATE_RECORD_SQL =
 private const val DELETE_RECORD_SQL =
     "DELETE FROM $TABLE_NAME WHERE $COLUMN_ID=%d"
 
-private const val SELECT_ONE_SQL = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=%d"
+//private const val SELECT_ONE_SQL = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=%d"
 private const val SELECT_ALL_SQL = "SELECT * FROM $TABLE_NAME"
 
 private const val SORT_SQL = " ORDER BY %s"
@@ -68,7 +68,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         try {
             db.execSQL(CREATE_TABLE_SQL)
             (1..15).forEach {
-                db.execSQL(INSERT_RECORD_SQL.format("name $it", it, "breed $it"))
+                db.execSQL(INSERT_RECORD_SQL.format("name $it", (1..10).random(), "breed $it"))
             }
         } catch (e: SQLException) {
             Log.e(TAG, "Exception while trying to create database", e)
@@ -84,13 +84,13 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         return readableDatabase.rawQuery(SELECT_ALL_SQL + sortString, null)
     }
 
-    private fun getCursorForOne(id: Int): Cursor {
-        return readableDatabase.rawQuery(SELECT_ONE_SQL.format(id), null)
-    }
+//    private fun getCursorForOne(id: Int): Cursor {
+//        return readableDatabase.rawQuery(SELECT_ONE_SQL.format(id), null)
+//    }
 
     private fun getSortString(isSorted: Boolean, sortField: String, isDesc: Boolean): String {
         if (!isSorted) return ""
-        return if (sortField.length > 0) {
+        return if (sortField.isNotEmpty()) {
             SORT_SQL.format(sortField) + if (isDesc) " DESC" else ""
         } else ""
     }
@@ -134,18 +134,18 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         )
     }
 
-    fun getItem(id: Int): LiveData<Item?> {
-        var item: Item? = null
-        val itemLiveData = MutableLiveData<Item?>()
-
-        getCursorForOne(id).use { cursor ->
-            if (cursor.moveToFirst()) {
-                item = getItemFromCursor(cursor)
-            }
-        }
-        itemLiveData.postValue(item)
-        return itemLiveData
-    }
+//    fun getItem(id: Int): LiveData<Item?> {
+//        var item: Item? = null
+//        val itemLiveData = MutableLiveData<Item?>()
+//
+//        getCursorForOne(id).use { cursor ->
+//            if (cursor.moveToFirst()) {
+//                item = getItemFromCursor(cursor)
+//            }
+//        }
+//        itemLiveData.postValue(item)
+//        return itemLiveData
+//    }
 
     private fun getItemList(): List<Item> {
         val listOfItems = mutableListOf<Item>()
