@@ -13,14 +13,14 @@ class ItemHolder(
     val parent: View
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var _item: Item
+    private var _item: Item? = null
     private var isSelected = false
 
-    val item get() = _item
+    val item: Item? get() = _item
 
-    fun bind(item: Item, isSelected:Boolean) {
+    fun bind(item: Item, isSelected: Boolean) {
         this._item = item
-        this.isSelected=isSelected
+        this.isSelected = isSelected
 
         setBackgroundHolder()
         binding.apply {
@@ -34,14 +34,11 @@ class ItemHolder(
         if (isSelected) {
             val typedValue = TypedValue()
             parent.context.theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
-            val color=typedValue.data
+            val color = typedValue.data
             binding.cardView.background.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
-        }else{
+        } else {
             binding.cardView.background.clearColorFilter()
         }
-
-
-
     }
 
 

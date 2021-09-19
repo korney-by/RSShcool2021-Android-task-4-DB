@@ -11,15 +11,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
-        //       addPreferencesFromResource(R.xml.root_preferences)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setToolbar()
     }
-
 
     private fun setToolbar() {
         activity.let {
@@ -39,10 +36,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         activity?.onBackPressed()
     }
 
-
     companion object {
         @JvmStatic
         fun newInstance() = SettingsFragment()
     }
-
 }

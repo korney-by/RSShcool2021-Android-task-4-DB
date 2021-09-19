@@ -3,16 +3,16 @@ package com.korneysoft.rsshcool2021_android_task_4_db.data
 import androidx.lifecycle.LiveData
 
 interface RepositoryInterface {
-   val nameType:String
+    val nameType: String
 
-   fun getItems(): LiveData<List<Item>>
+    fun getItems(): LiveData<List<Item>>
 
-   suspend fun setSort(isSorted:Boolean, sortField:String, isDesc: Boolean)
+    suspend fun setSort(isSorted: Boolean, sortField: String, isDesc: Boolean)
 
-   suspend fun add(item: Item)
-   suspend fun delete(item: Item)
-   suspend fun update(item: Item)
+    suspend fun add(item: Item)
+    suspend fun delete(item: Item)
+    suspend fun update(item: Item)
 
-   fun close()
+    fun close()
 
 }

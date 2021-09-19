@@ -30,6 +30,7 @@ class ItemListFragment : Fragment() {
     private var onSelectItem: (() -> Unit)? = null
 
     private val fragmentName by lazy { getString(R.string.base_name) }
+
     private var _selectedItem: Item? = null
         set(value) {
             if (field == value) return
@@ -58,7 +59,6 @@ class ItemListFragment : Fragment() {
         }
 
         connectSwipeToRecyclerView()
-        setupViewModelListeners()
         setupActionListeners()
 
         return view
@@ -150,10 +150,6 @@ class ItemListFragment : Fragment() {
                 }
             }
         )
-//        Toast.makeText(
-//            activity, "registerObservers", Toast.LENGTH_SHORT
-//        ).show()
-
     }
 
     private fun updateUI(items: List<Item>) {
@@ -215,11 +211,6 @@ class ItemListFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupViewModelListeners() {
-        //itemListViewModel.onChangeData = {}
-    }
-
-
     private fun connectSwipeToRecyclerView() {
         val itemTouchHelperCallback =
             object :
@@ -238,7 +229,7 @@ class ItemListFragment : Fragment() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     if ((viewHolder is ItemHolder)) {
-                        viewModel.deleteItem(viewHolder.item)
+                        viewHolder.item?.let { item -> viewModel.deleteItem(item) }
                     }
                 }
             }
@@ -247,18 +238,8 @@ class ItemListFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
 
-
     companion object {
-
         @JvmStatic
         fun newInstance() = ItemListFragment()
-//                .apply {
-        //TODO - delete if not needed
-//                arguments = bundleOf(
-//                    ARG_COLUMN_COUNT to columnCount
-//                )
-//            }
     }
-
-
 }

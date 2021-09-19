@@ -32,13 +32,11 @@ class ItemDetailsFragment : Fragment() {
     private var breedIsNotNull: Boolean = false
     private var editItem: Item? = null
 
-    private val itemListViewModel: ItemViewModel by activityViewModels()
-    //private val repository=ItemRepository.get()
+    private val viewModel: ItemViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         editItem = getItemFromBundle(arguments)
-
     }
 
     override fun onCreateView(
@@ -78,7 +76,13 @@ class ItemDetailsFragment : Fragment() {
         showEditValues(editItem)
     }
 
-    private fun showEditValues(item: Item?) { item?.let { it ->
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun showEditValues(item: Item?) {
+        item?.let { it ->
             binding.editTextName.setText(it.name)
             binding.editTextAge.setText(it.age.toString())
             binding.editTextBreed.setText(it.breed)
@@ -104,7 +108,7 @@ class ItemDetailsFragment : Fragment() {
                     setToolbarHamburgerButton(
                         R.drawable.ic_baseline_arrow_back_24,
                         { closeFragment() })
-                    setToolBarMenu(0,0, emptyArray())
+                    setToolBarMenu(0, 0, emptyArray())
                 }
             }
         }
@@ -112,7 +116,7 @@ class ItemDetailsFragment : Fragment() {
 
 
     private fun initializeAddItem() {
-        itemListViewModel.addItem(createNewItem())
+        viewModel.addItem(createNewItem())
     }
 
     private fun initializeUpdateItem() {
@@ -120,8 +124,8 @@ class ItemDetailsFragment : Fragment() {
             it.name = binding.editTextName.text.toString()
             it.age = binding.editTextAge.text.toString().toInt()
             it.breed = binding.editTextBreed.text.toString()
-            Log.d("T4-ItemDetailsFragment","  $it")
-            itemListViewModel.updateItem(it)
+            Log.d("T4-ItemDetailsFragment", "  $it")
+            viewModel.updateItem(it)
 
         }
     }

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val itemListViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
+        val viewModel: ItemViewModel by viewModels()
 
         loadItemListFragment()
     }
@@ -110,7 +111,6 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
         resourceIconSort: Int,
         actions: Array<() -> Unit>
     ) {
-        //var action: MenuItem.OnMenuItemClickListener
         binding.toolbar.apply {
             menu.clear()
             if (menuResource != 0) {
@@ -142,15 +142,12 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
         val viewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
         viewModel.setActualRepository()
 
-        prefs.getString(this.resources.getString(R.string.sort_field_key), "")
-            ?.let { sortField ->
-                viewModel.setSort(
-                    prefs.getBoolean(this.resources.getString(R.string.sort_key), false),
-                    sortField,
-                    viewModel.sortIsDesc
-                )
-
-            }
-
+        prefs.getString(this.resources.getString(R.string.sort_field_key), "")?.let { sortField ->
+            viewModel.setSort(
+                prefs.getBoolean(this.resources.getString(R.string.sort_key), false),
+                sortField,
+                viewModel.sortIsDesc
+            )
+        }
     }
 }

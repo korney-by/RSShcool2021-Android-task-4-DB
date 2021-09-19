@@ -7,13 +7,11 @@ import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 internal const val DATABASE_NAME = DatabaseModel.DATABASE_NAME
 internal const val DATABASE_VERSION = DatabaseModel.DATABASE_VERSION
 private const val TABLE_NAME = DatabaseModel.TABLE_NAME
-private const val COLUMN_ID = DatabaseModel.COLUMN_ID
-private const val COLUMN_NAME = DatabaseModel.COLUMN_NAME
-private const val COLUMN_AGE = DatabaseModel.COLUMN_AGE
-private const val COLUMN_BREED = DatabaseModel.COLUMN_BREED
+internal const val COLUMN_NAME = DatabaseModel.COLUMN_NAME
+internal const val COLUMN_AGE = DatabaseModel.COLUMN_AGE
+internal const val COLUMN_BREED = DatabaseModel.COLUMN_BREED
 
 private const val SQL_GET_ALL = "SELECT * FROM $TABLE_NAME"
-//private const val SQL_GET_ONE = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=(:id)"
 
 internal const val SQL_GET_ALL_SORTED =
     "SELECT * FROM $TABLE_NAME ORDER BY " +
@@ -21,16 +19,15 @@ internal const val SQL_GET_ALL_SORTED =
             "WHEN 1 THEN $COLUMN_NAME " +
             "WHEN 2 THEN $COLUMN_AGE " +
             "WHEN 3 THEN $COLUMN_BREED " +
-            "END COLLATE NOCASE"
+            "END COLLATE LOCALIZED"
 
 internal const val SQL_GET_ALL_SORTED_DESC =
     "SELECT * FROM $TABLE_NAME ORDER BY " +
             "CASE (:field) " +
             "WHEN 4 THEN $COLUMN_NAME " +
-            "WHEN 5 THEN $COLUMN_AGE "+
+            "WHEN 5 THEN $COLUMN_AGE " +
             "WHEN 6 THEN $COLUMN_BREED " +
-            "END COLLATE NOCASE DESC"
-
+            "END COLLATE LOCALIZED DESC"
 
 @Dao
 interface RoomItemDao {

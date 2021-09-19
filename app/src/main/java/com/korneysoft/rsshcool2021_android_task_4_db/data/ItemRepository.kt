@@ -10,10 +10,6 @@ import com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite.SQLiteRepositor
 
 class ItemRepository private constructor(val context: Context, daoKey: String) {
 
-    //private val db  = NoDBRepository(10)
-    //private val db = SQLiteRepository(context)
-    //private var _db = RoomRepository(context)
-
     private var currentDaoKey = ""
 
     private var db = getRepository(daoKey)
@@ -47,8 +43,6 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
         return this.db
     }
 
-
-
     @WorkerThread
     fun getItems() = db.getItems()
 
@@ -63,8 +57,8 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
     suspend fun updateItem(item: Item) = db.update(item)
 
     @WorkerThread
-    suspend fun setSort(isSorted:Boolean, sortField:String, isDesc: Boolean){
-        db.setSort(isSorted,sortField,isDesc)
+    suspend fun setSort(isSorted: Boolean, sortField: String, isDesc: Boolean) {
+        db.setSort(isSorted, sortField, isDesc)
     }
 
     companion object {
@@ -83,13 +77,11 @@ class ItemRepository private constructor(val context: Context, daoKey: String) {
 
         private fun getDaoKeyFromPreference(context: Context): String {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            //val defaultValue=context.findPreference(context,context.resources.getString(R.string.dao_key),)
             val allPossibleDao = context.resources.getStringArray(R.array.dao_values)
             return prefs.getString(
                 context.resources.getString(R.string.dao_key),
                 allPossibleDao[0]
-            )
-                .toString()
+            ).toString()
         }
     }
 }

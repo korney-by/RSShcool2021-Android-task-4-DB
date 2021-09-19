@@ -39,8 +39,6 @@ class RoomRepository(val context: Context) : RepositoryInterface {
     }
 
     private val itemListFromDB: LiveData<List<Item>> = updateChangeDataBaseCounter.map {
-        Log.d(TAG, "Get Items ")
-
         // run getting List<Item> in the coroutine
         runBlocking {
             val deferredItems = this.async {
@@ -51,7 +49,7 @@ class RoomRepository(val context: Context) : RepositoryInterface {
                     numOfSort < 4 -> {         //numOfSort in 1..3
                         dao.getItemsSorted(numOfSort)
                     }
-                    else -> {                            // numOfSort in 4..6
+                    else -> {                  // numOfSort in 4..6
                         dao.getItemsSortedDesc(numOfSort)
                     }
                 }
@@ -62,7 +60,7 @@ class RoomRepository(val context: Context) : RepositoryInterface {
 
     private val dao: RoomItemDao = database.itemDao()
 
-    override fun getItems() = itemListFromDB//.asFlow()
+    override fun getItems() = itemListFromDB
 
     override suspend fun add(item: Item) {
         dao.insert(item)
@@ -83,9 +81,9 @@ class RoomRepository(val context: Context) : RepositoryInterface {
     private fun getNumOfSort(isSorted: Boolean, sortField: String, isDesc: Boolean): Int {
         if (!isSorted) return 0
         var result = when (sortField.uppercase()) {
-            "NAME" -> 1
-            "AGE" -> 2
-            "BREED" -> 3
+            COLUMN_NAME -> 1
+            COLUMN_AGE -> 2
+            COLUMN_BREED -> 3
             else -> 0
         }
         if (result > 0 && isDesc) result += 3
@@ -100,14 +98,3 @@ class RoomRepository(val context: Context) : RepositoryInterface {
         }
     }
 }
-
-
-//combine(
-//listFlow.debounce(250),
-//stateFlow.debounce(250),
-//searchFlow.debounce(250)
-//.distinctUntilChanged()
-//// не делать запрос короче 3 символов
-//.filter { it.isBlank() || it.length > searchLength },
-//::updateList
-//)

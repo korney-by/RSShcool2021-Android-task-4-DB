@@ -27,7 +27,6 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
     val isSorted: Boolean get() = _isSorted
     val sortIsDesc: Boolean get() = _sortIsDesc
 
-
     fun changeSortOrder() {
         setSort(_isSorted, _sortField, !_sortIsDesc)
     }
@@ -42,15 +41,12 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-
     fun setActualRepository() {
         repository.setActualRepository()
         itemListLiveData = getConnectToRepository()
     }
 
     private fun getConnectToRepository() = repository.getItems()
-    //.asLiveData(context = Dispatchers.IO)
-
 
     fun deleteItem(item: Item) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteItem(item)
@@ -59,7 +55,6 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
     fun addItem(item: Item) = viewModelScope.launch(Dispatchers.IO) {
         repository.addItem(item)
     }
-
 
     fun updateItem(item: Item) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateItem(item)

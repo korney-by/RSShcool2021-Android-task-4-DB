@@ -33,16 +33,16 @@ private const val UPDATE_RECORD_SQL =
         $COLUMN_NAME='%s',
         $COLUMN_AGE=%d,
         $COLUMN_BREED='%s'
-        WHERE $COLUMN_ID=%d ;"""
+        WHERE $COLUMN_ID=%d"""
 
 
 private const val DELETE_RECORD_SQL =
     "DELETE FROM $TABLE_NAME WHERE $COLUMN_ID=%d"
 
-//private const val SELECT_ONE_SQL = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=%d"
 private const val SELECT_ALL_SQL = "SELECT * FROM $TABLE_NAME"
 
-private const val SORT_SQL = " ORDER BY %s"
+private const val SORT_SQL = " ORDER BY %s COLLATE LOCALIZED"
+private const val SORT_SQL_DESC = " ORDER BY %s COLLATE LOCALIZED DESC"
 
 
 class SQLiteDao(context: Context) : SQLiteOpenHelper(
@@ -84,17 +84,13 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         return readableDatabase.rawQuery(SELECT_ALL_SQL + sortString, null)
     }
 
-//    private fun getCursorForOne(id: Int): Cursor {
-//        return readableDatabase.rawQuery(SELECT_ONE_SQL.format(id), null)
-//    }
-
     private fun getSortString(isSorted: Boolean, sortField: String, isDesc: Boolean): String {
         if (!isSorted) return ""
         return if (sortField.isNotEmpty()) {
-            SORT_SQL.format(sortField) + if (isDesc) " DESC" else ""
+            if (isDesc) SORT_SQL_DESC.format(sortField)
+            else SORT_SQL.format(sortField)
         } else ""
     }
-
 
     private fun insertItem(item: Item) {
         item.apply {
@@ -134,19 +130,6 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         )
     }
 
-//    fun getItem(id: Int): LiveData<Item?> {
-//        var item: Item? = null
-//        val itemLiveData = MutableLiveData<Item?>()
-//
-//        getCursorForOne(id).use { cursor ->
-//            if (cursor.moveToFirst()) {
-//                item = getItemFromCursor(cursor)
-//            }
-//        }
-//        itemLiveData.postValue(item)
-//        return itemLiveData
-//    }
-
     private fun getItemList(): List<Item> {
         val listOfItems = mutableListOf<Item>()
         getCursorForAll().use { cursor ->
@@ -160,7 +143,7 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
     }
 
     fun getItems(): LiveData<List<Item>> {
-        return itemListFromDB//.asFlow()
+        return itemListFromDB
     }
 
     private fun onChangeData() {

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
 
-
 class ItemAdapter(
     fragment: Fragment,
     private val listenerSelectItem: (Item) -> Unit
@@ -38,38 +37,37 @@ class ItemAdapter(
     private fun setupLongClickListener(holder: ItemHolder) {
         holder.parent.setOnLongClickListener()
         {
-            Log.d("T4 - ","selectedHolder=$selectedHolder ,  holder=$holder")
+            Log.d("T4 - ", "selectedHolder=$selectedHolder ,  holder=$holder")
             selectedHolder = holder
-            listenerSelectItem(holder.item)
-            holder.bind(holder.item, holder.item == selectedItem)
-            setupDeselectListener(holder)
+            holder.item?.let { item ->
+                listenerSelectItem(item)
+                holder.bind(item, item == selectedItem)
+                setupDeselectListener(item)
+            }
+
             true
         }
     }
 
-    private fun setupDeselectListener(holder: ItemHolder) {
+    private fun setupDeselectListener(item: Item) {
         mFragment.onDeselectItem = {
             if (selectedHolder?.item == selectedItem) {
-                selectedHolder?.bind(holder.item, false)
+                selectedHolder?.bind(item, false)
             }
-            selectedHolder=null
+            selectedHolder = null
         }
     }
 
     override fun getItemCount(): Int {
         return itemsCount
-        //return items.size
     }
-
 
     fun update(items: List<Item>) {
         itemsCount = items.size
         submitList(items)
     }
 
-
     companion object {
-
         private val itemComparator = object : DiffUtil.ItemCallback<Item>() {
 
             override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {

@@ -19,7 +19,6 @@ class SQLiteRepository(val context: Context) : RepositoryInterface {
         return SQLiteDao(context)
     }
 
-
     override suspend fun setSort(isSorted: Boolean, sortField: String, isDesc: Boolean) {
         dao.setSort(isSorted, sortField, isDesc)
     }
