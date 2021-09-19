@@ -33,7 +33,7 @@ class ItemHolder(
     private fun setBackgroundHolder() {
         if (isSelected) {
             val typedValue = TypedValue()
-            parent.context.theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            parent.context.theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
             val color=typedValue.data
             binding.cardView.background.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
         }else{

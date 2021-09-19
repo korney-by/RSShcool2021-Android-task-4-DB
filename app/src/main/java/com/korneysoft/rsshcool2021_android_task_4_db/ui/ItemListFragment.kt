@@ -22,12 +22,12 @@ import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
 
 private const val TAG = "T4-ItemListFragment"
 
-class ItemListFragment() : Fragment() {
+class ItemListFragment : Fragment() {
     private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
 
     var onDeselectItem: (() -> Unit)? = null
-    var onSelectItem: (() -> Unit)? = null
+    private var onSelectItem: (() -> Unit)? = null
 
     private val fragmentName by lazy { getString(R.string.base_name) }
     private var _selectedItem: Item? = null
@@ -45,10 +45,6 @@ class ItemListFragment() : Fragment() {
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,7 +57,7 @@ class ItemListFragment() : Fragment() {
             adapter = itemAdapter
         }
 
-        connectSwipeToReciclerView()
+        connectSwipeToRecyclerView()
         setupViewModelListeners()
         setupActionListeners()
 
@@ -69,14 +65,13 @@ class ItemListFragment() : Fragment() {
     }
 
 
-
-    fun toolbarClose() {
+    private fun toolbarClose() {
         _selectedItem = null
         binding.motionActionToolbar.transitionToStart()
 
     }
 
-    fun toolbarShow() {
+    private fun toolbarShow() {
         binding.actionToolbar.title = _selectedItem?.name
         binding.motionActionToolbar.transitionToEnd()
     }
@@ -86,24 +81,24 @@ class ItemListFragment() : Fragment() {
         applyPreferences()
         registerObservers()
         setToolbar()
-        _selectedItem=null
+        _selectedItem = null
     }
 
-    fun setToolbar() {
-        var iconSort: Int = 0
+    private fun setToolbar() {
+        var iconSort = 0
         var actionButtonChangeSortOrder: () -> Unit = {}
 
         if (viewModel.isSorted) {
             actionButtonChangeSortOrder = { onClickButtonChangeSortOrder() }
-            if (viewModel.sortIsDesc) iconSort = R.drawable.ic_baseline_sort_desc_24
-            else iconSort = R.drawable.ic_baseline_sort_asc_24
+            iconSort = if (viewModel.sortIsDesc) R.drawable.ic_baseline_sort_desc_24
+            else R.drawable.ic_baseline_sort_asc_24
         }
 
         activity?.let { activity ->
             if (activity is ToolbarUpdateInterface) {
                 activity.apply {
                     setToolbarTitle(fragmentName, viewModel.daoTypeName)
-                    setToolbarHamburgerButton(0, {})
+                    setToolbarHamburgerButton(0) {}
                     setToolBarMenu(R.menu.toolbar_menu_sort,
                         iconSort,
                         arrayOf({ actionButtonChangeSortOrder() },
@@ -175,15 +170,15 @@ class ItemListFragment() : Fragment() {
         binding.actionToolbar.let { toolbar ->
 
             toolbar.setNavigationOnClickListener { toolbarClose() }
-            toolbar.menu.findItem(R.id.item_delete).setOnMenuItemClickListener() {
+            toolbar.menu.findItem(R.id.item_delete).setOnMenuItemClickListener {
                 _selectedItem?.let { item -> viewModel.deleteItem(item) }
                 toolbarClose()
                 true
             }
 
-            toolbar.menu.findItem(R.id.item_edit).setOnMenuItemClickListener() {
+            toolbar.menu.findItem(R.id.item_edit).setOnMenuItemClickListener {
                 _selectedItem?.let {
-                    ShowItemDetails(it)
+                    showItemDetails(it)
                 }
                 toolbarClose()
                 true
@@ -192,7 +187,7 @@ class ItemListFragment() : Fragment() {
         }
     }
 
-    private fun ShowItemDetails(item: Item?) {
+    private fun showItemDetails(item: Item?) {
         activity?.let {
             if (it is ShowFragmentAddItemInterface) {
                 it.openItemDetailsFragment(item)
@@ -201,9 +196,9 @@ class ItemListFragment() : Fragment() {
     }
 
     private fun setupAddButtonListener() {
-        binding.addFloatingButton.setOnClickListener() {
+        binding.addFloatingButton.setOnClickListener {
             //toolbarClose()
-            ShowItemDetails(null)
+            showItemDetails(null)
         }
     }
 
@@ -225,7 +220,7 @@ class ItemListFragment() : Fragment() {
     }
 
 
-    private fun connectSwipeToReciclerView() {
+    private fun connectSwipeToRecyclerView() {
         val itemTouchHelperCallback =
             object :
                 ItemTouchHelper.SimpleCallback(

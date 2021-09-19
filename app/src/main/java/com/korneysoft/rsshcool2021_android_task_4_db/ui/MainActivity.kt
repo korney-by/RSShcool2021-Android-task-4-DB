@@ -20,8 +20,6 @@ import com.korneysoft.rsshcool2021_android_task_4_db.ui.interfaces.ToolbarUpdate
 import com.korneysoft.rsshcool2021_android_task_4_db.viewmodel.ItemViewModel
 import kotlin.math.min
 
-private const val TAG = "T4-MainActivity"
-
 class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, KeyboardControlInterface,
     ToolbarUpdateInterface, SetPreferencesInterface {
     private lateinit var binding: ActivityMainBinding
@@ -47,7 +45,7 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
             .commit()
     }
 
-    private fun loadItemDetalsFragment(item: Item?) {
+    private fun loadItemDetailsFragment(item: Item?) {
         val fragment: Fragment = ItemDetailsFragment.newInstance(item)
         supportFragmentManager
             .beginTransaction()
@@ -66,7 +64,7 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
     }
 
     override fun openItemDetailsFragment(item: Item?) {
-        loadItemDetalsFragment(item)
+        loadItemDetailsFragment(item)
     }
 
     override fun openSettingsFragment() {
@@ -100,7 +98,7 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
 
     override fun setToolbarTitle(title: String, subtitle: String) {
         binding.toolbar.title = title
-        binding.toolbar.subtitle = if (!subtitle.isBlank()) {
+        binding.toolbar.subtitle = if (subtitle.isNotBlank()) {
             "DAO: $subtitle"
         } else {
             ""
