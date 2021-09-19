@@ -16,16 +16,12 @@ private const val TAG = "T4-RoomRepository"
 class RoomRepository(val context: Context) : RepositoryInterface {
     override val nameType = "Room"
 
-    private var numOfSort: Int = 0
+    private var numOfSort: Int = -1
 
     private var counterChangeDataBase = 0
     private val updateChangeDataBaseCounter = MutableLiveData<Int>()
 
     private var database: ItemDatabase = getDao()
-
-    init {
-        updateChangeDataBaseCounter.value
-    }
 
     private fun onChangeData() {
         updateChangeDataBaseCounter.postValue(++counterChangeDataBase)
