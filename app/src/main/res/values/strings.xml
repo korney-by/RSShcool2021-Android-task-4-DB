@@ -33,4 +33,8 @@
     <string name="sort_field_key">sort_field_key</string>
     <string name="edit_item_fragment">Edit pet information</string>
     <string name="apply_button_text">Аpply</string>
+    <string name="delete_button_text">Delete</string>
+    <string name="preferences_button_text">Preferences</string>
+    <string name="order_button_text">Order</string>
+    <string name="edit_button_text">Edit</string>
 </resources>

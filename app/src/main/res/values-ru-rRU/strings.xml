@@ -19,7 +19,11 @@
     <string name="sort_field_breed">Сортировать по Виду</string>
     <string name="sort_title">Сортировать элементы на экране</string>
     <string name="preference_title">Настройки</string>
-    <string name="edit_item_fragment">Редактировать</string>
+    <string name="edit_item_fragment">Редактирование</string>
     <string name="apply_button_text">Применить</string>
+    <string name="delete_button_text">Удалить</string>
+    <string name="preferences_button_text">Настройки</string>
+    <string name="order_button_text">Порядок сортировки</string>
+    <string name="edit_button_text">Изменить</string>
 
 </resources>

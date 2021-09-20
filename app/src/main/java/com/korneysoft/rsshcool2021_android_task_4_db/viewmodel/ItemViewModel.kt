@@ -20,6 +20,7 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
 
     val daoTypeName: String get() = repository.dbTypeName
 
+
     private var _isSorted: Boolean = false
     private var _sortField: String = ""
     private var _sortIsDesc: Boolean = false

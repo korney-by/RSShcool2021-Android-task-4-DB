@@ -10,15 +10,15 @@ import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
 
 class ItemAdapter(
-    fragment: Fragment,
+    private val getSelectedItem:() -> Item?,
     private val listenerSelectItem: (Item) -> Unit
 ) :
     ListAdapter<Item, ItemHolder>(itemComparator) {
 
     private var itemsCount: Int = 0
-    private val mFragment: ItemListFragment = fragment as ItemListFragment
-    private val selectedItem: Item? get() = mFragment.selectedItem
+    private val selectedItem: Item? get() = getSelectedItem()
     private var selectedHolder: ItemHolder? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -34,6 +34,8 @@ class ItemAdapter(
         setupLongClickListener(holder)
     }
 
+
+
     private fun setupLongClickListener(holder: ItemHolder) {
         holder.parent.setOnLongClickListener()
         {
@@ -42,20 +44,17 @@ class ItemAdapter(
             holder.item?.let { item ->
                 listenerSelectItem(item)
                 holder.bind(item, item == selectedItem)
-                setupDeselectListener(item)
             }
 
             true
         }
     }
 
-    private fun setupDeselectListener(item: Item) {
-        mFragment.onDeselectItem = {
-            if (selectedHolder?.item == selectedItem) {
+    fun onDeselectItem(item:Item){
+        if (selectedHolder?.item == selectedItem) {
                 selectedHolder?.bind(item, false)
             }
             selectedHolder = null
-        }
     }
 
     override fun getItemCount(): Int {

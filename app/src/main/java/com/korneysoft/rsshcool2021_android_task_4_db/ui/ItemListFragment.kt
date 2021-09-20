@@ -26,24 +26,18 @@ class ItemListFragment : Fragment() {
     private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
 
-    var onDeselectItem: (() -> Unit)? = null
-    private var onSelectItem: (() -> Unit)? = null
-
     private val fragmentName by lazy { getString(R.string.base_name) }
 
-    private var _selectedItem: Item? = null
+    private var selectedItem: Item? = null
         set(value) {
             if (field == value) return
-            if (field != null) onDeselectItem?.invoke()
+            if (field != null) onDeselectItem(field)
             field = value
-            if (field != null) onSelectItem?.invoke()
         }
-    val selectedItem: Item? get() = _selectedItem
 
     private val viewModel: ItemViewModel by activityViewModels()
-    private val itemAdapter: ItemAdapter = ItemAdapter(this) {
-        onLongClickItem(it)
-    }
+    private val itemAdapter: ItemAdapter =
+        ItemAdapter({ getSelectedItem() }, { onLongClickItem(it) })
 
 
     override fun onCreateView(
@@ -64,15 +58,22 @@ class ItemListFragment : Fragment() {
         return view
     }
 
+    private fun getSelectedItem() = selectedItem
+
+    private fun onDeselectItem(item: Item?) {
+        item?.let { item ->
+            itemAdapter.onDeselectItem(item)
+        }
+    }
 
     private fun toolbarClose() {
-        _selectedItem = null
+        selectedItem = null
         binding.motionActionToolbar.transitionToStart()
 
     }
 
     private fun toolbarShow() {
-        binding.actionToolbar.title = _selectedItem?.name
+        binding.actionToolbar.title = selectedItem?.name
         binding.motionActionToolbar.transitionToEnd()
     }
 
@@ -81,7 +82,7 @@ class ItemListFragment : Fragment() {
         applyPreferences()
         registerObservers()
         setToolbar()
-        _selectedItem = null
+        selectedItem = null
     }
 
     private fun setToolbar() {
@@ -125,9 +126,8 @@ class ItemListFragment : Fragment() {
     }
 
     private fun onLongClickItem(item: Item) {
-        //Log.d("T4", "LongClick holder select from Fragment: $item")
-        if (_selectedItem == null) {
-            _selectedItem = item
+        if (selectedItem == null) {
+            selectedItem = item
             toolbarShow()
         }
     }
@@ -167,13 +167,13 @@ class ItemListFragment : Fragment() {
 
             toolbar.setNavigationOnClickListener { toolbarClose() }
             toolbar.menu.findItem(R.id.item_delete).setOnMenuItemClickListener {
-                _selectedItem?.let { item -> viewModel.deleteItem(item) }
+                selectedItem?.let { item -> viewModel.deleteItem(item) }
                 toolbarClose()
                 true
             }
 
             toolbar.menu.findItem(R.id.item_edit).setOnMenuItemClickListener {
-                _selectedItem?.let {
+                selectedItem?.let {
                     showItemDetails(it)
                 }
                 toolbarClose()
