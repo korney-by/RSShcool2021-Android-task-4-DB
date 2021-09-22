@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
         loadItemListFragment()
     }
 
-
     private fun loadItemListFragment() {
         val fragment: Fragment = ItemListFragment.newInstance()
         supportFragmentManager
@@ -127,7 +126,7 @@ class MainActivity : AppCompatActivity(), ShowFragmentAddItemInterface, Keyboard
 
                 // set actions to menu items
                 for (i in 0 until min(menu.size(), actions.size)) {
-                    //menu.getItem(i).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
+                    // menu.getItem(i).setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
                     menu.getItem(i).setOnMenuItemClickListener {
                         actions[i]()
                         true

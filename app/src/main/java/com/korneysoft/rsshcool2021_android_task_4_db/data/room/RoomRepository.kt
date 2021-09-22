@@ -46,10 +46,10 @@ class RoomRepository(val context: Context) : RepositoryInterface {
                     numOfSort == 0 -> {
                         dao.getItems()
                     }
-                    numOfSort < 4 -> {         //numOfSort in 1..3
+                    numOfSort < 4 -> { // numOfSort in 1..3
                         dao.getItemsSorted(numOfSort)
                     }
-                    else -> {                  // numOfSort in 4..6
+                    else -> { // numOfSort in 4..6
                         dao.getItemsSortedDesc(numOfSort)
                     }
                 }

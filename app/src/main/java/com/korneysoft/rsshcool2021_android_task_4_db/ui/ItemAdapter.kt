@@ -3,14 +3,13 @@ package com.korneysoft.rsshcool2021_android_task_4_db.ui
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
 
 class ItemAdapter(
-    private val getSelectedItem:() -> Item?,
+    private val getSelectedItem: () -> Item?,
     private val listenerSelectItem: (Item) -> Unit
 ) :
     ListAdapter<Item, ItemHolder>(itemComparator) {
@@ -18,7 +17,6 @@ class ItemAdapter(
     private var itemsCount: Int = 0
     private val selectedItem: Item? get() = getSelectedItem()
     private var selectedHolder: ItemHolder? = null
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -34,11 +32,8 @@ class ItemAdapter(
         setupLongClickListener(holder)
     }
 
-
-
     private fun setupLongClickListener(holder: ItemHolder) {
-        holder.parent.setOnLongClickListener()
-        {
+        holder.parent.setOnLongClickListener() {
             Log.d("T4 - ", "selectedHolder=$selectedHolder ,  holder=$holder")
             selectedHolder = holder
             holder.item?.let { item ->
@@ -50,11 +45,11 @@ class ItemAdapter(
         }
     }
 
-    fun onDeselectItem(item:Item){
+    fun onDeselectItem(item: Item) {
         if (selectedHolder?.item == selectedItem) {
-                selectedHolder?.bind(item, false)
-            }
-            selectedHolder = null
+            selectedHolder?.bind(item, false)
+        }
+        selectedHolder = null
     }
 
     override fun getItemCount(): Int {
@@ -75,9 +70,6 @@ class ItemAdapter(
 
             override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean =
                 oldItem == newItem
-
         }
     }
-
-
 }

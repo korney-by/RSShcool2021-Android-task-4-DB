@@ -39,9 +39,9 @@ class ItemListFragment : Fragment() {
     private val itemAdapter: ItemAdapter =
         ItemAdapter({ getSelectedItem() }, { onLongClickItem(it) })
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentItemListBinding.inflate(inflater, container, false)
@@ -69,7 +69,6 @@ class ItemListFragment : Fragment() {
     private fun toolbarClose() {
         selectedItem = null
         binding.motionActionToolbar.transitionToStart()
-
     }
 
     private fun toolbarShow() {
@@ -115,7 +114,6 @@ class ItemListFragment : Fragment() {
         setToolbar()
     }
 
-
     override fun onResume() {
         super.onResume()
         activity?.let {
@@ -156,7 +154,6 @@ class ItemListFragment : Fragment() {
         itemAdapter.update(items)
     }
 
-
     private fun setupActionListeners() {
         setupAddButtonListener()
         setupActionToolbarListeners()
@@ -178,7 +175,6 @@ class ItemListFragment : Fragment() {
                 }
                 toolbarClose()
                 true
-
             }
         }
     }
@@ -193,7 +189,7 @@ class ItemListFragment : Fragment() {
 
     private fun setupAddButtonListener() {
         binding.addFloatingButton.setOnClickListener {
-            //toolbarClose()
+            // toolbarClose()
             showItemDetails(null)
         }
     }

@@ -35,7 +35,6 @@ private const val UPDATE_RECORD_SQL =
         $COLUMN_BREED='%s'
         WHERE $COLUMN_ID=%d"""
 
-
 private const val DELETE_RECORD_SQL =
     "DELETE FROM $TABLE_NAME WHERE $COLUMN_ID=%d"
 
@@ -43,7 +42,6 @@ private const val SELECT_ALL_SQL = "SELECT * FROM $TABLE_NAME"
 
 private const val SORT_SQL = " ORDER BY %s COLLATE LOCALIZED"
 private const val SORT_SQL_DESC = " ORDER BY %s COLLATE LOCALIZED DESC"
-
 
 class SQLiteDao(context: Context) : SQLiteOpenHelper(
     context,
@@ -75,7 +73,6 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         }
     }
 
-
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
         Log.d(TAG, "onUpgrade called")
     }
@@ -105,7 +102,6 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
             onChangeData()
         }
     }
-
 
     private fun deleteItem(item: Item) {
         writableDatabase.execSQL(DELETE_RECORD_SQL.format(item.id))
@@ -165,5 +161,4 @@ class SQLiteDao(context: Context) : SQLiteOpenHelper(
         updateItem(item)
         onChangeData()
     }
-
 }

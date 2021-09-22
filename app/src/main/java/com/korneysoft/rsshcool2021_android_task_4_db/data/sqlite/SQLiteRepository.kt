@@ -26,6 +26,4 @@ class SQLiteRepository(val context: Context) : RepositoryInterface {
     override suspend fun add(item: Item) = dao.add(item)
     override suspend fun delete(item: Item) = dao.delete(item)
     override suspend fun update(item: Item) = dao.update(item)
-
-
 }

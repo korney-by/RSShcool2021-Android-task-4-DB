@@ -1,6 +1,10 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.data.room
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 import com.korneysoft.rsshcool2021_android_task_4_db.data.DatabaseModel
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 
