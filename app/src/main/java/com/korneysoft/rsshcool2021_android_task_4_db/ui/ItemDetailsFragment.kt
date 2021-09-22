@@ -40,7 +40,8 @@ class ItemDetailsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentItemDetailsBinding.inflate(inflater, container, false)
@@ -114,7 +115,6 @@ class ItemDetailsFragment : Fragment() {
         }
     }
 
-
     private fun initializeAddItem() {
         viewModel.addItem(createNewItem())
     }
@@ -126,7 +126,6 @@ class ItemDetailsFragment : Fragment() {
             it.breed = binding.editTextBreed.text.toString()
             Log.d("T4-ItemDetailsFragment", "  $it")
             viewModel.updateItem(it)
-
         }
     }
 
@@ -142,7 +141,6 @@ class ItemDetailsFragment : Fragment() {
             binding.editTextBreed.text.toString()
         )
     }
-
 
     private fun onInfoChanged() {
         binding.applyButton.isEnabled = (nameIsNotNull && ageIsNotNull && breedIsNotNull)

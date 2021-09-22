@@ -1,12 +1,12 @@
 package com.korneysoft.rsshcool2021_android_task_4_db.ui
 
 import android.graphics.PorterDuff
+import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.korneysoft.rsshcool2021_android_task_4_db.R
-import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
-import android.util.TypedValue
+import com.korneysoft.rsshcool2021_android_task_4_db.databinding.ItemBinding
 
 class ItemHolder(
     private val binding: ItemBinding,
@@ -40,7 +40,4 @@ class ItemHolder(
             binding.cardView.background.clearColorFilter()
         }
     }
-
-
 }
-

@@ -11,5 +11,4 @@ class DatabaseModel private constructor() {
         const val COLUMN_AGE = "AGE"
         const val COLUMN_BREED = "BREED"
     }
-
 }

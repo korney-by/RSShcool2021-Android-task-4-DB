@@ -3,8 +3,6 @@ package com.korneysoft.rsshcool2021_android_task_4_db.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-
-
 import androidx.lifecycle.viewModelScope
 import com.korneysoft.rsshcool2021_android_task_4_db.data.Item
 import com.korneysoft.rsshcool2021_android_task_4_db.data.ItemRepository
@@ -19,7 +17,6 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
     var itemListLiveData: LiveData<List<Item>> = getConnectToRepository()
 
     val daoTypeName: String get() = repository.dbTypeName
-
 
     private var _isSorted: Boolean = false
     private var _sortField: String = ""
@@ -60,6 +57,4 @@ class ItemViewModel(app: Application) : AndroidViewModel(app) {
     fun updateItem(item: Item) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateItem(item)
     }
-
-
 }

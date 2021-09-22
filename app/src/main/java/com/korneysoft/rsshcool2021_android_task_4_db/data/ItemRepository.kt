@@ -7,7 +7,6 @@ import com.korneysoft.rsshcool2021_android_task_4_db.R
 import com.korneysoft.rsshcool2021_android_task_4_db.data.room.RoomRepository
 import com.korneysoft.rsshcool2021_android_task_4_db.data.sqlite.SQLiteRepository
 
-
 class ItemRepository private constructor(val context: Context, daoKey: String) {
 
     private var currentDaoKey = ""
